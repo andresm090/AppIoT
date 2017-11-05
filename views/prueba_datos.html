@@ -1,0 +1,48 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+
+<script src="http://localhost:3300/socket.io/socket.io.js"></script>
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+<style type="text/css">
+  .google-visualization-table-td {
+    text-align: center;}
+</style>
+
+<div class= container>
+<h2> Broker Mqtt</h2>
+<div id="table_div"> </div>
+
+</div>
+<script>
+  var socket = io.connect('http://localhost:3300', { 'forceNew': true });
+  google.charts.load('current', {'packages':['table']});
+   google.charts.setOnLoadCallback(drawTable);
+   var aux;
+   var tab;
+   
+   socket.on('notification', setData);
+   
+   
+   function drawTable(){
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Topico');
+    data.addColumn('string', 'Mensaje');
+    aux = data;
+
+    var table = new google.visualization.Table(document.getElementById('table_div'));
+    tab = table;
+    table.draw(data, {showRowNumber: true, width: '100%', height: '100%', alternatingRowStyle: true});}
+
+   function setData(msj){
+    //console.log(msj);
+    var data = msj.split("-");
+    aux.addRows([
+     [data[1], data[0]]
+    ]);
+    tab.draw(aux, {showRowNumber: true, width: '100%', height: '100%'});
+   }
+</script>
+
+{% endblock %}

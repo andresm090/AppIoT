@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+  <form method="post">
+  <div class="form-group">
+    <label>Nombre</label>
+    <input type="text" class="form-control" id="firtsname" name ="firtsname" aria-describedby="emailHelp" placeholder="Ingrese su nombre">
+  </div>
+  <div class="form-group">
+    <label>Apellido</label>
+    <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Apellido">
+  </div>
+  <div class="form-group">
+    <label>Nombre de Usuario</label>
+    <input type="text" class="form-control" id="username" name="username" placeholder="Username">
+  </div>
+  <div class="form-group">
+    <label>Email</label>
+    <input type="email" class="form-control" id="email" name="email" placeholder="Correo electronico">
+  </div>
+  <div class="form-group">
+    <label>Password</label>
+    <input type="password" class="form-control" id="password" name="password" placeholder="contraseña">
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+{% endblock %}
