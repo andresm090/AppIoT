@@ -32,7 +32,11 @@ exports.saveTopicos = (req, res, next) => {
 			u.suscripciones.push(topico);
 		}
 	}
-	u.save();
-	res.locals.user = req.user || null;
-	res.redirect('/');
+	u.save((err) => {
+		if (err) {
+			next(err);
+		}
+		res.locals.user = req.user || null;
+		res.redirect('/');
+	});
 };

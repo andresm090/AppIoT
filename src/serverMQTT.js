@@ -1,9 +1,10 @@
 var mqtt = require('mqtt');
+global.config = require('../config/config');
 
 //funcion to manager mqtt
 var serverMQTT = function () {
 
-	this.url = 'mqtt://192.168.2.183';//this url of mosquitto
+	this.url = 'mqtt://'+global.config.broker.host;//this url of mosquitto
 	this.client = null;
   
 	this.getClient = function () {

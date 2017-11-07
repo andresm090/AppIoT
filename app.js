@@ -15,11 +15,12 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var mqtt = require('./src/serverMQTT');
 var controllerUser = require('./controllers/usercontroller');
+global.config = require('./config/config');
 
-var MONGO_URL = 'mongodb://127.0.0.1:27017/appIoT';
+var MONGO_URL = 'mongodb://'+global.config.db.host+':'+global.config.db.port+'/'+global.config.db.database;
 
 //var http = require('http').Server(app);
-var io = require('socket.io').listen(3300);
+var io = require('socket.io').listen(global.config.socket.port);
 
 var connectionsArray = []; // Arreglo de socket
 var serverMQTT = new mqtt();
@@ -37,12 +38,12 @@ mongoose.connection.on('error', (err) => {
 
 //Configuracion para manejo de sesiones
 app.use(session ({
-	secret: 'Secret',
-	resave: true,
-	saveUninitialized: true,
+	secret: global.config.session.password,
+	resave: global.config.session.resave,
+	saveUninitialized: global.config.session.saveUninitialized,
 	store: new mongoStore({
 		url: MONGO_URL,
-		autoReconnect: true
+		autoReconnect: global.config.db.autoReconnect
 	})
 }));
 
