@@ -77,6 +77,10 @@ app.use('/users', users);
 //coneccion al broker
 serverMQTT.connect(function(clientMQTT) {
 	clientMQTT.subscribe('prueba');
+	clientMQTT.subscribe('aerogenerador/clima');
+	clientMQTT.subscribe('aerogenerador/energia');
+	clientMQTT.subscribe('fotovoltaica/clima');
+	clientMQTT.subscribe('fotovoltaica/energia');
 	serverMQTT.observer(function(topic, value) {
 		console.log(value.toString());
 		//Notifico a los clientes

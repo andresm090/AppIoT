@@ -8,6 +8,7 @@ var UserSchema = new Schema({
 	username: {type: String, required: true, lowercase: true, unique: true},
 	email: {type: String, required: true, lowercase: true, unique: true}, 
 	password: {type: String, required: true},
+	suscripciones: {type: Array, default:[]},
 }, {
 	timestamps: true
 })

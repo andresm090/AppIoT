@@ -3,7 +3,7 @@ var mqtt = require('mqtt');
 //funcion to manager mqtt
 var serverMQTT = function () {
 
-	this.url = 'mqtt://192.168.1.73';//this url of mosquitto
+	this.url = 'mqtt://192.168.2.183';//this url of mosquitto
 	this.client = null;
   
 	this.getClient = function () {

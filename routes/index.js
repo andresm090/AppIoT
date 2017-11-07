@@ -1,7 +1,10 @@
 var express = require('express');
 var router = express.Router();
 var controllerUser = require('../controllers/usercontroller');
+var topicontroller = require('../controllers/topicontroller');
 var passportConfig = require('../config/passport');
+
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -10,10 +13,13 @@ router.get('/', function(req, res, next) {
   res.render('layout', { message: req.flash('info')});
 });
 
-router.get('/topicos', passportConfig.isAuthenticate, function(req, res, next) {
+/**router.get('/topicos', passportConfig.isAuthenticate, function(req, res, next) {
 	res.locals.user = req.user;
 	res.render('suscripciones');
-});
+});**/
+
+router.get('/topicos', passportConfig.isAuthenticate, topicontroller.getTopicos);
+router.post('/topicos', passportConfig.isAuthenticate, topicontroller.saveTopicos);
 
 /* Route de autenticacion*/
 router.get('/signup', function(req, res, next) {

@@ -54,6 +54,7 @@ exports.postLogin = (req, res, next) => {
 
 exports.logout = (req, res) => {
 	req.logout();
+	//res.locals.user = null;
 	res.redirect('/');
 	//res.send('Logout exitoso');
 }
