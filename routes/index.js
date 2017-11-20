@@ -10,7 +10,7 @@ var passportConfig = require('../config/passport');
 router.get('/', function(req, res, next) {
   //req.session.cuenta = req.session.cuenta ? req.session.cuenta + 1 : 1;
   res.locals.user = req.user || null;
-  res.render('layout', { message: req.flash('info')});
+  res.render('home', { message: req.flash('info')});
 });
 
 /**router.get('/topicos', passportConfig.isAuthenticate, function(req, res, next) {
