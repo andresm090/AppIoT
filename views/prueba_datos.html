@@ -2,7 +2,6 @@
 
 {% block content %}
 
-
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/highcharts-more.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
@@ -11,21 +10,150 @@
 <script src="https://www.gstatic.com/charts/loader.js"></script>
 <style type="text/css">
   .google-visualization-table-td {
-    text-align: center;}
+	text-align: center;}
 </style>
 
-<div class= container>
-<h2> Broker Mqtt</h2>
-<div id="container" style="min-width: 310px; max-width: 400px; height: 300px; margin: 0 auto"></div>
-</br>
-<div id="table_div"> </div>
+<div class="row">
+	<div class="panel panel-default">
+		<div class="panel-heading">Datos en Tiempo Real</div>
+		<div class="panel-body">
+			<div class="row content">
+				<div class="col-md-4 col-md-offset-0">
+					<div class="panel panel-default">
+						<div class="panel-heading">Temperatura</div>
+						<div class="panel-body">
+							<div id="container" style="min-width: 310px; max-width: 400px; height: 300px; margin: 0 auto"></div>
+							<div id="table_div"> </div>
+						</div>
+					</div>
+				</div>
 
+				<div class="col-md-4 col-md-offset-0">
+					<div class="panel panel-default">
+						<div class="panel-heading">Velocidad de viento</div>
+						<div class="panel-body">
+							<div id="container2" style="min-width: 310px; max-width: 400px; height: 300px; margin: 0 auto"></div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
 </div>
+
 <script>
+//var chart = Highcharts.chart('container', {{JSON.stringify(prueba)}},);
 var chart = Highcharts.chart('container', {
+
+	chart: {
+		type: 'gauge',
+		plotBackgroundColor: null,
+		plotBackgroundImage: null,
+		plotBorderWidth: 0,
+		plotShadow: false
+	},
+
+	title: {
+		text: 'Termometro'
+	},
+
+	credits: {
+	  enabled: false
+	  //text: 'IoT aplication',
+	  //href: 'http://localhost:3000/'
+	},
+
+	exporting: { 
+	  enabled: false
+	},
+
+	pane: {
+		startAngle: -150,
+		endAngle: 150,
+		background: [{
+			backgroundColor: {
+				linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+				stops: [
+					[0, '#FFF'],
+					[1, '#333']
+				]
+			},
+			borderWidth: 0,
+			outerRadius: '109%'
+		}, {
+			backgroundColor: {
+				linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+				stops: [
+					[0, '#333'],
+					[1, '#FFF']
+				]
+			},
+			borderWidth: 1,
+			outerRadius: '107%'
+		}, {
+			// default background
+		}, {
+			backgroundColor: '#DDD',
+			borderWidth: 0,
+			outerRadius: '105%',
+			innerRadius: '103%'
+		}]
+	},
+
+	// the value axis
+	yAxis: {
+		min: 0,
+		max: 200,
+
+		minorTickInterval: 'auto',
+		minorTickWidth: 1,
+		minorTickLength: 10,
+		minorTickPosition: 'inside',
+		minorTickColor: '#666',
+
+		tickPixelInterval: 30,
+		tickWidth: 2,
+		tickPosition: 'inside',
+		tickLength: 10,
+		tickColor: '#666',
+		labels: {
+			step: 2,
+			rotation: 'auto'
+		},
+		title: {
+			text: 'C°'
+		},
+		plotBands: [{
+			from: 0,
+			to: 120,
+			color: '#55BF3B' // green
+		}, {
+			from: 120,
+			to: 160,
+			color: '#DDDF0D' // yellow
+		}, {
+			from: 160,
+			to: 200,
+			color: '#DF5353' // red
+		}]
+	},
+
+	series: [{
+		name: 'temperatura',
+		data: [0],
+		tooltip: {
+			valueSuffix: ' C°'
+		}
+	}]
+
+},);
+
+var char2 = Highcharts.chart('container2', {
 
     chart: {
         type: 'gauge',
+        alignTicks: false,
         plotBackgroundColor: null,
         plotBackgroundImage: null,
         plotBorderWidth: 0,
@@ -33,117 +161,88 @@ var chart = Highcharts.chart('container', {
     },
 
     title: {
-        text: 'Termometro'
+        text: 'Velocimetro'
     },
 
     credits: {
-      enabled: false
-      //text: 'IoT aplication',
-      //href: 'http://localhost:3000/'
-    },
+	  enabled: false
+	  //text: 'IoT aplication',
+	  //href: 'http://localhost:3000/'
+	},
 
-    exporting: { 
-      enabled: false
-    },
+	exporting: { 
+	  enabled: false
+	},
 
     pane: {
         startAngle: -150,
-        endAngle: 150,
-        background: [{
-            backgroundColor: {
-                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
-                stops: [
-                    [0, '#FFF'],
-                    [1, '#333']
-                ]
-            },
-            borderWidth: 0,
-            outerRadius: '109%'
-        }, {
-            backgroundColor: {
-                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
-                stops: [
-                    [0, '#333'],
-                    [1, '#FFF']
-                ]
-            },
-            borderWidth: 1,
-            outerRadius: '107%'
-        }, {
-            // default background
-        }, {
-            backgroundColor: '#DDD',
-            borderWidth: 0,
-            outerRadius: '105%',
-            innerRadius: '103%'
-        }]
+        endAngle: 150
     },
 
-    // the value axis
-    yAxis: {
+    yAxis: [{
         min: 0,
         max: 200,
-
-        minorTickInterval: 'auto',
-        minorTickWidth: 1,
-        minorTickLength: 10,
-        minorTickPosition: 'inside',
-        minorTickColor: '#666',
-
-        tickPixelInterval: 30,
-        tickWidth: 2,
-        tickPosition: 'inside',
-        tickLength: 10,
-        tickColor: '#666',
+        lineColor: '#339',
+        tickColor: '#339',
+        minorTickColor: '#339',
+        offset: -25,
+        lineWidth: 2,
         labels: {
-            step: 2,
+            distance: -20,
             rotation: 'auto'
         },
-        title: {
-            text: 'C°'
+        tickLength: 5,
+        minorTickLength: 5,
+        endOnTick: false
+    }, {
+        min: 0,
+        max: 124,
+        tickPosition: 'outside',
+        lineColor: '#933',
+        lineWidth: 2,
+        minorTickPosition: 'outside',
+        tickColor: '#933',
+        minorTickColor: '#933',
+        tickLength: 5,
+        minorTickLength: 5,
+        labels: {
+            distance: 12,
+            rotation: 'auto'
         },
-        plotBands: [{
-            from: 0,
-            to: 120,
-            color: '#55BF3B' // green
-        }, {
-            from: 120,
-            to: 160,
-            color: '#DDDF0D' // yellow
-        }, {
-            from: 160,
-            to: 200,
-            color: '#DF5353' // red
-        }]
-    },
+        offset: -20,
+        endOnTick: false
+    }],
 
     series: [{
-        name: 'temperatura',
+        name: 'Velocidad',
         data: [0],
+        dataLabels: {
+            formatter: function () {
+                var kmh = this.y,
+                    ms = Math.round(kmh * 0.277778);
+                return '<span style="color:#339">' + kmh + ' km/h</span><br/>' +
+                    '<span style="color:#933">' + ms + ' m/s</span>';
+            },
+            backgroundColor: {
+                linearGradient: {
+                    x1: 0,
+                    y1: 0,
+                    x2: 0,
+                    y2: 1
+                },
+                stops: [
+                    [0, '#DDD'],
+                    [1, '#FFF']
+                ]
+            }
+        },
         tooltip: {
-            valueSuffix: ' C°'
+            valueSuffix: ' km/h'
         }
     }]
 
-},
-// Add some life
-/*function (chart) {
-    if (!chart.renderer.forExport) {
-        setInterval(function () {
-            var point = chart.series[0].points[0],
-                newVal,
-                inc = Math.round((Math.random() - 0.5) * 20);
+},);
 
-            newVal = point.y + inc;
-            if (newVal < 0 || newVal > 200) {
-                newVal = point.y - inc;
-            }
-
-            point.update(newVal);
-
-        }, 3000);
-    }
-}*/);
   var socket = io.connect('http://localhost:3300', { 'forceNew': true });
   google.charts.load('current', {'packages':['table']});
    google.charts.setOnLoadCallback(drawTable);
@@ -154,27 +253,27 @@ var chart = Highcharts.chart('container', {
    
    
    function drawTable(){
-    var data = new google.visualization.DataTable();
-    data.addColumn('string', 'Topico');
-    data.addColumn('string', 'Mensaje');
-    aux = data;
+	var data = new google.visualization.DataTable();
+	data.addColumn('string', 'Topico');
+	data.addColumn('string', 'Mensaje');
+	aux = data;
 
-    var table = new google.visualization.Table(document.getElementById('table_div'));
-    tab = table;
-    table.draw(data, {showRowNumber: true, width: '100%', height: '100%', alternatingRowStyle: true});}
+	var table = new google.visualization.Table(document.getElementById('table_div'));
+	tab = table;
+	table.draw(data, {showRowNumber: true, width: '100%', height: '100%', alternatingRowStyle: true});}
 
    function setData(msj){
-    //console.log(msj);
-    var data = msj.split("-");
-    aux.addRows([
-     [data[1], data[0]]
-    ]);
-    tab.draw(aux, {showRowNumber: true, width: '100%', height: '100%'});
-    if (data[1] == "aerogenerador/clima"){
-      var temperatura = parseInt(data[0]);
-    }
-    var point = chart.series[0].points[0];
-    point.update(temperatura);
+	//console.log(msj);
+	var data = msj.split("-");
+	aux.addRows([
+	 [data[1], data[0]]
+	]);
+	tab.draw(aux, {showRowNumber: true, width: '100%', height: '100%'});
+	if (data[1] == "aerogenerador/clima"){
+	  var temperatura = parseInt(data[0]);
+	}
+	var point = chart.series[0].points[0];
+	point.update(temperatura);
    }
 </script>
 
