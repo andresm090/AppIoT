@@ -3,6 +3,8 @@ var router = express.Router();
 var controllerUser = require('../controllers/usercontroller');
 var topicontroller = require('../controllers/topicontroller');
 var passportConfig = require('../config/passport');
+var gaugeTemp = require('../src/gaugeTemp');
+var gaugeVel = require('../src/gaugeVel');
 
 
 
@@ -36,7 +38,7 @@ router.get('/logout', passportConfig.isAuthenticate, controllerUser.logout);
 
 router.get('/prueba', passportConfig.isAuthenticate, function(req, res, next){
 	res.locals.user = req.user;
-	res.render('prueba_datos');
+	res.render('prueba_datos', {gaugeTemp: gaugeTemp, gaugeVel: gaugeVel});
 });
 
 module.exports = router;
