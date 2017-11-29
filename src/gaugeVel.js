@@ -10,7 +10,7 @@ var gaugeVel = {
     },
 
     title: {
-        text: 'Velocimetro'
+        text: 'Anemómetro'
     },
 
     credits: {

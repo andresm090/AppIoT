@@ -5,6 +5,7 @@ var topicontroller = require('../controllers/topicontroller');
 var passportConfig = require('../config/passport');
 var gaugeTemp = require('../src/gaugeTemp');
 var gaugeVel = require('../src/gaugeVel');
+var gaugeVA = require('../src/gaugeVA');
 
 
 
@@ -39,6 +40,22 @@ router.get('/logout', passportConfig.isAuthenticate, controllerUser.logout);
 router.get('/prueba', passportConfig.isAuthenticate, function(req, res, next){
 	res.locals.user = req.user;
 	res.render('prueba_datos', {gaugeTemp: gaugeTemp, gaugeVel: gaugeVel});
+});
+
+// rutas de prueba
+router.get('/prueba2', passportConfig.isAuthenticate, function(req, res, next){
+	res.locals.user = req.user;
+	res.render('datos_principal');
+});
+
+router.get('/getPanelAero', passportConfig.isAuthenticate, function(req, res, next){
+	res.render('tabs_panel_aero');
+
+});
+
+router.get('/getDataTR', passportConfig.isAuthenticate, function(req, res, next){
+	res.render('tr_aero', {gaugeTemp: gaugeTemp, gaugeVel: gaugeVel, gaugeVA: gaugeVA});
+
 });
 
 module.exports = router;
