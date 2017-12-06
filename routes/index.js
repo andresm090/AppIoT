@@ -42,6 +42,11 @@ router.get('/prueba', passportConfig.isAuthenticate, function(req, res, next){
 	res.render('prueba_datos', {gaugeTemp: gaugeTemp, gaugeVel: gaugeVel});
 });
 
+router.get('/aerogenerador/:id([0-9]+)', passportConfig.isAuthenticate, function(req, res, next){
+	res.locals.user = req.user;
+	res.render('prueba_datos', {gaugeTemp: gaugeTemp, gaugeVel: gaugeVel});
+});
+
 // rutas de prueba
 router.get('/prueba2', passportConfig.isAuthenticate, function(req, res, next){
 	res.locals.user = req.user;

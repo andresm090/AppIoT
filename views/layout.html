@@ -16,6 +16,8 @@
 
 	<!-- Optional theme -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+	<link href="/public/stylesheets/submenu.css" rel="stylesheet">
 </head>
 
 <body id="app-layout">
@@ -39,6 +41,31 @@
             </div>
 
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
+            	{% if user %}
+	            	<ul class="nav navbar-nav fuente dropdown">
+	                    <li class="dropdown">
+	                    	<a href="#" class="dropdown-toggle" data-toggle="dropdown">Comunas Rurales <b class="caret"></b></a>
+	                         <ul class="dropdown-menu">
+	                        	<!-- Repetir de por cada comuna-->
+	                            <li class="dropdown dropdown-submenu"><a class="dropdown-toggle" data-toggle="dropdown">Comuna 1</a>
+	                            	<ul class="dropdown-menu fuente">
+		                            		{% if user.suscripciones.indexOf('aerogenerador/clima') !== -1 or user.suscripciones.indexOf('aerogenerador/energia') !== -1 %}
+		                            			<li><a href="/aerogenerador/1">Aerogenerador 1 </a></li>
+		                            		{% endif %}
+
+		                            		{% if user.suscripciones.indexOf('fotovoltaica/clima') !== -1 or user.suscripciones.indexOf('fotovoltaica/energia') !== -1 %}
+		                            			<li><a href="#">Panel 1 </a></li>
+		                            		{% endif %}
+	                            	</ul>
+
+	                            </li>
+	                            <li class="dropdown dropdown-submenu"><a class="dropdown-toggle" data-toggle="dropdown">Comuna 2</a></li>
+	                        </ul>
+	                    </li>
+	                </ul>
+	            {% endif %}
+
+
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right fuente">
                     <!-- Authentication Links -->
@@ -72,6 +99,7 @@
     <!-- JavaScripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js" integrity="sha384-I6F5OKECLVtK/BL+8iSLDEHowSAfUo76ZL9+kGAgTRdiByINKJaqTPH/QVNS1VDb" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="/public/javascripts/submenu.js"></script>
 
 </body>
 </html>
