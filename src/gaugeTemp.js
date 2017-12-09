@@ -57,8 +57,8 @@ var gaugeTemp = {
 
 	// the value axis
 	yAxis: {
-		min: 0,
-		max: 200,
+		min: -20,
+		max: 100,
 
 		minorTickInterval: 'auto',
 		minorTickWidth: 1,
@@ -79,17 +79,21 @@ var gaugeTemp = {
 			text: 'C°'
 		},
 		plotBands: [{
+			from: -20,
+			to: 0,
+			color: '#2E9AFE' // azul
+		},	{
 			from: 0,
-			to: 120,
-			color: '#55BF3B' // green
+			to: 30,
+			color: '#55BF3B' // verde
 		}, {
-			from: 120,
-			to: 160,
-			color: '#DDDF0D' // yellow
+			from: 30,
+			to: 60,
+			color: '#DDDF0D' // amarillo
 		}, {
-			from: 160,
-			to: 200,
-			color: '#DF5353' // red
+			from: 60,
+			to: 100,
+			color: '#DF5353' // rojo
 		}]
 	},
 
@@ -99,7 +103,20 @@ var gaugeTemp = {
 		tooltip: {
 			valueSuffix: ' C°'
 		}
-	}]
+	}],
+
+	responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 360
+            },
+            chartOptions: {
+                chart: {
+                    className: 'small-chart' // definir en css
+                }
+            }
+        }]
+    }
 
 };
 

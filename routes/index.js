@@ -6,6 +6,7 @@ var passportConfig = require('../config/passport');
 var gaugeTemp = require('../src/gaugeTemp');
 var gaugeVel = require('../src/gaugeVel');
 var gaugeVA = require('../src/gaugeVA');
+var gaugeWR = require('../src/gaugeWR');
 
 
 
@@ -44,7 +45,12 @@ router.get('/prueba', passportConfig.isAuthenticate, function(req, res, next){
 
 router.get('/aerogenerador/:id([0-9]+)', passportConfig.isAuthenticate, function(req, res, next){
 	res.locals.user = req.user;
-	res.render('prueba_datos', {gaugeTemp: gaugeTemp, gaugeVel: gaugeVel});
+	res.render('aerogenerador');
+});
+
+router.get('/getDataTR2', passportConfig.isAuthenticate, function(req, res, next){
+	res.render('tr_aero2', {gaugeTemp: gaugeTemp, gaugeVel: gaugeVel, gaugeVA: gaugeVA, gaugeWR: gaugeWR});
+
 });
 
 // rutas de prueba

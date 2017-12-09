@@ -1,0 +1,117 @@
+</br>
+<div class="row">		
+	<div class="col-md-8 col-md-offset-0">
+		<div class="panel panel-default">
+			<div class="panel-heading">Variables Anemométricas</div>
+			<div class="panel-body">
+				<div class="col-md-6 col-md-offset-0">
+						<div id="containerAnemo" style="min-width: 270px; max-width: 360px; height: 260px; margin: 0 auto"></div>
+				</div>
+				<div class="col-md-6 col-md-offset-0">
+						<div id="containerWindRose" style="min-width: 270px; max-width: 360px; height: 260px; margin: 0 auto"></div>
+				</div>
+				<div id="tableAnemometrica"> </div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-4 col-md-offset-0">
+		<div class="panel panel-default">
+			<div class="panel-heading">Temperatura</div>
+			<div class="panel-body">
+				<div id="containerTermo" style="min-width: 270px; max-width: 360px; height: 260px; margin: 0 auto"></div>
+				<div id="tableTermo"> </div>
+			</div>
+		</div>
+	</div>
+	
+</div>
+
+<div class="row">
+	<div class="col-md-12 col-md-offset-0">
+		<div class="panel panel-default">
+			<div class="panel-heading">Energia</div>
+			<div class="panel-body">
+				<div id="containervolyAmp" style="width: 80%; height: 85%; margin: 0 auto"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+
+	// Gauges
+	var termometro = Highcharts.chart('containerTermo', {{JSON.stringify(gaugeTemp)}},);
+	var anemometro = Highcharts.chart('containerAnemo', {{JSON.stringify(gaugeVel)}},);
+	var volyAmp = Highcharts.chart('containervolyAmp', {{JSON.stringify(gaugeVA)}},);
+	var windrose = Highcharts.chart('containerWindRose', {{JSON.stringify(gaugeWR)}},);
+
+	//Tablas
+	var tableTemp;
+	var tableAnemo;
+
+	var socket = io.connect('http://localhost:3300', { 'forceNew': true });
+
+	google.charts.load('current', {'packages':['table']});
+	google.charts.setOnLoadCallback(drawTable);
+	   
+	socket.on('notification', setData);
+	   
+	   
+	function drawTable(){
+
+		var dataTemp = new google.visualization.DataTable();
+		var dataAnemo = new google.visualization.DataTable();
+
+		dataTemp.addColumn('string', 'Topico');
+		dataTemp.addColumn('string', 'Mensaje');
+
+		dataAnemo.addColumn('number', 'Velocidad');
+		dataAnemo.addColumn('string', 'Unidad');
+		dataAnemo.addColumn('string', 'Direccion');
+		dataAnemo.addColumn('string', 'Unidad');
+
+		tableTemp = new google.visualization.Table(document.getElementById('tableTermo'));
+		tableAnemo = new google.visualization.Table(document.getElementById('tableAnemometrica'));
+	
+		tableTemp.draw(dataTemp, {showRowNumber: true, width: '100%', height: '100%', alternatingRowStyle: true});
+		tableAnemo.draw(dataAnemo, {showRowNumber: true, width: '100%', height: '100%', alternatingRowStyle: true});
+
+		//var point = windrose.series[0].points[5];
+		//point.update(3.2);
+
+	}
+
+	function setData(msj){
+		var datatab = new google.visualization.DataTable();
+	   	datatab.addColumn('number', 'Velocidad');
+		datatab.addColumn('string', 'Unidad');
+		//console.log(msj);
+		var data = msj.split("-");
+
+		datatab.addRows([
+		 [parseInt(data[1]), "m/s"],
+		 [Math.round(parseInt(data[1]) * 3.6), "km/h"]
+		]);
+
+		tableAnemo.draw(datatab, {showRowNumber: true, width: '100%', height: '100%'});
+
+		if (data[2] == "aerogenerador/clima"){
+		  var temperatura = parseInt(data[0]);
+		  var velocidad = parseInt(data[1]);
+		}
+
+		var point = termometro.series[0].points[0];
+		var point2 = anemometro.series[0];
+		point.update(temperatura);
+		point2.update({dataLabels: { formatter: function () {
+	                								var ms = velocidad,
+	                    								kmh = Math.round(ms * 3.6);
+	                								return '<span style="color:#339">' + ms + ' m/s</span><br/>' +
+	                    									'<span style="color:#933">' + kmh + ' Km/h</span>';
+	            								}
+	                  				}
+	              	});
+		point2.points[0].update(velocidad);
+	}
+</script>
