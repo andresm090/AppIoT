@@ -3,7 +3,7 @@ var gaugeWR = {
     series: [{
             "name": "&lt; 0.5 m/s",
             "data": [
-                ["N", 5],
+                ["N", 0],
                 ["NNE", 0],
                 ["NE", 0],
                 ["ENE", 0],

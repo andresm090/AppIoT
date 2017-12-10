@@ -45,6 +45,9 @@
 	var anemometro = Highcharts.chart('containerAnemo', {{JSON.stringify(gaugeVel)}},);
 	var volyAmp = Highcharts.chart('containervolyAmp', {{JSON.stringify(gaugeVA)}},);
 	var windrose = Highcharts.chart('containerWindRose', {{JSON.stringify(gaugeWR)}},);
+	var arrayDirInv = ["N", "NNW", "NW", "WNW", "W", "WSW", "SW", "SSW", "S", "SSE", "SE", "ESE", "E", "ENE", "NE", "NNE"];
+	var arrayDir = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
+	var dirAux = 0;
 
 	//Tablas
 	var tableTemp;
@@ -63,8 +66,8 @@
 		var dataTemp = new google.visualization.DataTable();
 		var dataAnemo = new google.visualization.DataTable();
 
-		dataTemp.addColumn('string', 'Topico');
-		dataTemp.addColumn('string', 'Mensaje');
+		dataTemp.addColumn('number', 'Temperatura');
+		dataTemp.addColumn('string', 'Unidad');
 
 		dataAnemo.addColumn('number', 'Velocidad');
 		dataAnemo.addColumn('string', 'Unidad');
@@ -77,34 +80,58 @@
 		tableTemp.draw(dataTemp, {showRowNumber: true, width: '100%', height: '100%', alternatingRowStyle: true});
 		tableAnemo.draw(dataAnemo, {showRowNumber: true, width: '100%', height: '100%', alternatingRowStyle: true});
 
-		//var point = windrose.series[0].points[5];
+		//var point = windrose.series[0].points[15];
 		//point.update(3.2);
 
 	}
 
+	function sacarCuadrante(ang){
+		var i = Math.round((360 - ang)/22.5);
+		if (i >= 16){
+			i = 0;
+		} 
+		return arrayDirInv[i];
+	}
+
 	function setData(msj){
+
 		var datatab = new google.visualization.DataTable();
+		var datatemp = new google.visualization.DataTable();
+	   	
 	   	datatab.addColumn('number', 'Velocidad');
 		datatab.addColumn('string', 'Unidad');
-		//console.log(msj);
+		datatab.addColumn('string', 'Direccion');
+		datatab.addColumn('string', 'Unidad');
+
+		datatemp.addColumn('number', 'Temperatura');
+		datatemp.addColumn('string', 'Unidad');
+
+		//T-V-D
 		var data = msj.split("-");
 
+		var temperatura = Number(data[0]);
+		var velocidad = Number(data[1]);
+		var direccion = sacarCuadrante(Number(data[2]));
+
 		datatab.addRows([
-		 [parseInt(data[1]), "m/s"],
-		 [Math.round(parseInt(data[1]) * 3.6), "km/h"]
+			[velocidad, "m/s", data[2], "grados"],
+			[Math.round(velocidad * 3.6), "km/h", direccion, "sector"]
 		]);
 
+		datatemp.addRows([
+			[temperatura, "C°"]
+		]);		
+
 		tableAnemo.draw(datatab, {showRowNumber: true, width: '100%', height: '100%'});
+		tableTemp.draw(datatemp, {showRowNumber: true, width: '100%', height: '100%', alternatingRowStyle: true});
 
-		if (data[2] == "aerogenerador/clima"){
-		  var temperatura = parseInt(data[0]);
-		  var velocidad = parseInt(data[1]);
-		}
-
-		var point = termometro.series[0].points[0];
-		var point2 = anemometro.series[0];
-		point.update(temperatura);
-		point2.update({dataLabels: { formatter: function () {
+		var pointTerm = termometro.series[0].points[0];
+		var pointAnem = anemometro.series[0];
+		var pointWRReset = windrose.series[0].points[dirAux];
+		var pointWR = windrose.series[0].points[arrayDir.indexOf(direccion)];
+		
+		pointTerm.update(temperatura);
+		pointAnem.update({dataLabels: { formatter: function () {
 	                								var ms = velocidad,
 	                    								kmh = Math.round(ms * 3.6);
 	                								return '<span style="color:#339">' + ms + ' m/s</span><br/>' +
@@ -112,6 +139,9 @@
 	            								}
 	                  				}
 	              	});
-		point2.points[0].update(velocidad);
+		pointAnem.points[0].update(velocidad);
+		pointWRReset.update(0);
+		pointWR.update(velocidad);
+		dirAux = arrayDir.indexOf(direccion);
 	}
 </script>

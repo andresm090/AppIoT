@@ -87,7 +87,7 @@ serverMQTT.connect(function(clientMQTT) {
 		console.log(value.toString());
 		//Notifico a los clientes
 		connectionsArray.forEach(function(tmpSocket) {
-			tmpSocket.emit('notification', value.toString() + '-' + topic);
+			tmpSocket.emit('notification', value.toString());
 		});
 	});
 });
