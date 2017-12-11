@@ -78,7 +78,7 @@ app.use('/users', users);
 
 //coneccion al broker
 serverMQTT.connect(function(clientMQTT) {
-	clientMQTT.subscribe('prueba');
+
 	clientMQTT.subscribe('aerogenerador/clima');
 	clientMQTT.subscribe('aerogenerador/energia');
 	clientMQTT.subscribe('fotovoltaica/clima');
@@ -87,7 +87,11 @@ serverMQTT.connect(function(clientMQTT) {
 		console.log(value.toString());
 		//Notifico a los clientes
 		connectionsArray.forEach(function(tmpSocket) {
-			tmpSocket.emit('notification', value.toString());
+			if (topic == "aerogenerador/energia") {
+				tmpSocket.emit('energia', value.toString());
+			} else {
+				tmpSocket.emit('notification', value.toString());
+			}
 		});
 	});
 });

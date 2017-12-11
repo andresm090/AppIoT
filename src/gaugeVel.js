@@ -30,7 +30,7 @@ var gaugeVel = {
 
     yAxis: [{
         min: 0,
-        max: 200,
+        max: 100,
         lineColor: '#339',
         tickColor: '#339',
         minorTickColor: '#339',
@@ -45,7 +45,7 @@ var gaugeVel = {
         endOnTick: false
     }, {
         min: 0,
-        max: 124,
+        max: 360,
         tickPosition: 'outside',
         lineColor: '#933',
         lineWidth: 2,

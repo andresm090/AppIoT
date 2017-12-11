@@ -10,7 +10,7 @@
 				<div class="col-md-6 col-md-offset-0">
 						<div id="containerWindRose" style="min-width: 270px; max-width: 360px; height: 260px; margin: 0 auto"></div>
 				</div>
-				<div id="tableAnemometrica"> </div>
+				<div id="tableAnemometrica"></div>
 			</div>
 		</div>
 	</div>
@@ -20,7 +20,7 @@
 			<div class="panel-heading">Temperatura</div>
 			<div class="panel-body">
 				<div id="containerTermo" style="min-width: 270px; max-width: 360px; height: 260px; margin: 0 auto"></div>
-				<div id="tableTermo"> </div>
+				<div id="tableTermo"></div>
 			</div>
 		</div>
 	</div>
@@ -33,6 +33,7 @@
 			<div class="panel-heading">Energia</div>
 			<div class="panel-body">
 				<div id="containervolyAmp" style="width: 80%; height: 85%; margin: 0 auto"></div>
+				<div id="tableEner"></div>
 			</div>
 		</div>
 	</div>
@@ -52,6 +53,7 @@
 	//Tablas
 	var tableTemp;
 	var tableAnemo;
+	var tableEner;
 
 	var socket = io.connect('http://localhost:3300', { 'forceNew': true });
 
@@ -59,12 +61,14 @@
 	google.charts.setOnLoadCallback(drawTable);
 	   
 	socket.on('notification', setData);
+	socket.on('energia', setDataE);
 	   
 	   
 	function drawTable(){
 
 		var dataTemp = new google.visualization.DataTable();
 		var dataAnemo = new google.visualization.DataTable();
+		var dataEner = new google.visualization.DataTable();
 
 		dataTemp.addColumn('number', 'Temperatura');
 		dataTemp.addColumn('string', 'Unidad');
@@ -74,15 +78,20 @@
 		dataAnemo.addColumn('string', 'Direccion');
 		dataAnemo.addColumn('string', 'Unidad');
 
+		dataEner.addColumn('string', 'Variable');
+		dataEner.addColumn('number', 'valor');
+		dataEner.addColumn('string', 'Unidad');
+
 		tableTemp = new google.visualization.Table(document.getElementById('tableTermo'));
 		tableAnemo = new google.visualization.Table(document.getElementById('tableAnemometrica'));
+		tableEner = new google.visualization.Table(document.getElementById('tableEner'));
 	
 		tableTemp.draw(dataTemp, {showRowNumber: true, width: '100%', height: '100%', alternatingRowStyle: true});
 		tableAnemo.draw(dataAnemo, {showRowNumber: true, width: '100%', height: '100%', alternatingRowStyle: true});
+		tableEner.draw(dataEner, {showRowNumber: true, width: '100%', height: '100%', alternatingRowStyle: true});
 
 		//var point = windrose.series[0].points[15];
 		//point.update(3.2);
-
 	}
 
 	function sacarCuadrante(ang){
@@ -144,4 +153,35 @@
 		pointWR.update(velocidad);
 		dirAux = arrayDir.indexOf(direccion);
 	}
+
+	function setDataE(msj) {
+
+		var dataEner = new google.visualization.DataTable();
+
+		dataEner.addColumn('string', 'Variable');
+		dataEner.addColumn('number', 'Valor');
+		dataEner.addColumn('string', 'Unidad');
+
+		//V-A
+		var data = msj.split("-");
+		var tension = Number(data[0]);
+		var corriente = Number(data[1]);
+
+		dataEner.addRows([
+			["Tensión", tension, "V"],
+			["Amperaje", corriente, "Amp"],
+			["Potencia", (tension*corriente), "Watt"]
+		]);
+
+		tableEner.draw(dataEner, {showRowNumber: true, width: '100%', height: '100%', alternatingRowStyle: true});
+			
+		var pointV = volyAmp.series[0].points[0];
+		var pointA = volyAmp.series[1].points[0];
+
+		pointV.update(tension, false);
+		pointA.update(corriente, false);
+		volyAmp.redraw();
+
+	}
+
 </script>
