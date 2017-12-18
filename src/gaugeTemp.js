@@ -58,7 +58,7 @@ var gaugeTemp = {
 	// the value axis
 	yAxis: {
 		min: -20,
-		max: 100,
+		max: 60,
 
 		minorTickInterval: 'auto',
 		minorTickWidth: 1,
@@ -84,15 +84,15 @@ var gaugeTemp = {
 			color: '#2E9AFE' // azul
 		},	{
 			from: 0,
-			to: 30,
+			to: 25,
 			color: '#55BF3B' // verde
 		}, {
-			from: 30,
-			to: 60,
+			from: 25,
+			to: 40,
 			color: '#DDDF0D' // amarillo
 		}, {
-			from: 60,
-			to: 100,
+			from: 40,
+			to: 60,
 			color: '#DF5353' // rojo
 		}]
 	},

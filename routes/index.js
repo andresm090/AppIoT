@@ -7,7 +7,7 @@ var gaugeTemp = require('../src/gaugeTemp');
 var gaugeVel = require('../src/gaugeVel');
 var gaugeVA = require('../src/gaugeVA');
 var gaugeWR = require('../src/gaugeWR');
-
+var statebarPN = require('../src/statebarPN');
 
 
 /* GET home page. */
@@ -50,7 +50,7 @@ router.get('/aerogenerador/:id([0-9]+)', passportConfig.isAuthenticate, function
 
 router.get('/getDataTR2', passportConfig.isAuthenticate, function(req, res, next){
 	res.locals.user = req.user;
-	res.render('tr_aero2', {gaugeTemp: gaugeTemp, gaugeVel: gaugeVel, gaugeVA: gaugeVA, gaugeWR: gaugeWR});
+	res.render('tr_aero2', {gaugeTemp: gaugeTemp, gaugeVel: gaugeVel, gaugeVA: gaugeVA, gaugeWR: gaugeWR, statebarPN: statebarPN});
 
 });
 

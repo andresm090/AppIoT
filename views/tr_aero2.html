@@ -32,23 +32,35 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">Energia</div>
 			<div class="panel-body">
-				<div id="containervolyAmp" style="width: 80%; height: 85%; margin: 0 auto"></div>
-				<div id="tableEner"></div>
+				<div class="col-md-7 col-md-offset-0">
+					<div id="containervolyAmp" style="width: 100%; height: 85%; margin: 0 auto"></div>
+					<div id="tableEner"></div>
+				</div>
+				<div class="col-md-5 col-md-offset-0">
+					<div id="containerstatebarPN" style="width: 100%; height: 45%; margin: 0 auto"></div>
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
-
+<script src="http://code.highcharts.com/modules/bullet.js"></script> <!-- Evaluar-->
 <script>
 
-	// Gauges
+	// Gauges statebarPN
 	var termometro = Highcharts.chart('containerTermo', {{JSON.stringify(gaugeTemp)}},);
 	var anemometro = Highcharts.chart('containerAnemo', {{JSON.stringify(gaugeVel)}},);
 	var volyAmp = Highcharts.chart('containervolyAmp', {{JSON.stringify(gaugeVA)}},);
 	var windrose = Highcharts.chart('containerWindRose', {{JSON.stringify(gaugeWR)}},);
+	var statebarPN = Highcharts.chart('containerstatebarPN', {{JSON.stringify(statebarPN)}},);
 	var arrayDirInv = ["N", "NNW", "NW", "WNW", "W", "WSW", "SW", "SSW", "S", "SSE", "SE", "ESE", "E", "ENE", "NE", "NNE"];
 	var arrayDir = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
 	var dirAux = 0;
+
+	//var point = statebarPN.series[0].points[0];
+	//point.update(500);
+	// setear de acuerdo a la potenica nominal de cada aerogenerador
+	var point = statebarPN.series[1].points[0];
+	point.update(1000);  
 
 	//Tablas
 	var tableTemp;
@@ -79,7 +91,7 @@
 		dataAnemo.addColumn('string', 'Unidad');
 
 		dataEner.addColumn('string', 'Variable');
-		dataEner.addColumn('number', 'valor');
+		dataEner.addColumn('number', 'Valor');
 		dataEner.addColumn('string', 'Unidad');
 
 		tableTemp = new google.visualization.Table(document.getElementById('tableTermo'));
@@ -162,15 +174,16 @@
 		dataEner.addColumn('number', 'Valor');
 		dataEner.addColumn('string', 'Unidad');
 
-		//V-A
+		//V-A-W
 		var data = msj.split("-");
 		var tension = Number(data[0]);
 		var corriente = Number(data[1]);
+		var potenciaG = Number(data[2]);
 
 		dataEner.addRows([
 			["Tensión", tension, "V"],
 			["Amperaje", corriente, "Amp"],
-			["Potencia", (tension*corriente), "Watt"]
+			["Consumo", (tension*corriente), "Watt"]
 		]);
 
 		tableEner.draw(dataEner, {showRowNumber: true, width: '100%', height: '100%', alternatingRowStyle: true});
@@ -181,6 +194,9 @@
 		pointV.update(tension, false);
 		pointA.update(corriente, false);
 		volyAmp.redraw();
+
+		var pointBarPN = statebarPN.series[0].points[0];
+		pointBarPN.update(potenciaG);  
 
 	}
 

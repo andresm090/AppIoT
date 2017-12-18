@@ -16,7 +16,7 @@ var gaugeVA = {
     },
 
     title: {
-        text: 'Voltimetro & Amperimetro'
+        text: 'Consumos y estado de las baterías'
     },
 
     credits: {
@@ -65,7 +65,7 @@ var gaugeVA = {
         }],
         pane: 0,
         title: {
-            text: 'V<br/><span style="font-size:8px">Voltimetro</span>',
+            text: 'V<br/><span style="font-size:8px">Voltímetro</span>',
             y: -40
         }
     }, {
@@ -86,7 +86,7 @@ var gaugeVA = {
         }],
         pane: 1,
         title: {
-            text: 'Amp<br/><span style="font-size:8px">Amperimetro</span>',
+            text: 'Amp<br/><span style="font-size:8px">Amperímetro</span>',
             y: -40
         }
     }],
@@ -102,17 +102,15 @@ var gaugeVA = {
         }
     },
 
-
     series: [{
-        name: 'Voltimetro',
+        name: 'Voltímetro',
         data: [0],
         yAxis: 0
     }, {
-        name: 'Amperimetro',
+        name: 'Amperímetro',
         data: [0],
         yAxis: 1
     }]
-
 
 };
 
