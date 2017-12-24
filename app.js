@@ -52,6 +52,8 @@ app.use(passport.session());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(flash());
+
+
 // view engine setup
 app.engine('html', swig.renderFile);
 app.set('views', path.join(__dirname, 'views'));

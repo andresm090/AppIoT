@@ -13,6 +13,7 @@
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "~4.15.5",
+    "express-messages": "^1.0.1",
     "express-session": "^1.15.6",
     "install": "^0.10.1",
     "jade": "~1.11.0",
