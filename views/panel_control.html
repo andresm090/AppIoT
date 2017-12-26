@@ -16,7 +16,7 @@
 					<div class="pull-right">
 						<button type="button" class="btn btn-primary" onclick="newComuna()"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
 					
-						<button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+						<button type="button" class="btn btn-danger" onclick="deleteComuna()" id="btnDelete" disabled><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
 					</div>
 				</div>
 				
@@ -38,7 +38,7 @@
 						<tbody>
 							{% for comuna in comunas %}
 								<tr>
-									<th> <input class="form-check-input" type="checkbox" id={{comuna.id}} name={{comuna.id}}></input></th>
+									<th> <input class="form-check-input" type="checkbox" id={{comuna.id}} name="{{comuna.nombre}}"></input></th>
 									<th scope="row">{{loop.index}}</th>
 									<td>{{comuna.nombre}}</td>
 									<td>{{comuna.localidad}}</td>
@@ -98,7 +98,39 @@
 	</div>
 </div>
 
+
+<div class="modal fade" tabindex="-1" role="dialog" id="modalDelete">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        		<h4 class="modal-title">Confirmar operación</h4>
+      		</div>
+	      	<div class="modal-body">
+	      		<div class="panel panel-default">		
+					<div class="panel-body">
+						<div id="texto"> </div>
+		      		</div>
+		      	</div>
+			</div>
+	    	<div class="modal-footer">
+	        	<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+	        	<button type="button" class="btn btn-primary">Aceptar</button>
+	      	</div>
+		</div>
+	</div>
+</div>
+
 <script>
+
+	
+	$('input[type=checkbox]').on('change', function() {
+		if ($('input[type=checkbox]:checked').length > 0) {
+			$("#btnDelete").removeAttr("disabled");
+		} else {
+			$("#btnDelete").attr("disabled", "disabled");
+		}
+	});
 
 	function showModealChoiceGenerator(){
 		$('#modalChoiceGenerator').modal('show');
@@ -106,6 +138,18 @@
 
 	function newComuna(){
 		location.href = "/admin/nuevaComuna";
+	}
+
+	function deleteComuna(){
+
+		var text = "<h4 id=\"texto\"> Esta seguro que desea eliminar las comunas seleccionadas: <br />";
+		$("input:checkbox:checked").each(function() {
+			text = text + "	*" + $(this).attr('name') + "<br />";
+        });
+        text += "</h4>"; 
+        $("#texto").replaceWith(text);
+        $('#modalDelete').modal('show');
+
 	}
 
 </script>

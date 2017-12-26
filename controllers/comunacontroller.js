@@ -19,7 +19,7 @@ exports.saveComuna = (req, res, next) => {
 		}
 		res.locals.user = req.user || null;
 
-		req.flash('info', 'Nuevo comuna registrada');
+		req.flash('info', 'Nueva comuna registrada');
 		//res.locals.message = req.flash();
 		//req.flash('suces', 'Email o contraseña no validos');
 		return res.redirect('/admin');
