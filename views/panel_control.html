@@ -16,55 +16,12 @@
 					<div class="pull-right">
 						<button type="button" class="btn btn-primary" onclick="newComuna()"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
 					
-						<button type="button" class="btn btn-danger" onclick="deleteComuna()" id="btnDelete" disabled><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+						<button type="button" class="btn btn-danger" onclick="deleteComunaConfirm()" id="btnDelete" disabled><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
 					</div>
 				</div>
 				
-				<div class="col-md-12 col-md-offset-0">
-					</br>
-					<table class="table table-bordered table-striped">
-						<thead class="inverse">
-						    <tr>
-						    	<th></th>
-								<th>#</th>
-								<th>Nombre</th>
-								<th>Localidad</th>
-								<th>Departamento</th>
-								<th>Encargado</th>
-								<th>Población</th>
-								<th>Aciones</th>
-							</tr>
-						</thead>
-						<tbody>
-							{% for comuna in comunas %}
-								<tr>
-									<th> <input class="form-check-input" type="checkbox" id={{comuna.id}} name="{{comuna.nombre}}"></input></th>
-									<th scope="row">{{loop.index}}</th>
-									<td>{{comuna.nombre}}</td>
-									<td>{{comuna.localidad}}</td>
-									<td>{{comuna.departamento}}</td>
-									<td>{{comuna.encargado}}</td>
-									<td>{{comuna.poblacion}}</td>
-									<td>
-										<div class="btn-group">
-										<button type="button" class="btn btn-success">Action</button>
-										<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    										<span class="caret"></span>
-    										<span class="sr-only">Toggle Dropdown</span>
-  										</button>
-										<ul class="dropdown-menu">
-											<li><a href="#">Modificar</a></li>
-											<li><a href="#">Eliminar</a></li>
-											<li role="separator" class="divider"></li>
-											<li><a href="#" onclick="showModealChoiceGenerator()">Agregar Equipo Generador</a></li>
-										</ul>
-										</div>
-									</td>
-								</tr>
-							{% endfor %}
-						</tbody>
-					</table>	
-				</div>
+				{% include 'table_control.html' %}
+
 			</div>
 		</div>	
 	</div>
@@ -81,9 +38,9 @@
 	      		<div class="panel panel-default">		
 					<div class="panel-body">
 	      				<div class="col-md-8 col-md-offset-2">
-				        	<button type="button" class="btn btn-primary btn-lg btn-block">Aerogenerador de baja potencia</button>
+				        	<button type="button" class="btn btn-primary btn-lg btn-block" onclick="newAerogenerador()">Aerogenerador de baja potencia</button>
 								
-							<button type="button" class="btn btn-warning btn-lg btn-block">Panel fotovoltaico</button>
+							<button type="button" class="btn btn-warning btn-lg btn-block" onclick="newPanelFoto()">Panel fotovoltaico</button>
 
 							<button type="button" class="btn btn-danger btn-lg btn-block">Panel solar</button>
 						</div>
@@ -115,7 +72,7 @@
 			</div>
 	    	<div class="modal-footer">
 	        	<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-	        	<button type="button" class="btn btn-primary">Aceptar</button>
+	        	<button type="button" class="btn btn-primary" onclick="deleteComuna()">Aceptar</button>
 	      	</div>
 		</div>
 	</div>
@@ -123,34 +80,62 @@
 
 <script>
 
-	
-	$('input[type=checkbox]').on('change', function() {
-		if ($('input[type=checkbox]:checked').length > 0) {
-			$("#btnDelete").removeAttr("disabled");
-		} else {
-			$("#btnDelete").attr("disabled", "disabled");
-		}
+	$(document).ready(function(){
+
+		$('input[type=checkbox]').on('change', function() {
+			if ($('input[type=checkbox]:checked').length > 0) {
+				$("#btnDelete").removeAttr("disabled");
+			} else {
+				$("#btnDelete").attr("disabled", "disabled");
+			}
+		});
 	});
 
-	function showModealChoiceGenerator(){
+	var listcomuna;
+	var comunaselect;
+
+	function showModealChoiceGenerator(id){
 		$('#modalChoiceGenerator').modal('show');
-	}
+		comunaselect = id;
+	};
 
 	function newComuna(){
 		location.href = "/admin/nuevaComuna";
-	}
+	};
 
-	function deleteComuna(){
+	function newAerogenerador(){
+		location.href = "/admin/" + comunaselect +"/nuevoaerogenerador";
+	};
 
+	function newPanelFoto(){
+		location.href = "/admin/" + comunaselect +"/nuevopanelfotovoltaico";
+	};
+
+	function deleteComunaConfirm(){
+		listcomuna = [];
 		var text = "<h4 id=\"texto\"> Esta seguro que desea eliminar las comunas seleccionadas: <br />";
 		$("input:checkbox:checked").each(function() {
 			text = text + "	*" + $(this).attr('name') + "<br />";
+			listcomuna.push($(this).attr('id'));
         });
         text += "</h4>"; 
         $("#texto").replaceWith(text);
         $('#modalDelete').modal('show');
 
-	}
+	};
+
+	function deleteComuna(){
+
+		$.ajax({
+	  		url: "/admin/delComuna",
+	  		type: "POST",
+	  		data: {listcomuna: listcomuna},
+	  		success: function(data) {
+	  			location.reload();
+	  		}
+  		});
+
+	};
 
 </script>
 

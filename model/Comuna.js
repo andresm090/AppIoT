@@ -8,6 +8,7 @@ var ComunaSchema = new Schema({
 	encargado: {type: String, trim: true, default: ''},
 	poblacion: {type: Number, min: 1},
 	point_geom: [{latitud: Number, longitud: Number}],
+	activo: {type: Boolean, default: true},
 })
 
 module.exports = mongoose.model('comuna', ComunaSchema);

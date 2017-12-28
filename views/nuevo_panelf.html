@@ -1,0 +1,137 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/css/bootstrap-slider.css">
+<div class="row content">
+	<div class="col-md-6 col-md-offset-3">
+		 <div class="panel panel-default">
+		 	<div class="panel-heading">Nuevo Panel Fotovoltaico</div>
+            <div class="panel-body">
+				<form class="form-horizontal" method="post">
+
+					<div class="form-group row">
+						<label class="col-md-4 control-label">Fabricante</label>
+						<div class="col-md-6">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>
+								<select id="fabricante" name ="fabricante" class="form-control">
+        							<option>FIASA</option>
+        							<option>LV-Energy S.A.</option>
+        							<option>SOLARTEC S.A.</option>
+        							<option>Tamesol</option>
+        							<option>Hanover Solar</option>
+        							<option>Soluxtec - Die Modulmanufaktur</option>
+      							</select>
+							</div>
+						</div>
+				  	</div>
+
+				  	<div class="form-group row">
+						<label class="col-md-4 control-label">Modelo - Serie</label>
+						<div class="col-md-6">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>
+								<input type="text" class="form-control" id="modelo" name="modelo" placeholder="Modelo o Serie del equipo" required>
+							</div>
+						</div>
+				  	</div>
+
+				  	<div class="form-group row">
+						<label class="col-md-4 control-label">Potencia Maxima</label>
+						<div class="col-md-6">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>
+								<input type="number" step="any" class="form-control" id="pmax" name="pmax" placeholder="Potencia maxima (Watt)" required>
+							</div>
+						</div>
+				  	</div>
+
+				  	<div class="form-group row">
+						<label class="col-md-4 control-label">Corriente en Pmax</label>
+						<div class="col-md-6">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>
+								<input type="number" step="any" class="form-control" id="ipmax" name="ipmax" placeholder="Corriente en Pmax (Amp)" required>
+							</div>
+						</div>
+				  	</div>
+
+				  	<div class="form-group row">
+						<label class="col-md-4 control-label">Tensión en circuito abierto</label>
+						<div class="col-md-6">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>
+								<input type="number" step="any" class="form-control" id="voc" name="voc" placeholder="Tensión en circuito abierto (V)" required>
+							</div>
+						</div>
+				  	</div>
+
+				  	<div class="form-group row">
+						<label class="col-md-4 control-label">Corriente de cortocircuito</label>
+						<div class="col-md-6">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>
+								<input type="number" step="any" class="form-control" id="isc" name="isc" placeholder="TCorriente de cortocircuito (Amp)" required>
+							</div>
+						</div>
+				  	</div>
+
+				  	<div class="form-group row">
+						<label class="col-md-4 control-label">Dimensiones (LxAxE) </label>
+						<div class="col-md-6">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>
+								<input type="text" class="form-control" id="dimensiones" name="dimensiones" placeholder="Diametro del rotor (mts)" required>
+							</div>
+						</div>
+				  	</div>
+
+				  	<div class="form-group row">
+						<label class="col-md-4 control-label">Peso</label>
+						<div class="col-md-6">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>
+								<input type="number" step="any" class="form-control" id="peso" name="peso" placeholder="Peso (Kgm)" >
+							</div>
+						</div>
+				  	</div>
+
+				  	<div class="form-group row">
+						<label class="col-md-4 control-label">Cantidad de Celdas</label>
+						<div class="col-md-6">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>
+								<input type="number" step="any" class="form-control" id="celdas" name="celdas" placeholder="Cantidad de celdas" min="1">
+							</div>
+						</div>
+				  	</div>
+
+				  	<div class="form-group row">
+						<label class="col-md-4 control-label">Temperatura de Operación</label>
+						<div class="col-md-8">
+							<div class="input-group">
+								</br>
+								<input id="tempOp" name="tempOp" type="text" class="span2" data-slider-min="-60" data-slider-max="100" data-slider-step="5" data-slider-value="[-20,30]"/><b> C° 100</b>
+							</div>
+						</div>
+				  	</div>
+
+					<div class="form-group">
+                  		<div class="col-md-6 col-md-offset-4">
+                    		<button type="submit" class="btn btn-primary">
+                        		<i class="fa fa-btn fa-sign-in"></i> Registrar Nuevo Dispositivo
+                        	</button>
+                    	</div>
+                	</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/bootstrap-slider.js"></script>
+<script>
+	// Iniciamos el slider
+	$("#tempOp").slider({});
+</script>
+
+{% endblock %}

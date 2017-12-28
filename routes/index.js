@@ -55,24 +55,18 @@ router.get('/getDataTR2', passportConfig.isAuthenticate, function(req, res, next
 });
 
 //rutas para administracion 
-router.get('/admin', passportConfig.isAuthenticate, function(req, res, next){
-	res.locals.user = req.user;
-	comuna.find({}, (err, comunas) => {
-		if (err) {
-			res.send('Ha surgido un error.');
-		} else {
-			res.render('panel_control', {comunas: comunas, success : req.flash('info')});
-		}
 
-	});
-});
+router.get('/admin', passportConfig.isAuthenticate, comunacontroller.getPanelAdministrador);
 
-router.get('/admin/nuevaComuna', passportConfig.isAuthenticate , function(req, res, next){
-	res.locals.user = req.user;
-	res.render('nueva_comuna');
-});
-
+router.get('/admin/nuevaComuna', passportConfig.isAuthenticate , comunacontroller.getformNuevaComuna);
 router.post('/admin/nuevaComuna', passportConfig.isAuthenticate, comunacontroller.saveComuna);
+router.post('/admin/delComuna', passportConfig.isAuthenticate, comunacontroller.deleteComunas);
+
+router.get('/admin/:id(*)/nuevoaerogenerador', passportConfig.isAuthenticate , comunacontroller.getformNuevoAerogenerador);
+router.post('/admin/:id(*)/nuevoaerogenerador', passportConfig.isAuthenticate, comunacontroller.saveAerogenerador);
+
+router.get('/admin/:id(*)/nuevopanelfotovoltaico', passportConfig.isAuthenticate, comunacontroller.getformNuevoPanelFotovoltaico);
+router.post('/admin/:id(*)/nuevopanelfotovoltaico', passportConfig.isAuthenticate, comunacontroller.savePanelFotovoltaico);
 
 // rutas de prueba
 
