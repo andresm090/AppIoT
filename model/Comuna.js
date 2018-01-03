@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var Generador = require('../model/Generador');
 var Schema = mongoose.Schema;
 
 var ComunaSchema = new Schema({
@@ -10,5 +11,29 @@ var ComunaSchema = new Schema({
 	point_geom: [{latitud: Number, longitud: Number}],
 	activo: {type: Boolean, default: true},
 })
+
+ComunaSchema.methods.getAerogeneradores = function (){
+	var aux;
+	Generador.find({'comuna': this.id,'tipo': 'aerogenerador'}, (err, aeros) => {
+		if (err) {
+			return [];
+		} else {
+			var aerogeneradores = [];
+			for (var i = 0; i < aeros.length; i++){
+				aerogeneradores.push(aeros[i]);
+			}
+			return (aerogeneradores);
+		}
+	});
+		
+};
+
+ComunaSchema.virtual('fullName').get(function () {
+  var p = Generador.find({'comuna': this.id,'tipo': 'aerogenerador'}, (err, aeros) => {
+  		//console.log(aeros);
+		return "pepe";
+	});
+  return p;
+});
 
 module.exports = mongoose.model('comuna', ComunaSchema);

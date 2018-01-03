@@ -130,3 +130,16 @@ exports.savePanelFotovoltaico = (req, res, next) => {
 		return res.redirect('/admin');
 	});
 };
+
+exports.getMapComunas = (req, res, next) => {
+
+	Comuna.find({}, (err, comunas) => {
+		if (err) {
+			return res.send('Ha surgido un error.');
+		} else {
+			res.locals.user = req.user || null;
+			return res.render('map_comunas', {comunas: comunas});
+		}
+
+	});
+};
