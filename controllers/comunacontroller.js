@@ -103,7 +103,7 @@ exports.savePanelFotovoltaico = (req, res, next) => {
 	var caracteristicas = {
 		'fabricante': req.body.fabricante,
 		'modelo-serie':req.body.modelo,
-		'potencia-max':req.body.pmax,
+		'potencia':req.body.pmax,
 		'corriente-max':req.body.ipmax,
 		'voc':req.body.voc,
 		'isc':req.body.isc,
@@ -143,3 +143,17 @@ exports.getMapComunas = (req, res, next) => {
 
 	});
 };
+
+exports.getGeneradores = (req, res, next) => {
+
+	Generador.find({'comuna': req.params.id}, (err, generadores) => {
+		if (err) {
+			return res.send('Ha surgido un error.');
+		} else {
+			res.locals.user = req.user || null;
+			return res.render('modal_table_generadores', {generadores: generadores});
+		}
+
+	});
+};
+

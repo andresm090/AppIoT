@@ -83,6 +83,7 @@ router.get('/admin/:id(*)/nuevopanelfotovoltaico', passportConfig.isAuthenticate
 router.post('/admin/:id(*)/nuevopanelfotovoltaico', passportConfig.isAuthenticate, comunacontroller.savePanelFotovoltaico);
 
 router.get('/comunas', passportConfig.isAuthenticate, comunacontroller.getMapComunas);
+router.get('/comunas/:id(*)/getGeneradores', passportConfig.isAuthenticate, comunacontroller.getGeneradores);
 
 // rutas de prueba
 

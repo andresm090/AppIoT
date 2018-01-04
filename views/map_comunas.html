@@ -26,6 +26,7 @@
 				lat: {{comuna.point_geom[0]['latitud']}},
 				lng: {{comuna.point_geom[0]['longitud']}},
 				title: '{{comuna.nombre}}',
+				icon:'/public/images/boton_verde.png',
 				click: function (e){
 					//$('#encabezado').empty();
 					//$('#encabezado').append('{{comuna.nombre}}');
@@ -36,12 +37,24 @@
 					$('#dep').html('{{comuna.departamento}}');
 					$('#habitantes').html('{{comuna.poblacion}}');
 					$('#encargado').html('{{comuna.encargado}}');
+					$.ajax({
+	  					url: "/comunas/{{comuna.id}}/getGeneradores",
+	  					type: "GET",
+	  					data: {},
+	  					success: function(data) {
+	  						$('#tableG').html(data);
+	  					}
+  					});
 					$('#modal').modal('show');
 					//$('#nombre').replaceWith('{{comuna.nombre}}');
 				},
 			});
 		{% endfor %}
 	});
+
+	function verDatos(id){
+		location.href = "/aerogenerador/" + id;
+	};
 
 	
 
@@ -125,9 +138,7 @@
 							<div class="panel panel-default">
 								<div class="panel-heading">Equipos de generación instalados</div>
 								<!-- Table -->
-								<table class="table">
-									<!-- cargar equipos generadores -->
-								</table>
+								<div id="tableG"> </div>
 							</div>
 						</div>
 		      		</div>
