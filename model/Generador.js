@@ -7,4 +7,14 @@ var GeneradorSchema = new Schema({
 	comuna: {type: mongoose.Schema.Types.ObjectId, ref: 'comuna'},
 })
 
+GeneradorSchema.methods.isAerogenerador = function (){
+	if (this.tipo == 'aerogenerador') {
+		return true;
+	}
+	return false;
+};
+
+
+
+
 module.exports = mongoose.model('generador', GeneradorSchema);

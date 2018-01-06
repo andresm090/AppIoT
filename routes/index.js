@@ -3,12 +3,9 @@ var router = express.Router();
 var controllerUser = require('../controllers/usercontroller');
 var topicontroller = require('../controllers/topicontroller');
 var comunacontroller = require('../controllers/comunacontroller');
+var datocontroller = require('../controllers/datocontroller');
 var passportConfig = require('../config/passport');
-var gaugeTemp = require('../src/gaugeTemp');
-var gaugeVel = require('../src/gaugeVel');
-var gaugeVA = require('../src/gaugeVA');
-var gaugeWR = require('../src/gaugeWR');
-var statebarPN = require('../src/statebarPN');
+
 var Comuna = require('../model/Comuna');
 var Generador = require('../model/Generador');
 var mongoose = require('mongoose');
@@ -55,10 +52,9 @@ router.post('/login', controllerUser.postLogin);
 router.get('/logout', passportConfig.isAuthenticate, controllerUser.logout);
 
 //rutas de visualizacion de datos
-
+/*
 router.get('/aerogenerador/:id([0-9]+)', passportConfig.isAuthenticate, function(req, res, next){
 	res.locals.user = req.user;
-	res.locals.comunas = req.comunas;
 	res.render('aerogenerador');
 });
 
@@ -66,8 +62,12 @@ router.get('/getDataTR2', passportConfig.isAuthenticate, function(req, res, next
 	res.locals.user = req.user;
 	res.render('tr_aero2', {gaugeTemp: gaugeTemp, gaugeVel: gaugeVel, gaugeVA: gaugeVA, gaugeWR: gaugeWR, statebarPN: statebarPN});
 
-});
+});*/
 
+router.get('/aerogenerador/:id(*)', passportConfig.isAuthenticate, datocontroller.getfPanelControl);
+
+router.get('/getDataC/:id(*)', passportConfig.isAuthenticate, datocontroller.getTrCaracteristicas);
+router.get('/getDataTR2/:id(*)', passportConfig.isAuthenticate, datocontroller.getTrDatosTR);
 //rutas para administracion 
 
 router.get('/admin', passportConfig.isAuthenticate, comunacontroller.getPanelAdministrador);

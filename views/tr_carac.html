@@ -1,0 +1,39 @@
+</br>
+<div class="row">		
+	<div class="col-md-12 col-md-offset-0">
+		<div class="panel panel-default">
+			<div class="panel-heading">Tabla de caracteristicas Tecnicas</div>
+			<div class="panel-body">
+				<table class="table table-bordered table-striped">
+					<thead class="inverse">
+	    				<tr>
+							<th class="text-center">#</th>
+							{% for c in caracteristicas%}
+								<th class="text-center">{{loop.key}}</th>
+							{% endfor %}
+						</tr>
+					</thead>
+					<tbody>
+					<tr>
+						<th scope="row">1</th>
+						{% for c in caracteristicas%}
+							<td class="text-center">{{c}}</td>
+						{% endfor %}
+					</tr>
+					</tbody>
+				</table>	
+			</div>
+		</div>
+	</div>
+
+	<!--<div class="col-md-4 col-md-offset-0">
+		<div class="panel panel-default">
+			<div class="panel-heading">Curva de potencia</div>
+			<div class="panel-body">
+				<div id="containerTermo" style="min-width: 270px; max-width: 360px; height: 260px; margin: 0 auto"></div>
+				<div id="tableTermo"></div>
+			</div>
+		</div>
+	</div>-->
+	
+</div>
