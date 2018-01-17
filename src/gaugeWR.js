@@ -1,7 +1,7 @@
 var gaugeWR = {
 
     series: [{
-            "name": "&lt; 0.5 m/s",
+            "name": "velocidad m/s",
             "data": [
                 ["N", 0],
                 ["NNE", 0],
@@ -190,7 +190,7 @@ var gaugeWR = {
         endOnTick: false,
         showLastLabel: true,
         title: {
-            text: 'Frequency (%)'
+            text: 'Vel. (m/s)'
         },
         labels: {
             formatter: function () {

@@ -63,7 +63,10 @@ exports.getformNuevoAerogenerador = (req, res, next) => {
 }; 
 
 exports.saveAerogenerador = (req, res, next) => {
-	
+
+	var vt;
+	var at;
+
 	var caracteristicas = {
 		'fabricante': req.body.fabricante,
 		'modelo-serie':req.body.modelo,
@@ -75,11 +78,34 @@ exports.saveAerogenerador = (req, res, next) => {
 		'palas':req.body.npalas,
 		'generacion':req.body.generacion
 	};
+
+	var conexion = req.body.conexion;
+	var v = req.body.vol;
+	var a = req.body.capacidad;
+	var cantBat = req.body.nbaterias;
+
+	if (conexion == 'Serie'){
+		vt = v*cantBat;
+		at = a;
+	} else {
+		vt = v;
+		at = a*cantBat;
+	}
+
+	var bbaterias = {
+		'voltaje': v,
+		'capacidad': a,
+		'cant de baterias': cantBat,
+		'conexion': conexion,
+		'voltaje total': vt,
+		'capacidad total': at,
+	};
+
 	var generador = new Generador ({
 		tipo: 'aerogenerador',
 		caracteristicas: caracteristicas,
+		bbaterias: bbaterias,
 		comuna: req.params.id,
-
 	});
 
 	generador.save((err) => {
@@ -99,6 +125,9 @@ exports.getformNuevoPanelFotovoltaico = (req, res, next) => {
 }; 
 
 exports.savePanelFotovoltaico = (req, res, next) => {
+
+	var vt;
+	var at;
 	
 	var caracteristicas = {
 		'fabricante': req.body.fabricante,
@@ -113,9 +142,32 @@ exports.savePanelFotovoltaico = (req, res, next) => {
 		'temp-op': req.body.tempOp
 	};
 
+	var conexion = req.body.conexion;
+	var v = req.body.vol;
+	var a = req.body.capacidad;
+	var cantBat = req.body.nbaterias;
+
+	if (conexion == 'Serie'){
+		vt = v*cantBat;
+		at = a;
+	} else {
+		vt = v;
+		at = a*cantBat;
+	}
+
+	var bbaterias = {
+		'voltaje': v,
+		'capacidad': a,
+		'cant de baterias': cantBat,
+		'conexion': conexion,
+		'voltaje total': vt,
+		'capacidad total': at,
+	};
+
 	var generador = new Generador ({
-		tipo: 'panelf',
+		tipo: 'panel fotovoltaico',
 		caracteristicas: caracteristicas,
+		bbaterias: bbaterias,
 		comuna: req.params.id,
 
 	});

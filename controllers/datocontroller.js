@@ -58,7 +58,7 @@ exports.getTrCaracteristicas = (req, res, next) => {
 		if (err) {
 			return res.send('Ha surgido un error.');
 		} else {
-			return res.render('tr_carac', {caracteristicas: generador.caracteristicas[0]});
+			return res.render('tr_carac', {caracteristicas: generador.caracteristicas[0], bbaterias: generador.bbaterias[0]});
 		}
 
 	});
@@ -73,7 +73,7 @@ exports.getTrDatosTR = (req, res, next) => {
 		} else {
 			res.locals.user = req.user;
 			if (generador.isAerogenerador()){
-				return res.render('tr_aero2', {gaugeTemp: gaugeTemp, gaugeVel: gaugeVel, gaugeVA: gaugeVA, gaugeWR: gaugeWR, statebarPN: statebarPN, potenciaN: generador.caracteristicas[0]['potencia']});
+				return res.render('tr_aero2', {gaugeTemp: gaugeTemp, gaugeVel: gaugeVel, gaugeVA: gaugeVA, gaugeWR: gaugeWR, statebarPN: statebarPN, potenciaN: generador.caracteristicas[0]['potencia'], bbaterias: generador.bbaterias[0], stateVbb: stateVbb});
 			} else {
 				return res.render('tr_panelf', {gaugeTemp: gaugeTemp, gaugePira: gaugePira, gaugeVA: gaugeVA, statebarPN: statebarPN, potenciaN: generador.caracteristicas[0]['potencia'], stateVbb: stateVbb}); //Completar
 			}
