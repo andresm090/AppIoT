@@ -4,6 +4,10 @@
 		display: none;}
 	.highcharts-grid-line {
 		display: :none;
+	}
+	.custom{
+  		margin-top: 5.5%;
+  		margin-bottom: 5.5%;
 	}	
 </style>
 <div class="row" {% if user.suscripciones.indexOf('aerogenerador/clima') === -1 %} hidden="true" {% endif %}>		
@@ -49,6 +53,24 @@
 			</div>
 		</div>
 	</div>
+
+	<div class="col-md-5 col-md-offset-0">
+		<div class="panel panel-default">
+			<div class="panel-heading">Banco de Baterias</div>
+			<div class="panel-body">
+				<div id="containerstateVbb" style="min-width: 210px; max-width: 240px; margin: 0 auto"></div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-7 col-md-offset-0">
+		<div class="panel panel-default">
+			<div class="panel-heading">Especificaciones del Banco de Baterias</div>
+			<div class="panel-body custom">
+				<div id="tableBB"></div>
+			</div>
+		</div>
+	</div>
 </div>
 <script src="http://code.highcharts.com/modules/bullet.js"></script> <!-- Evaluar-->
 <script>
@@ -58,7 +80,8 @@
 	var piranometro = Highcharts.chart('containerPiranometro', {{JSON.stringify(gaugePira)}},);
 	var volyAmp = Highcharts.chart('containervolyAmp', {{JSON.stringify(gaugeVA)}},);
 	var statebarPN = Highcharts.chart('containerstatebarPN', {{JSON.stringify(statebarPN)}},);
-	var stateVbb = Highcharts.chart('containerVbb', {{JSON.stringify(stateVbb)}},);
+	//var stateVbb = Highcharts.chart('containerVbb', {{JSON.stringify(stateVbb)}},);
+	var stateVbb = Highcharts.chart('containerstateVbb', {{JSON.stringify(stateVbb)}},);
 	
 	// setear de acuerdo a la potenica nominal de cada aerogenerador
 
@@ -74,18 +97,11 @@
             text: 'N° Panel Fotovoltaico'
         }});  
 	
-	var pointVbb =  stateVbb.tooltip;
-	pointVbb.update({positioner: function (labelWidth) {
-            return {
-                x: (this.chart.chartWidth - labelWidth) / 2,
-                y: (this.chart.plotHeight / 2) + 15
-            };
-        }});
-
 	//Tablas
 	var tableTemp;
 	var tableAtmo;
 	var tableEner;
+	var tableBB;
 
 	var socket = io.connect('http://localhost:3300', { 'forceNew': true });
 
@@ -101,6 +117,7 @@
 		var dataTemp = new google.visualization.DataTable();
 		var dataAtmos = new google.visualization.DataTable();
 		var dataEner = new google.visualization.DataTable();
+		var dataBB = new google.visualization.DataTable();
 
 		dataTemp.addColumn('number', 'Temperatura');
 		dataTemp.addColumn('string', 'Unidad');
@@ -114,13 +131,25 @@
 		dataEner.addColumn('number', 'Valor');
 		dataEner.addColumn('string', 'Unidad');
 
+		dataBB.addColumn('string', 'Caracteristicas');
+		dataBB.addColumn('string', 'Valor');
+		
+		{% for b in bbaterias %}
+			dataBB.addRows([
+				['{{loop.key}}', '{{b}}']
+			])
+		{% endfor %}
+
+
 		tableTemp = new google.visualization.Table(document.getElementById('tableTermo'));
 		tableAtmo = new google.visualization.Table(document.getElementById('tableAtmosfericas'));
 		tableEner = new google.visualization.Table(document.getElementById('tableEner'));
+		tableBB = new google.visualization.Table(document.getElementById('tableBB'));
 	
 		tableTemp.draw(dataTemp, {showRowNumber: true, width: '100%', height: '100%', alternatingRowStyle: true});
 		tableAtmo.draw(dataAtmos, {showRowNumber: true, width: '100%', height: '100%', alternatingRowStyle: true});
 		tableEner.draw(dataEner, {showRowNumber: true, width: '100%', height: '100%', alternatingRowStyle: true});
+		tableBB.draw(dataBB, {width: '100%', height: '100%', alternatingRowStyle: true});
 
 		//var point = windrose.series[0].points[15];
 		//point.update(3.2);
@@ -194,7 +223,22 @@
 		volyAmp.redraw();
 
 		var pointBarPN = statebarPN.series[0].points[0];
-		pointBarPN.update(potenciaG);  
+		pointBarPN.update(potenciaG);
+
+		var vtbb = Number({{bbaterias['voltaje total']}});
+		var pointVbb = stateVbb.series[0];
+		var labelPiboteBb = '<span style="visibility: hidden;">..</span>';
+        var labelCuerpoBb = '<span style="font-size:30px; text-align:center; width:30px">{point.x}</span><br><span style="visibility: hidden;">-</span><span style="font-size:12px; color:#888888; font-weight: bold; text-indent:60px;">{series.name}</span><br><span style="font-size:12px; color:#888888; font-weight: bold text-indent:60px;">------</span><br><span style="font-size:22px; color:#888888; font-weight: bold">{point.y}%</span>';
+
+		if(tension>9){
+        	pointVbb.update({dataLabels: { format: labelCuerpoBb}});
+		} else {
+			pointVbb.update({dataLabels: { format: labelPiboteBb + labelCuerpoBb}});
+		}
+
+		pointVbb = stateVbb.series[0].points[0];
+        pointVbb.update(Math.round(tension*100/vtbb));
+        pointVbb.update({x: tension});   
 
 	}
 
