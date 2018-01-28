@@ -72,7 +72,7 @@ var gaugePira = {
 
         series: [{
             name: 'Radiación Solar',
-            data: [40],
+            data: [0],
             dataLabels: {
                 format: '<div style="text-align:center"><span style="font-size:25px;color:' + '">{y}</span><br/>' +
                        '<span style="font-size:12px;color:silver">Kw/m²</span></div>'

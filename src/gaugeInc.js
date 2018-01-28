@@ -1,11 +1,7 @@
 var gaugeInc = {
 
 	title: {
-        text: 'Angulo de inclinacion panel fotovoltaico'
-    },
-
-    subtitle: {
-        text: 'Tipo de base fija, con ajuste manual'
+        text: 'Inclinacion panel fotovoltaico'
     },
 
     yAxis: {
@@ -43,12 +39,89 @@ var gaugeInc = {
 
     series: [{
         name: 'Panel Fotovoltaico',
+        data: [{x:0, y:0}, {x:0, y:0}]
+    	}, {
+    	name:'a',
+      	data: [{
+      		x: 1.7,
+            y: 13,
+            marker: {
+                symbol: 'url(https://www.highcharts.com/samples/graphics/sun.png)'
+            }
+        }]
+    	}, {
+        name: 'soporte',
+        data: [{x:0, y:0}, {x:0, y:0}]
+    }],
+
+    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 200
+            },
+        }]
+    }
+
+};
+
+module.exports = gaugeInc;
+
+
+/*
+Serie de datos para Invierno (Valores esperados entre los 60° de inclinación)
+
+series: [{
+        name: 'Panel Fotovoltaico',
+        data: [{x:1, y:1}, {x:5, y:16}]
+    }, {
+    	name:'a',
+      data: [{
+      			x: 1.7,
+            y: 13,
+            marker: {
+                symbol: 'url(https://www.highcharts.com/samples/graphics/sun.png)'
+            }
+        }]
+    }, {
+        name: 'soporte',
+        data: [{x:3, y:0}, {x:3, y:8.5}]
+    }],
+
+*/
+
+/*
+Serie de datos para Otoño (Valores esperados entre los 40° de inclinación)
+
+series: [{
+    name: 'Panel Fotovoltaico',
+    data: [{x:1, y:1}, {x:5, y:12.5}]
+}, {
+	name:'a',
+  data: [{
+  			x: 1.7,
+        y: 13,
+        marker: {
+            symbol: 'url(https://www.highcharts.com/samples/graphics/sun.png)'
+        }
+    }]
+}, {
+    name: 'soporte',
+    data: [{x:3, y:0}, {x:3, y:6.5}]
+}],
+
+*/
+
+/*
+Serie de datos para Primavera (Valores esperados entre los 20° de inclinación)
+
+series: [{
+        name: 'Panel Fotovoltaico',
         data: [{x:1, y:1}, {x:5, y:10}]
     }, {
     	name:'a',
       data: [{
-      			x: 2,
-            y: 10,
+      			x: 1.7,
+            y: 13,
             marker: {
                 symbol: 'url(https://www.highcharts.com/samples/graphics/sun.png)'
             }
@@ -57,22 +130,25 @@ var gaugeInc = {
         name: 'soporte',
         data: [{x:3, y:0}, {x:3, y:5.5}]
     }],
+*/
 
-    responsive: {
-        rules: [{
-            condition: {
-                maxWidth: 500
-            },
-            chartOptions: {
-                legend: {
-                    layout: 'horizontal',
-                    align: 'center',
-                    verticalAlign: 'bottom'
-                }
+/*
+Serie de datos para Verano (Valores esperados entre los 12° de inclinación)
+
+series: [{
+        name: 'Panel Fotovoltaico',
+        data: [{x:1, y:1}, {x:5, y:7}]
+    }, {
+    	name:'a',
+      data: [{
+      			x: 1.7,
+            y: 13,
+            marker: {
+                symbol: 'url(https://www.highcharts.com/samples/graphics/sun.png)'
             }
         }]
-    }
-
-};
-
-module.exports = gaugeInc;
+    }, {
+        name: 'soporte',
+        data: [{x:3, y:0}, {x:3, y:4}]
+    }],
+*/

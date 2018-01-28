@@ -6,11 +6,11 @@ var gaugeTemp = require('../src/gaugeTemp');
 var gaugeVel = require('../src/gaugeVel');
 var gaugeVA = require('../src/gaugeVA');
 var gaugeWR = require('../src/gaugeWR');
-var statebarPN = require('../src/statebarPN');
 var gaugePira = require('../src/gaugePira');
+var gaugeInc = require('../src/gaugeInc');
+var gaugeIncSeries = require('../src/gaugeIncSeries');
+var statebarPN = require('../src/statebarPN');
 var stateVbb = require('../src/stateVbb');
-
-
 
 /*exports.getfPanelControl = (req, res, next) => {
 
@@ -75,7 +75,7 @@ exports.getTrDatosTR = (req, res, next) => {
 			if (generador.isAerogenerador()){
 				return res.render('tr_aero2', {gaugeTemp: gaugeTemp, gaugeVel: gaugeVel, gaugeVA: gaugeVA, gaugeWR: gaugeWR, statebarPN: statebarPN, potenciaN: generador.caracteristicas[0]['potencia'], bbaterias: generador.bbaterias[0], stateVbb: stateVbb});
 			} else {
-				return res.render('tr_panelf', {gaugeTemp: gaugeTemp, gaugePira: gaugePira, gaugeVA: gaugeVA, statebarPN: statebarPN, potenciaN: generador.caracteristicas[0]['potencia'], bbaterias: generador.bbaterias[0], stateVbb: stateVbb}); //Completar
+				return res.render('tr_panelf', {gaugeTemp: gaugeTemp, gaugePira: gaugePira, gaugeVA: gaugeVA, statebarPN: statebarPN, gaugeInc: gaugeInc, potenciaN: generador.caracteristicas[0]['potencia'], bbaterias: generador.bbaterias[0], stateVbb: stateVbb, data: gaugeIncSeries.verano}); //Completar
 			}
 		}
 
