@@ -17,11 +17,12 @@
 			<div class="panel-body">
 				<div class="col-md-6 col-md-offset-0">
 						<div id="containerPiranometro" style="width: 300px; height: 260px; float: left"></div>
+						<div id="tableAtmosfericas"></div>
 				</div>
 				<div class="col-md-6 col-md-offset-0">
 						<div id="containerInc" style="min-width: 107%; max-width: 107%; height: 260px; margin: 0 auto"></div>
+						<div id="tableInclinacion"></div>
 				</div>
-				<div id="tableAtmosfericas"></div>
 			</div>
 		</div>
 	</div>
@@ -102,6 +103,7 @@
 	var tableAtmo;
 	var tableEner;
 	var tableBB;
+	var tableInc;
 
 	var socket = io.connect('http://localhost:3300', { 'forceNew': true });
 
@@ -110,22 +112,41 @@
 	   
 	socket.on('panelf/c', setDataC);
 	socket.on('panelf/e', setDataE);
+	socket.on('panelf/event', setDataEvent);
 	   
-	   
+	function setDataEvent(data, inc){
+
+		var dataInc = new google.visualization.DataTable();
+
+		dataInc.addColumn('number', 'Inclinación del panel');
+		dataInc.addColumn('string', 'Unidad');
+
+		dataInc.addRows([
+			[inc, "grados"]
+		]);
+
+		tableInc.draw(dataInc, {width: '100%', height: '100%', alternatingRowStyle: true});
+
+		var pointInc = inclinometro;
+		pointInc.update({series: data});
+	}
+
 	function drawTable(){
 
 		var dataTemp = new google.visualization.DataTable();
 		var dataAtmos = new google.visualization.DataTable();
 		var dataEner = new google.visualization.DataTable();
 		var dataBB = new google.visualization.DataTable();
+		var dataInc = new google.visualization.DataTable();
 
 		dataTemp.addColumn('number', 'Temperatura');
 		dataTemp.addColumn('string', 'Unidad');
 
 		dataAtmos.addColumn('number', 'Radiación Solar');
 		dataAtmos.addColumn('string', 'Unidad');
-		dataAtmos.addColumn('string', 'Inclinación del panel');
-		dataAtmos.addColumn('string', 'Unidad');
+
+		dataInc.addColumn('number', 'Inclinación del panel');
+		dataInc.addColumn('string', 'Unidad');
 
 		dataEner.addColumn('string', 'Variable');
 		dataEner.addColumn('number', 'Valor');
@@ -145,11 +166,13 @@
 		tableAtmo = new google.visualization.Table(document.getElementById('tableAtmosfericas'));
 		tableEner = new google.visualization.Table(document.getElementById('tableEner'));
 		tableBB = new google.visualization.Table(document.getElementById('tableBB'));
+		tableInc = new google.visualization.Table(document.getElementById('tableInclinacion'));
 	
 		tableTemp.draw(dataTemp, {showRowNumber: true, width: '100%', height: '100%', alternatingRowStyle: true});
 		tableAtmo.draw(dataAtmos, {showRowNumber: true, width: '100%', height: '100%', alternatingRowStyle: true});
 		tableEner.draw(dataEner, {showRowNumber: true, width: '100%', height: '100%', alternatingRowStyle: true});
 		tableBB.draw(dataBB, {width: '100%', height: '100%', alternatingRowStyle: true});
+		tableInc.draw(dataInc, {width: '100%', height: '100%', alternatingRowStyle: true});
 
 		// colocar en metodo de manejo de evento
 		var pointInc = inclinometro;
@@ -165,27 +188,25 @@
 	   	
 	   	dataAtmos.addColumn('number', 'Radiación Solar');
 		dataAtmos.addColumn('string', 'Unidad');
-		dataAtmos.addColumn('string', 'Inclinación del panel');
-		dataAtmos.addColumn('string', 'Unidad');
 
 		datatemp.addColumn('number', 'Temperatura');
 		datatemp.addColumn('string', 'Unidad');
 
-		//T-R-I
+		//T-R
 		var data = msj.split("-");
 
 		var temperatura = Number(data[0]);
 		var radiacion = Number(data[1]);
 
-		datatab.addRows([
-			[radiacion, "Kw/m²", data[2], "grados"]
+		dataAtmos.addRows([
+			[radiacion, "Kw/m²"]
 		]);
 
 		datatemp.addRows([
 			[temperatura, "C°"]
 		]);		
 
-		tableAtmo.draw(datatab, {showRowNumber: true, width: '100%', height: '100%'});
+		tableAtmo.draw(dataAtmos, {showRowNumber: true, width: '100%', height: '100%'});
 		tableTemp.draw(datatemp, {showRowNumber: true, width: '100%', height: '100%', alternatingRowStyle: true});
 
 		var pointTerm = termometro.series[0].points[0];

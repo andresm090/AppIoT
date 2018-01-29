@@ -16,6 +16,7 @@ var users = require('./routes/users');
 var mqtt = require('./src/serverMQTT');
 var controllerUser = require('./controllers/usercontroller');
 global.config = require('./config/config');
+var gaugeIncSeries = require('./src/gaugeIncSeries');
 
 var MONGO_URL = 'mongodb://'+global.config.db.host+':'+global.config.db.port+'/'+global.config.db.database;
 
@@ -85,14 +86,38 @@ serverMQTT.connect(function(clientMQTT) {
 	clientMQTT.subscribe('aerogenerador/energia');
 	clientMQTT.subscribe('fotovoltaica/clima');
 	clientMQTT.subscribe('fotovoltaica/energia');
+	clientMQTT.subscribe('fotovoltaica/evenInc');
 	serverMQTT.observer(function(topic, value) {
 		console.log(value.toString());
 		//Notifico a los clientes
 		connectionsArray.forEach(function(tmpSocket) {
 			if (topic == "aerogenerador/energia") {
 				tmpSocket.emit('energia', value.toString());
-			} else {
+			}
+			if (topic == "aerogenerador/clima") {
 				tmpSocket.emit('notification', value.toString());
+			}
+			if (topic == "fotovoltaica/clima"){
+				tmpSocket.emit('panelf/c', value.toString());	
+			}
+			if (topic == "fotovoltaica/energia"){
+				tmpSocket.emit('panelf/e', value.toString());
+			}
+			if (topic == "fotovoltaica/evenInc"){
+				var inc = Number(value);
+				switch(inc) {
+					case 60:
+						tmpSocket.emit('panelf/event', gaugeIncSeries.invierno, inc);
+						break;
+					case 20:
+						tmpSocket.emit('panelf/event', gaugeIncSeries.primavera, inc);
+						break;
+					case 12: 
+						tmpSocket.emit('panelf/event', gaugeIncSeries.verano, inc);
+						break;
+					default:
+						tmpSocket.emit('panelf/event', gaugeIncSeries.otonio, inc);
+				}	
 			}
 		});
 	});
