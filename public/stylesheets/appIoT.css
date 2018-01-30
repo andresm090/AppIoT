@@ -1,11 +1,11 @@
-.buttonOK:after {
+.buttonOK:checked:after {
         width: 15px;
         height: 15px;
         border-radius: 15px;
         top: -2px;
         left: -1px;
         position: relative;
-        background-color: #d1d3d1;
+        background-color: chartreuse;
         content: '';
         display: inline-block;
         visibility: visible;
@@ -19,9 +19,14 @@
         top: -2px;
         left: -1px;
         position: relative;
-        background-color: #ffa500;
+        background-color: darkorange;
         content: '';
         display: inline-block;
         visibility: visible;
         border: 2px solid white;
+}
+
+.panelBB {
+    margin-top: 5.5%;
+    margin-bottom: 5.5%;
 }

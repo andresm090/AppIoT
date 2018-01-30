@@ -1,14 +1,9 @@
 </br>
-<style>
-	.custom{
-  margin-top: 5.5%;
-  margin-bottom: 5.5%;
-}
-</style>
+<link href="/public/stylesheets/appIoT.css" rel="stylesheet">
 <div class="row" {% if user.suscripciones.indexOf('aerogenerador/clima') === -1 %} hidden="true" {% endif %}>		
 	<div class="col-md-8 col-md-offset-0">
 		<div class="panel panel-default">
-			<div class="panel-heading">Variables Anemométricas</div>
+			<div class="panel-heading">Variables Anemométricas <input class="pull-right buttonOK" type="radio" checked></input></div>
 			<div class="panel-body">
 				<div class="col-md-6 col-md-offset-0">
 						<div id="containerAnemo" style="min-width: 270px; max-width: 360px; height: 260px; margin: 0 auto"></div>
@@ -75,7 +70,7 @@
 	<div class="col-md-7 col-md-offset-0">
 		<div class="panel panel-default">
 			<div class="panel-heading">Especificaciones del Banco de Baterias</div>
-			<div class="panel-body custom">
+			<div class="panel-body panelBB">
 				<div id="tableBB"></div>
 			</div>
 		</div>
