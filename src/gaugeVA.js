@@ -12,11 +12,15 @@ var gaugeVA = {
             ]
         },
         plotBackgroundImage: null,
-        height: 200
+        height: 220
     },
 
     title: {
         text: 'Consumos y estado de las baterías'
+    },
+
+    subtitle: {
+        text: 'Voltaje Banco de Baterias - Amperaje consumido'
     },
 
     credits: {

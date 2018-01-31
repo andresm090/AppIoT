@@ -30,3 +30,8 @@
     margin-top: 5.5%;
     margin-bottom: 5.5%;
 }
+
+.disablePanel {
+    background-color:white; 
+    opacity: 0.5;
+}
