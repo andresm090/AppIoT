@@ -43,10 +43,11 @@
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
             	{% if user %}
 	            	<ul class="nav navbar-nav fuente dropdown">
-	                    <li class="dropdown">
+	            		<li><a href="/comunas"><i class="fa fa-cog fa-map-marker fa-lg"></i> Mapa de Comunas</a>
+	                    <!--<li class="dropdown">
 	                    	<a href="#" class="dropdown-toggle" data-toggle="dropdown">Comunas Rurales <b class="caret"></b></a>
 	                         <ul class="dropdown-menu">
-	                        	<!-- Repetir de por cada comuna-->
+	                        	 Repetir de por cada comuna
 	                        	{% for comuna in comunas %}
 		                            <li class="dropdown dropdown-submenu"><a class="dropdown-toggle" data-toggle="dropdown">{{comuna.nombre}}</a>
 		                            	<ul class="dropdown-menu fuente">
@@ -62,7 +63,7 @@
 
 		                            </li>
 	                            {% endfor %}
-	                        </ul>
+	                        </ul>-->
 	                    </li>
 	                </ul>
 	            {% endif %}
@@ -77,9 +78,11 @@
 	                    	</a>
 	                    	<ul class="dropdown-menu fuente" role="menu">
 	                        	<li><a href="/topicos"><i class="fa fa-btn fa-check-circle-o fa-lg"></i> Mis suscripciones</a></li>
-	                        	<!--<li><a href="/prueba"><i class="fa fa-cog fa-spin fa-lg"></i> Ver Datos</a></li>-->
-	                        	<li><a href="/comunas"><i class="fa fa-cog fa-map-marker fa-lg"></i> Ver Mapa</a></li>
-	                        	<li><a href="/admin"><i class="fa fa-cog fa-spin fa-lg"></i> Administrador</a></li>
+	                        	<!--<li><a href="/prueba"><i class="fa fa-cog fa-spin fa-lg"></i> Ver Datos</a></li>
+	                        	<li><a href="/comunas"><i class="fa fa-cog fa-map-marker fa-lg"></i> Ver Mapa</a></li>-->
+	                        	{% if user.isAdministrador() %}
+	                        		<li><a href="/admin"><i class="fa fa-cog fa-spin fa-lg"></i> Administrador</a></li>
+	                        	{% endif %}
 	                        	<li><a href="/logout"><i class="fa fa-btn fa-sign-out fa-lg"></i> Logout</a></li>
 	                        </ul>
 	                    </li>

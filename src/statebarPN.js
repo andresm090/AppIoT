@@ -12,6 +12,7 @@ var statebarPN = {
                 [1, '#FFFFFF']
             ]
         },
+        height: 360,
     },
     title: {
         text: 'Potencia del Aerogenerador'

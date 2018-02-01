@@ -3,7 +3,7 @@
 <div class="row" {% if user.suscripciones.indexOf('aerogenerador/clima') === -1 %} hidden="true" {% endif %}>		
 	<div class="col-md-8 col-md-offset-0">
 		<div class="panel panel-default">
-			<div class="panel-heading">Variables Anemométricas <input class="pull-right buttonOK" id="btnState" type="radio" checked onclick="pruebaEventoFreno(this)"></input></div>
+			<div class="panel-heading">Variables Anemométricas <input class="pull-right buttonOK" id="btnState" type="radio" checked></input></div>
 			<div class="panel-body">
 				<div class="col-md-6 col-md-offset-0">
 						<div id="containerAnemo" style="min-width: 270px; max-width: 360px; height: 260px; margin: 0 auto"></div>
@@ -110,6 +110,45 @@
 	   
 	socket.on('notification', setData);
 	socket.on('energia', setDataE);
+	socket.on('aero/e', eventFreno);
+
+	function eventFreno(state){
+		pointEvent = statebarPN;
+		if (state == 1){
+			$("#btnState").removeClass("buttonOK");
+			$("#btnState").addClass("buttonFail");
+
+			pointEvent.update({chart: {type: 'bar', plotBackgroundColor: {
+            	linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+            	stops: [
+	                [0, 'gray'],
+	                [0.1, '#EEEDE4'],
+	                [0.5, '#FFFFFF'],
+	                [0.9, '#EEEDE4'],
+	                [1, 'gray']
+	            ],
+        	}}});
+
+			$("#containerPPN").addClass("disablePanel");	
+		}
+		if (state == 0){
+			$("#btnState").removeClass("buttonFail");
+			$("#btnState").addClass("buttonOK");
+
+			pointEvent.update({chart: {type: 'bar', plotBackgroundColor: {
+            	linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+            	stops: [
+	                [0, '#FFFFFF'],
+                	[0.1, '#FFFFFF'],
+                	[0.5, '#FFFFFF'],
+                	[0.9, '#FFFFFF'],
+                	[1, '#FFFFFF']
+	            ],
+        	}}});
+
+        	$("#containerPPN").removeClass("disablePanel");
+		}
+	}
 	   
 	function pruebaEventoFreno (e){
 		$(e).removeClass("buttonOK");
@@ -119,11 +158,11 @@
 		pointEvent.update({chart: {type: 'bar', plotBackgroundColor: {
             linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
             stops: [
-                [0, 'darkorange'],
-                [0.1, '#FCFACD'],
+                [0, 'gray'],
+                [0.1, '#EEEDE4'],
                 [0.5, '#FFFFFF'],
-                [0.9, '#FCFACD'],
-                [1, 'darkorange']
+                [0.9, '#EEEDE4'],
+                [1, 'gray']
             ],
         }}});
 

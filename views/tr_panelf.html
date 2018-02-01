@@ -10,7 +10,7 @@
   		margin-bottom: 5.5%;
 	}	
 </style>
-<div class="row" {% if user.suscripciones.indexOf('aerogenerador/clima') === -1 %} hidden="true" {% endif %}>		
+<div class="row" {% if user.suscripciones.indexOf('fotovoltaica/clima') === -1 %} hidden="true" {% endif %}>		
 	<div class="col-md-8 col-md-offset-0">
 		<div class="panel panel-default">
 			<div class="panel-heading">Variables Atmosfericas</div>
@@ -39,7 +39,7 @@
 	
 </div>
 
-<div class="row" {% if user.suscripciones.indexOf('aerogenerador/energia') === -1 %} hidden="true" {% endif %}>
+<div class="row" {% if user.suscripciones.indexOf('fotovoltaica/energia') === -1 %} hidden="true" {% endif %}>
 	<div class="col-md-12 col-md-offset-0">
 		<div class="panel panel-default">
 			<div class="panel-heading">Energia</div>

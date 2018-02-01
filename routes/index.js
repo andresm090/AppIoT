@@ -8,6 +8,7 @@ var passportConfig = require('../config/passport');
 
 var Comuna = require('../model/Comuna');
 var Generador = require('../model/Generador');
+var User = require('../model/User');
 var mongoose = require('mongoose');
 
 
@@ -15,7 +16,7 @@ var mongoose = require('mongoose');
 router.get('/', function(req, res, next) {
   //req.session.cuenta = req.session.cuenta ? req.session.cuenta + 1 : 1;
   res.locals.user = req.user || null;
-  Comuna.find({}, (err, comunas) => {
+  /*Comuna.find({}, (err, comunas) => {
 		if (err) {
 			res.send('Ha surgido un error.');
 		} else {
@@ -25,8 +26,8 @@ router.get('/', function(req, res, next) {
 			res.render('home', { message: req.flash('info'), comunas:comunas});
 		}
 
-	});
-  //res.render('home', { message: req.flash('info'), comunas:coumnas});
+	});*/
+  res.render('home', { message: req.flash('info')});
 });
 
 /**router.get('/topicos', passportConfig.isAuthenticate, function(req, res, next) {
@@ -72,7 +73,7 @@ router.get('/getDataTR2/:id(*)', passportConfig.isAuthenticate, datocontroller.g
 
 router.get('/admin', passportConfig.isAuthenticate, comunacontroller.getPanelAdministrador);
 
-router.get('/admin/nuevaComuna', passportConfig.isAuthenticate , comunacontroller.getformNuevaComuna);
+router.get('/admin/nuevaComuna', passportConfig.isAuthenticate, comunacontroller.getformNuevaComuna);
 router.post('/admin/nuevaComuna', passportConfig.isAuthenticate, comunacontroller.saveComuna);
 router.post('/admin/delComuna', passportConfig.isAuthenticate, comunacontroller.deleteComunas);
 
@@ -107,20 +108,11 @@ router.get('/getDataTR', passportConfig.isAuthenticate, function(req, res, next)
 
 });
 
+//recupera el ultimo usuario registrada. Cambiar a 1 si se busca el mas antiguo
+router.get('/ultimo', function(req, res, next) {
+  User.findOne({}, {}, { sort: { 'createdAt' : -1 } }, function(err, user) {
+  	res.json(user);
+	});
+});
+
 module.exports = router;
-
-
-/*
-var com = new comuna({
-				nombre: "Albergue Escuela N° 128",
-				localidad: "Blancuntre",
-				departamento: "Gastre",
-				encargado: "Juan Perez",
-				poblacion: 120,
-				point_geom: [{latitud: -42.62025, longitud: -68.904472}],
-			});
-			com.save();
-
-
-
-*/

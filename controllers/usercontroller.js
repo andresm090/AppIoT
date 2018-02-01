@@ -6,7 +6,8 @@ exports.postSignup = (req, res, next) => {
 		firtsname: req.body.firtsname,
 		lastname: req.body.lastname,
 		username: req.body.username,
-		email: req.body.email, 
+		email: req.body.email,
+		tipo: req.body.tipo, 
 		password: req.body.password
 	});
 
@@ -47,7 +48,7 @@ exports.postLogin = (req, res, next) => {
 			}
 			res.locals.user = req.user || null;
 			//res.send('Login exitoso');
-			res.redirect('/');
+			res.redirect('/comunas');
 		});
 	})(req, res, next);
 }

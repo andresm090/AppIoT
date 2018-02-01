@@ -37,6 +37,6 @@ exports.saveTopicos = (req, res, next) => {
 			next(err);
 		}
 		res.locals.user = req.user || null;
-		res.redirect('/');
+		res.redirect('/comunas');
 	});
 };

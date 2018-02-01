@@ -84,6 +84,7 @@ serverMQTT.connect(function(clientMQTT) {
 
 	clientMQTT.subscribe('aerogenerador/clima');
 	clientMQTT.subscribe('aerogenerador/energia');
+	clientMQTT.subscribe('aerogenerador/evenFreno');
 	clientMQTT.subscribe('fotovoltaica/clima');
 	clientMQTT.subscribe('fotovoltaica/energia');
 	clientMQTT.subscribe('fotovoltaica/evenInc');
@@ -118,6 +119,9 @@ serverMQTT.connect(function(clientMQTT) {
 					default:
 						tmpSocket.emit('panelf/event', gaugeIncSeries.otonio, inc);
 				}	
+			}
+			if (topic == "aerogenerador/evenFreno"){
+				tmpSocket.emit('aero/e', Number(value));
 			}
 		});
 	});

@@ -4,14 +4,18 @@ var Generador = require('../model/Generador');
 
 exports.getPanelAdministrador = (req, res, next) => {
 	res.locals.user = req.user;
-	Comuna.find({}, (err, comunas) => {
-		if (err) {
-			return res.send('Ha surgido un error.');
-		} else {
-			return res.render('panel_control', {comunas: comunas, success : req.flash('info')});
-		}
+	if (req.user.isAdministrador()) {
+		Comuna.find({}, (err, comunas) => {
+			if (err) {
+				return res.send('Ha surgido un error.');
+			} else {
+				return res.render('panel_control', {comunas: comunas, success : req.flash('info')});
+			}
 
-	});
+		});
+	} else {
+		return res.send('No tiene los permisos suficientes para ver este recurso.');
+	}
 };
 
 exports.getformNuevaComuna = (req, res, next) => {

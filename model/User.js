@@ -8,6 +8,7 @@ var UserSchema = new Schema({
 	username: {type: String, required: true, lowercase: true, unique: true},
 	email: {type: String, required: true, lowercase: true, unique: true}, 
 	password: {type: String, required: true},
+	tipo: {type: String, required: true, enum: ['user', 'admin'], default: 'user'},
 	suscripciones: {type: Array, default:[]},
 }, {
 	timestamps: true
@@ -41,6 +42,13 @@ UserSchema.methods.compararPassword = function (password, cb){
 		}
 		cb(null, iguales);
 	});
+};
+
+UserSchema.methods.isAdministrador = function () {
+	if (this.tipo == 'admin') {
+		return true;
+	}
+	return false;
 };
 
 module.exports = mongoose.model('user', UserSchema);
