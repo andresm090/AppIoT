@@ -3,7 +3,7 @@
 <div class="row" {% if user.suscripciones.indexOf('aerogenerador/clima') === -1 %} hidden="true" {% endif %}>		
 	<div class="col-md-8 col-md-offset-0">
 		<div class="panel panel-default">
-			<div class="panel-heading">Variables Anemométricas <input class="pull-right buttonOK" id="btnState" type="radio" checked></input></div>
+			<div class="panel-heading">Variables Anemométricas</div>
 			<div class="panel-body">
 				<div class="col-md-6 col-md-offset-0">
 						<div id="containerAnemo" style="min-width: 270px; max-width: 360px; height: 260px; margin: 0 auto"></div>
@@ -31,7 +31,7 @@
 <div class="row" {% if user.suscripciones.indexOf('aerogenerador/energia') === -1 %} hidden="true" {% endif %}>
 	<div class="col-md-12 col-md-offset-0">
 		<div class="panel panel-default">
-			<div class="panel-heading">Energia</div>
+			<div class="panel-heading">Energia <input class="pull-right buttonOK" id="btnState" type="radio" checked></input></div>
 			<div class="panel-body">
 				<div class="col-md-7 col-md-offset-0">
 					<div id="containervolyAmp" style="width: 100%; height: 85%; margin: 0 auto"></div>
@@ -112,7 +112,7 @@
 	socket.on('energia', setDataE);
 	socket.on('aero/e', eventFreno);
 
-	function eventFreno(state){
+	function eventFreno(state, id){
 		pointEvent = statebarPN;
 		if (state == 1){
 			$("#btnState").removeClass("buttonOK");

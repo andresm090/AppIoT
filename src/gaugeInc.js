@@ -46,7 +46,7 @@ var gaugeInc = {
       		x: 1.7,
             y: 13,
             marker: {
-                symbol: 'url(https://www.highcharts.com/samples/graphics/sun.png)'
+                symbol: 'url(/public/images/sun.png)'
             }
         }]
     	}, {
