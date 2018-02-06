@@ -69,6 +69,10 @@ router.get('/aerogenerador/:id(*)', passportConfig.isAuthenticate, datocontrolle
 
 router.get('/getDataC/:id(*)', passportConfig.isAuthenticate, datocontroller.getTrCaracteristicas);
 router.get('/getDataTR2/:id(*)', passportConfig.isAuthenticate, datocontroller.getTrDatosTR);
+router.get('/getDataH/:id(*)', passportConfig.isAuthenticate, datocontroller.getTrDatosH);
+
+router.post('/getHistoricos', passportConfig.isAuthenticate, datocontroller.getHistoricos);
+
 //rutas para administracion 
 
 router.get('/admin', passportConfig.isAuthenticate, comunacontroller.getPanelAdministrador);

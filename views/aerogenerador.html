@@ -22,6 +22,7 @@
 	.google-visualization-table-th {
 		text-align: center;}
 </style>
+<link href="/public/stylesheets/appIoT.css" rel="stylesheet">
 
 <div class="row">
 	<div class="col-md-12">
@@ -85,7 +86,14 @@
 			$("#liH").addClass("active");
 			$("#liTR").removeClass("active");
 			$("#liCT").removeClass("active");
-			alert("Registro de historicos");
+
+			$.ajax({
+		  		url: "/getDataH/" + '{{id}}',
+		  		type: "GET",
+		  		success: function(data) {
+		  			$("#data").html(data);
+		  		}
+	  		});
 		});
 
 	});

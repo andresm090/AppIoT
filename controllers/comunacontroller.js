@@ -189,7 +189,7 @@ exports.savePanelFotovoltaico = (req, res, next) => {
 
 exports.getMapComunas = (req, res, next) => {
 
-	Comuna.find({}, (err, comunas) => {
+	Comuna.find({'activo': true}, (err, comunas) => {
 		if (err) {
 			return res.send('Ha surgido un error.');
 		} else {

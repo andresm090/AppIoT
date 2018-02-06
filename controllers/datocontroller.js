@@ -81,3 +81,28 @@ exports.getTrDatosTR = (req, res, next) => {
 
 	});
 };
+
+exports.getTrDatosH = (req, res, next) => {	
+
+	Generador.findById(req.params.id, (err, generador) => {
+		if (err) {
+			return res.send('Ha surgido un error.');
+		} else {
+			res.locals.user = req.user;
+			return res.render('tr_historicos');
+		}
+
+	});
+};
+
+exports.getHistoricos = (req, res, next) => {	
+
+	// recuperar valores del form
+	var i = req.body.fechaI;
+	var f = req.body.fechaF;
+	var m = req.body.media;
+
+	//devolver vista con los graficos
+	return res.send('Graficos');
+	
+};
