@@ -71,7 +71,7 @@ router.get('/getDataC/:id(*)', passportConfig.isAuthenticate, datocontroller.get
 router.get('/getDataTR2/:id(*)', passportConfig.isAuthenticate, datocontroller.getTrDatosTR);
 router.get('/getDataH/:id(*)', passportConfig.isAuthenticate, datocontroller.getTrDatosH);
 
-router.post('/getHistoricos', passportConfig.isAuthenticate, datocontroller.getHistoricos);
+router.post('/getHistoricos/:id(*)', passportConfig.isAuthenticate, datocontroller.getHistoricos);
 
 //rutas para administracion 
 

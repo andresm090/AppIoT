@@ -1,0 +1,68 @@
+<script src="https://code.highcharts.com/modules/windbarb.js"></script>
+<div class="row">		
+	<div class="col-md-12 col-md-offset-0">
+		<div class="panel panel-primary">
+			<div class="panel-heading">Velocidad y direccion de viento <a class="pull-right glyphicon glyphicon-triangle-bottom" data-toggle="collapse" href="#collapsevelDir"></a></div>
+			<div id="collapsevelDir" class="panel-collapse collapse in">
+				<div class="panel-body">
+					<div class="col-md-12 col-md-offset-0">
+						<div id="container1" style="min-width: 300px; max-width: 800px; height: 300px; margin: 0 auto"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12 col-md-offset-0">
+		<div class="panel panel-info">
+			<div class="panel-heading">Frecuencia acumulada de Direccion de viento <a class="pull-right glyphicon glyphicon-triangle-bottom" data-toggle="collapse" href="#collapseDir"></a></div>
+			<div id="collapseDir" class="panel-collapse collapse in">
+				<div class="panel-body">
+					<div class="col-md-12 col-md-offset-0">
+						<div id="containerWindRose" style="min-width: 270px; max-width: 360px; height: 260px; margin: 0 auto"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12 col-md-offset-0">
+		<div class="panel panel-danger">
+			<div class="panel-heading">Radiacion solar <a class="pull-right glyphicon glyphicon-triangle-bottom" data-toggle="collapse" href="#collapseRad"></a></div>
+			<div id="collapseRad" class="panel-collapse collapse in">
+				<div class="panel-body">
+					<div class="col-md-12 col-md-offset-0">
+						<div id="containerArea" style="min-width: 300px; max-width: 800px; height: 300px; margin: 0 auto"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12 col-md-offset-0">
+		<div class="panel panel-warning">
+			<div class="panel-heading">Potencias <a class="pull-right glyphicon glyphicon-triangle-bottom" data-toggle="collapse" href="#collapseP"></a></div>
+			<div id="collapseP" class="panel-collapse collapse in">
+				<div class="panel-body">
+					<div class="col-md-12 col-md-offset-0">
+						<div id="containerLinea" style="min-width: 300px; max-width: 800px; height: 300px; margin: 0 auto"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	var grafico1 = Highcharts.chart('container1', {{JSON.stringify(graphicWindBars)}},);
+	var windrose = Highcharts.chart('containerWindRose', {{JSON.stringify(gaugeWR)}},);
+	var grafico2 = Highcharts.chart('containerArea', {{JSON.stringify(graphicArea)}},);
+	var grafico3 = Highcharts.chart('containerLinea', {{JSON.stringify(graphicLine)}},);
+
+</script>

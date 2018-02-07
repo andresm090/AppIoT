@@ -11,6 +11,9 @@ var gaugeInc = require('../src/gaugeInc');
 var gaugeIncSeries = require('../src/gaugeIncSeries');
 var statebarPN = require('../src/statebarPN');
 var stateVbb = require('../src/stateVbb');
+var graphicWindBars = require('../src/graphicWindBars');
+var graphicArea = require('../src/graphicArea');
+var graphicLine = require('../src/graphicLine');
 
 /*exports.getfPanelControl = (req, res, next) => {
 
@@ -89,7 +92,10 @@ exports.getTrDatosH = (req, res, next) => {
 			return res.send('Ha surgido un error.');
 		} else {
 			res.locals.user = req.user;
-			return res.render('tr_historicos');
+			if (generador.isAerogenerador()){
+				return res.render('tr_historicos', {clima: 'aerogenerador/clima', energia: 'aerogenerador/energia', datos: 0, id: generador.id});
+			}
+			return res.render('tr_historicos', {clima: 'fotovoltaica/clima', energia: 'fotovoltaica/energia', datos: 1, id: generador.id});
 		}
 
 	});
@@ -102,7 +108,7 @@ exports.getHistoricos = (req, res, next) => {
 	var f = req.body.fechaF;
 	var m = req.body.media;
 
-	//devolver vista con los graficos
-	return res.send('Graficos');
+	//devolver vista con los graficos - rta_historicos - 
+	return res.render('rta_historicos', {graphicWindBars: graphicWindBars, gaugeWR: gaugeWR, graphicArea: graphicArea, graphicLine: graphicLine});
 	
 };

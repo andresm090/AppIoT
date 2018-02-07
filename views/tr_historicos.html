@@ -12,20 +12,26 @@
 						<div class="panel-heading clearfix"><strong>Periodo de muestreo</strong><hr></div>
 						<form class="form-inline" id="formH" method="post">
 							<div class="col-md-4">
-								<div {% if user.suscripciones.indexOf('aerogenerador/clima') === -1 %} hidden="true" {% endif %}>
+								<div {% if user.suscripciones.indexOf(clima) === -1 %} hidden="true" {% endif %}>
 									<h5><strong>Variables climaticas</strong></h5> 
 									<label class="checkbox-inline">
 		  								<input type="checkbox" id="temp" name="temp"> Temperatura
 									</label>
-			  						<label class="checkbox-inline">
-		  								<input type="checkbox" id="vel" name="vel"> Vel. Viento
-									</label>
-			  						<label class="checkbox-inline">
-		  								<input type="checkbox" id="dir" name="dir"> Dir. Viento
-									</label>
+									{% if datos == 0 %}
+				  						<label class="checkbox-inline">
+			  								<input type="checkbox" id="vel" name="vel"> Vel. Viento
+										</label>
+				  						<label class="checkbox-inline">
+			  								<input type="checkbox" id="dir" name="dir"> Dir. Viento
+										</label>
+									{% else %}
+										<label class="checkbox-inline">
+			  								<input type="checkbox" id="rad" name="rad"> Radiación solar
+										</label>
+									{% endif %}
 									<hr>
 								</div>
-								<div {% if user.suscripciones.indexOf('aerogenerador/energia') === -1 %} hidden="true" {% endif %}>
+								<div {% if user.suscripciones.indexOf(energia) === -1 %} hidden="true" {% endif %}>
 									<h5><strong>Variables Energia</strong></h5> 
 									<label class="checkbox-inline">
 		  								<input type="checkbox" id="pg" name="pg"> Potencia Generada
@@ -71,18 +77,14 @@
 		</div>
 	</div>
 </div>
-
-<div class="row">
-
-	<div id="historicos">
-</div>
-
+<div id="historicos">
+<script src="https://code.highcharts.com/modules/windbarb.js"></script>
 <script>
 	
 function sendForm() {
 
 	$.ajax({
-			url: "/getHistoricos",
+			url: "/getHistoricos/" + '{{id}}',
 		  	type: "POST",
 		  	data: $('#formH').serialize(), 
 		  	success: function(data) {
