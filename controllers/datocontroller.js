@@ -103,12 +103,107 @@ exports.getTrDatosH = (req, res, next) => {
 
 exports.getHistoricos = (req, res, next) => {	
 
-	// recuperar valores del form
+	var graficos = [];
+	var elemento;
+	// criterios de busqueda para los datos
 	var i = req.body.fechaI;
 	var f = req.body.fechaF;
 	var m = req.body.media;
 
+	if (req.body.temp){
+		var grapic = graphicArea;
+		grapic['title'] = {text:'Temperatura'}; 
+		elemento = {
+			grafico: grapic,
+			titulo: "Temperatura",
+			collapse: 'collapseTem',
+			id: 'containerTemp' 
+		};
+		graficos.push(elemento);
+	}
+	if (req.body.vel && req.body.dir ){
+		elemento = {
+			grafico: graphicWindBars,
+			titulo: "Velocidad y direccion de viento",
+			collapse: 'collapseVelDir',
+			id: 'containerveldir' 
+		};
+		graficos.push(elemento);
+	} else {
+		if (req.body.vel){
+			elemento = {
+				grafico: graphicWindBars,
+				titulo: "Velocidad",
+				collapse: 'collapseVel',
+				id: 'containervel' 
+			};
+			graficos.push(elemento);
+		} else {
+			if (req.body.dir){
+				elemento = {
+					grafico: graphicWindBars,
+					titulo: "Direccion",
+					collapse: 'collapseDir',
+					id: 'containerdir' 
+				};
+				graficos.push(elemento);
+			}
+		}
+	}
+
+	if (req.body.rad){
+		graphicArea['title'] = {text:'Radiación Solar'};
+		elemento = {
+			grafico: graphicArea,
+			titulo: "Radiacion solar",
+			collapse: 'collapseRad',
+			id: 'containerRad' 
+		};
+		graficos.push(elemento);
+	}
+
+	if (req.body.pg){
+		elemento = {
+			grafico: graphicLine,
+			titulo: "Potencia Generadar",
+			collapse: 'collapsePg',
+			id: 'containerPg' 
+		};
+		graficos.push(elemento);
+	}
+
+	if (req.body.pc){
+		elemento = {
+			grafico: graphicLine,
+			titulo: "Potencia Consumida",
+			collapse: 'collapsePc',
+			id: 'containerPc' 
+		};
+		graficos.push(elemento);
+	}
+
+
+
+	/*var t = req.body.temp;
+	var v = req.body.vel;
+	var d = req.body.dir;
+	var r = req.body.rad;
+
+	var pg = req.body.pg;
+	var pc = req.body.pc;
+	if (t) {
+		console.log("temep: " + t);
+	}
+	if (r) {
+		console.log("rad: " + r);
+	}
+	console.log("vel: " + v);
+	console.log("dir: " + d);
+	console.log("Pg: " + pg);
+	console.log("Pc: " + pc);*/
+
 	//devolver vista con los graficos - rta_historicos - 
-	return res.render('rta_historicos', {graphicWindBars: graphicWindBars, gaugeWR: gaugeWR, graphicArea: graphicArea, graphicLine: graphicLine});
+	//return res.render('rta_historicos', {graphicWindBars: graphicWindBars, gaugeWR: gaugeWR, graphicArea: graphicArea, graphicLine: graphicLine});
+	return res.render('rta_historicos', {graficos: graficos});
 	
 };
