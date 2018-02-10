@@ -80,6 +80,10 @@ router.get('/admin', passportConfig.isAuthenticate, comunacontroller.getPanelAdm
 router.get('/admin/nuevaComuna', passportConfig.isAuthenticate, comunacontroller.getformNuevaComuna);
 router.post('/admin/nuevaComuna', passportConfig.isAuthenticate, comunacontroller.saveComuna);
 router.post('/admin/delComuna', passportConfig.isAuthenticate, comunacontroller.deleteComunas);
+router.post('/admin/activarComuna', passportConfig.isAuthenticate, comunacontroller.activateComuna);
+router.post('/admin/delComunaByID', passportConfig.isAuthenticate, comunacontroller.deleteComunaByID);
+router.get('/admin/:id(*)/modificar', passportConfig.isAuthenticate , comunacontroller.getformModifyComuna);
+router.post('/admin/:id(*)/modificar', passportConfig.isAuthenticate, comunacontroller.modifyComuna);
 
 router.get('/admin/:id(*)/nuevoaerogenerador', passportConfig.isAuthenticate , comunacontroller.getformNuevoAerogenerador);
 router.post('/admin/:id(*)/nuevoaerogenerador', passportConfig.isAuthenticate, comunacontroller.saveAerogenerador);

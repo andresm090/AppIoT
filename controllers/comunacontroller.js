@@ -61,6 +61,58 @@ exports.deleteComunas = (req, res, next) => {
 	return res.send('200 OK')
 };
 
+exports.activateComuna = (req, res, next) => {
+	Comuna.findById(req.body.idcomuna, (err, comuna) => {
+			if (comuna) {
+				comuna.activo = true;
+				comuna.save();
+			}
+
+		});
+	return res.send('200 OK')
+};
+
+exports.deleteComunaByID = (req, res, next) => {
+	Comuna.findById(req.body.idcomuna, (err, comuna) => {
+			if (comuna) {
+				comuna.activo = false;
+				comuna.save();
+			}
+
+		});
+	return res.send('200 OK')
+};
+
+exports.getformModifyComuna = (req, res, next) => {
+	Comuna.findById(req.params.id, (err, comuna) => {
+			if (comuna) {
+				res.locals.user = req.user;
+				return res.render('modifyComuna', {comuna: comuna});
+			}
+
+		});
+};
+
+exports.modifyComuna = (req, res, next) => {
+	Comuna.findById(req.params.id, (err, comuna) => {
+			if (comuna) {
+				comuna.nombre = req.body.nombre;
+				comuna.localidad = req.body.localidad;
+				comuna.departamento = req.body.departamento;
+				comuna.encargado = req.body.encargado;
+				comuna.poblacion = req.body.poblacion;
+				comuna.point_geom = [{latitud: req.body.latitud, longitud: req.body.longitud}];
+
+				comuna.save();
+
+				res.locals.user = req.user;
+				req.flash('info', 'Valores actualizados con éxito!');
+				return res.redirect('/admin');
+			}
+
+		});
+};
+
 exports.getformNuevoAerogenerador = (req, res, next) => {
 	res.locals.user = req.user;
 	return res.render('nuevo_aerogenerador');

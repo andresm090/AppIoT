@@ -137,6 +137,34 @@
 
 	};
 
+	function activarComuna(id){
+
+		$.ajax({
+	  		url: "/admin/activarComuna",
+	  		type: "POST",
+	  		data: {idcomuna: id},
+	  		success: function(data) {
+	  			location.reload();
+	  		}
+  		});
+	};
+
+	function deleteComunaByID(id){
+
+		$.ajax({
+	  		url: "/admin/delComunaByID",
+	  		type: "POST",
+	  		data: {idcomuna: id},
+	  		success: function(data) {
+	  			location.reload();
+	  		}
+  		});
+	};
+
+	function modifyComuna(id){
+		location.href = "/admin/" + id +"/modificar";
+	};
+
 </script>
 
 {% endblock %}
