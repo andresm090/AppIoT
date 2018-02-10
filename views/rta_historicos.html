@@ -3,7 +3,7 @@
 {% for grafico in graficos %}
 <div class="row">		
 	<div class="col-md-12 col-md-offset-0">
-		<div class="panel panel-primary">
+		<div class="panel {{grafico['panel']}}">
 			<div class="panel-heading">{{grafico['titulo']}} <a class="pull-right glyphicon glyphicon-triangle-bottom" data-toggle="collapse" href="#{{grafico['collapse']}}"></a></div>
 			<div id="{{grafico['collapse']}}" class="panel-collapse collapse in">
 				<div class="panel-body">
@@ -19,6 +19,8 @@
 
 <script>
 	var grafico1 = Highcharts.chart('{{grafico['id']}}', {{JSON.stringify(grafico['grafico'])}},);
+	point = grafico1.title;
+	point.update({text: '{{grafico['titulo']}}'});
 
 </script>
 

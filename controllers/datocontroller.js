@@ -111,12 +111,13 @@ exports.getHistoricos = (req, res, next) => {
 	var m = req.body.media;
 
 	if (req.body.temp){
-		var grapic = graphicArea;
-		grapic['title'] = {text:'Temperatura'}; 
+		//var grapic = graphicArea;
+		//grapic['title'] = {text:'Temperatura'}; 
 		elemento = {
-			grafico: grapic,
+			grafico: graphicArea,
 			titulo: "Temperatura",
 			collapse: 'collapseTem',
+			panel: 'panel-danger',
 			id: 'containerTemp' 
 		};
 		graficos.push(elemento);
@@ -126,6 +127,7 @@ exports.getHistoricos = (req, res, next) => {
 			grafico: graphicWindBars,
 			titulo: "Velocidad y direccion de viento",
 			collapse: 'collapseVelDir',
+			panel: 'panel-primary',
 			id: 'containerveldir' 
 		};
 		graficos.push(elemento);
@@ -135,6 +137,7 @@ exports.getHistoricos = (req, res, next) => {
 				grafico: graphicWindBars,
 				titulo: "Velocidad",
 				collapse: 'collapseVel',
+				panel: 'panel-primary',
 				id: 'containervel' 
 			};
 			graficos.push(elemento);
@@ -144,6 +147,7 @@ exports.getHistoricos = (req, res, next) => {
 					grafico: graphicWindBars,
 					titulo: "Direccion",
 					collapse: 'collapseDir',
+					panel: 'panel-info',
 					id: 'containerdir' 
 				};
 				graficos.push(elemento);
@@ -152,11 +156,12 @@ exports.getHistoricos = (req, res, next) => {
 	}
 
 	if (req.body.rad){
-		graphicArea['title'] = {text:'Radiación Solar'};
+		//graphicArea['title'] = {text:'Radiación Solar'};
 		elemento = {
 			grafico: graphicArea,
 			titulo: "Radiacion solar",
 			collapse: 'collapseRad',
+			panel: 'panel-danger',
 			id: 'containerRad' 
 		};
 		graficos.push(elemento);
@@ -167,6 +172,7 @@ exports.getHistoricos = (req, res, next) => {
 			grafico: graphicLine,
 			titulo: "Potencia Generadar",
 			collapse: 'collapsePg',
+			panel: 'panel-warning',
 			id: 'containerPg' 
 		};
 		graficos.push(elemento);
@@ -177,6 +183,7 @@ exports.getHistoricos = (req, res, next) => {
 			grafico: graphicLine,
 			titulo: "Potencia Consumida",
 			collapse: 'collapsePc',
+			panel: 'panel-warning',
 			id: 'containerPc' 
 		};
 		graficos.push(elemento);
