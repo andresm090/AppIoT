@@ -1,0 +1,30 @@
+<table class="table table-bordered table-striped">
+	<thead class="inverse">
+	    <tr>
+			<th class="text-center">#</th>
+			<th class="text-center">Tipo</th>
+			<th class="text-center">Potencia (Watt)</th>
+			<th class="text-center">Acciones</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for generador in generadores %}
+			<tr>
+				<th scope="row">{{loop.index}}</th>
+				<td class="text-center">{{generador.tipo}}</td>
+				<td class="text-center">{{generador.caracteristicas[0]['potencia']}} Watt</td>
+				<td class="text-center">
+					<button type="button" class="btn btn-success btn-xs" onclick="">
+						<span class="glyphicon glyphicon-eye-open"></span>
+					</button>
+					<button type="button" class="btn btn-info btn-xs" onclick="">
+						<span class="glyphicon glyphicon-pencil"></span>
+					</button>
+					<button type="button" class="btn btn-danger btn-xs" onclick="">
+						<span class="glyphicon glyphicon-trash"></span>
+					</button>
+				</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>

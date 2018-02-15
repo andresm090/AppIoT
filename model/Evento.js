@@ -6,6 +6,8 @@ var EventoSchema = new Schema({
 	topico: {type: String, required: true},
 	producedAt: {type: Date, required: true},
 	generador: {type: mongoose.Schema.Types.ObjectId, ref: 'generador'}, 
+}, {
+	timestamps: true
 })
 
 module.exports = mongoose.model('evento', EventoSchema);

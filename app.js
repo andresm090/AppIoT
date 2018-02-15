@@ -1,3 +1,4 @@
+global.config = require('./config/config');
 var express = require('express');
 var flash = require('connect-flash');
 var session = require('express-session');
@@ -14,8 +15,8 @@ var swig = require('swig');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var mqtt = require('./src/serverMQTT');
+var repo = require('./src/repository');
 var controllerUser = require('./controllers/usercontroller');
-global.config = require('./config/config');
 var gaugeIncSeries = require('./src/gaugeIncSeries');
 
 var MONGO_URL = 'mongodb://'+global.config.db.host+':'+global.config.db.port+'/'+global.config.db.database;
@@ -25,6 +26,7 @@ var io = require('socket.io').listen(global.config.socket.port);
 
 var connectionsArray = []; // Arreglo de socket
 var serverMQTT = new mqtt();
+var repository = new repo();
 var swig = new swig.Swig();
 
 var app = express();
@@ -97,6 +99,15 @@ serverMQTT.connect(function(clientMQTT) {
 			}
 			if (topic == "aerogenerador/clima") {
 				tmpSocket.emit('notification', value.toString());
+				repository.saveData(topic, value.toString(), function(t, v, d, err){
+					if (err){
+						console.log("Algunos datos no se guardaron");
+					} else {
+						clientMQTT.publish('temperatura', t.toString());
+						clientMQTT.publish('velocidad', v.toString());
+						clientMQTT.publish('direccion', d.toString());
+					}
+				});
 			}
 			if (topic == "fotovoltaica/clima"){
 				tmpSocket.emit('panelf/c', value.toString());	

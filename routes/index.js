@@ -79,17 +79,25 @@ router.get('/admin', passportConfig.isAuthenticate, comunacontroller.getPanelAdm
 
 router.get('/admin/nuevaComuna', passportConfig.isAuthenticate, comunacontroller.getformNuevaComuna);
 router.post('/admin/nuevaComuna', passportConfig.isAuthenticate, comunacontroller.saveComuna);
+
 router.post('/admin/delComuna', passportConfig.isAuthenticate, comunacontroller.deleteComunas);
-router.post('/admin/activarComuna', passportConfig.isAuthenticate, comunacontroller.activateComuna);
 router.post('/admin/delComunaByID', passportConfig.isAuthenticate, comunacontroller.deleteComunaByID);
+
+router.post('/admin/activarComuna', passportConfig.isAuthenticate, comunacontroller.activateComuna);
+
 router.get('/admin/:id(*)/modificar', passportConfig.isAuthenticate , comunacontroller.getformModifyComuna);
 router.post('/admin/:id(*)/modificar', passportConfig.isAuthenticate, comunacontroller.modifyComuna);
+
+router.post('/admin/getDetalle', passportConfig.isAuthenticate, comunacontroller.getModalDetalle);
+router.post('/admin/getDetalleGeneradores', passportConfig.isAuthenticate, comunacontroller.getModalDetalleGeneradores);
 
 router.get('/admin/:id(*)/nuevoaerogenerador', passportConfig.isAuthenticate , comunacontroller.getformNuevoAerogenerador);
 router.post('/admin/:id(*)/nuevoaerogenerador', passportConfig.isAuthenticate, comunacontroller.saveAerogenerador);
 
 router.get('/admin/:id(*)/nuevopanelfotovoltaico', passportConfig.isAuthenticate, comunacontroller.getformNuevoPanelFotovoltaico);
 router.post('/admin/:id(*)/nuevopanelfotovoltaico', passportConfig.isAuthenticate, comunacontroller.savePanelFotovoltaico);
+
+//rutas para gestion de mapa web
 
 router.get('/comunas', passportConfig.isAuthenticate, comunacontroller.getMapComunas);
 router.get('/comunas/:id(*)/getGeneradores', passportConfig.isAuthenticate, comunacontroller.getGeneradores);

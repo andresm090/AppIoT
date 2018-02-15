@@ -1,0 +1,57 @@
+<div class="modal-dialog" role="document">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    		<h4 class="modal-title">{{comuna.nombre}}</h4>
+  		</div>
+      	<div class="modal-body">
+      		<div class="panel panel-default">	
+      			<div class="panel-heading">Información</div>	
+				<div class="panel-body">
+      				<div class="col-md-12">
+      					<div class="panel panel-default">
+      						<div class="panel-body">
+	      						<h4><strong><u>Datos Generales</u></strong></h4>	
+					        	<ul class="list-group list-unstyled">
+					        	 	<li>
+					        		<strong> Latitud: </strong>
+					        		<span class="label label-default"> {{comuna.point_geom[0]['latitud']}}</span><br>
+					        		</li>
+					        		 <li>
+					        		<strong> Longitud: </strong>
+					        		<span class="label label-default">{{comuna.point_geom[0]['longitud']}}</span><br>
+					        		</li>
+					        		 <li>
+					        		<strong> Localidad: </strong>
+					        		<span class="label label-default">{{comuna.localidad}}</span><br>
+					        		</li>
+					        		 <li>
+					        		<strong> Departamento: </strong>
+					        		<span class="label label-default">{{comuna.departamento}}</span><br>
+					        		</li>
+					        		 <li>
+					        		<strong> Cant. de Habiatantes: </strong>
+					        		<span class="label label-default">{{comuna.poblacion}}</span><br>
+					        		</li>
+					        		 <li>
+					        		<strong> Encargado: </strong>
+					        		<span class="label label-default">{{comuna.encargado}}</span><br>		
+					        		</li>
+					        	</ul>
+					        </div>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="panel panel-default">
+							<div class="panel-heading">Equipos de generación instalados</div>
+							<div id="tableGeneradores"> </div>
+						</div>
+					</div>
+	      		</div>
+	      	</div>
+		</div>
+    	<div class="modal-footer">
+        	<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+      	</div>
+	</div>
+</div>

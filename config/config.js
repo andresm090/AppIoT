@@ -10,7 +10,7 @@ var config = {
   		port: 3300,
   	},
   	broker: {
-  		host: '192.168.2.183',
+  		host: '192.168.1.76',
   	},
   	session:{
   		password: 'Secret',
