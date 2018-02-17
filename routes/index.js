@@ -97,6 +97,10 @@ router.post('/admin/:id(*)/nuevoaerogenerador', passportConfig.isAuthenticate, c
 router.get('/admin/:id(*)/nuevopanelfotovoltaico', passportConfig.isAuthenticate, comunacontroller.getformNuevoPanelFotovoltaico);
 router.post('/admin/:id(*)/nuevopanelfotovoltaico', passportConfig.isAuthenticate, comunacontroller.savePanelFotovoltaico);
 
+router.get('/admin/:id(*)/modificarGenerador', passportConfig.isAuthenticate , comunacontroller.getformModifyGenerador);
+router.post('/admin/:id(*)/modificarGenerador', passportConfig.isAuthenticate , comunacontroller.ModifyGenerador);
+
+
 //rutas para gestion de mapa web
 
 router.get('/comunas', passportConfig.isAuthenticate, comunacontroller.getMapComunas);

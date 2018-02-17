@@ -286,3 +286,99 @@ exports.getModalDetalleGeneradores = (req, res, next) => {
 	});
 };
 
+exports.getformModifyGenerador = (req, res, next) => {
+
+	Generador.findById(req.params.id, (err, generador) => {
+		if (err) {
+			return res.send('Ha surgido un error.');
+		} else {
+			res.locals.user = req.user;
+			if (generador.isAerogenerador()){
+				return res.render('modify_aerogenerador', {generador: generador});
+			}
+			return res.render('modify_panel_fotovoltaico', {generador: generador});
+		}
+
+	});
+};
+
+exports.ModifyGenerador = (req, res, next) => {
+
+	Generador.findById(req.params.id, (err, generador) => {
+		if (err) {
+			return res.send('Ha surgido un error.');
+		} else {
+			
+			var caracteristicas;
+			var vt;
+			var at;
+
+			if (generador.isAerogenerador()){
+
+				caracteristicas = {
+					'fabricante': req.body.fabricante,
+					'modelo-serie':req.body.modelo,
+					'potencia':req.body.pn,
+					'diametro-rotor':req.body.diametro,
+					'h':req.body.h,
+					'vel-arranque':req.body.velm,
+					'vel-parada':req.body.velp,
+					'palas':req.body.npalas,
+					'generacion':req.body.generacion
+				};				
+				//return res.render('modify_aerogenerador', {generador: generador});
+			} else {
+
+				caracteristicas = {
+					'fabricante': req.body.fabricante,
+					'modelo-serie':req.body.modelo,
+					'potencia':req.body.pmax,
+					'corriente-max':req.body.ipmax,
+					'voc':req.body.voc,
+					'isc':req.body.isc,
+					'dimensiones':req.body.dimensiones,
+					'peso':req.body.peso,
+					'cant-celdas':req.body.celdas,
+					'temp-op': req.body.tempOp
+				};
+			}
+
+			var conexion = req.body.conexion;
+			var v = req.body.vol;
+			var a = req.body.capacidad;
+			var cantBat = req.body.nbaterias;
+
+			if (conexion == 'Serie'){
+				vt = v*cantBat;
+				at = a;
+			} else {
+				vt = v;
+				at = a*cantBat;
+			}
+
+			var bbaterias = {
+				'voltaje': v,
+				'capacidad': a,
+				'cant de baterias': cantBat,
+				'conexion': conexion,
+				'voltaje total': vt,
+				'capacidad total': at,
+			};
+
+			generador.caracteristicas = caracteristicas;
+			generador.bbaterias = bbaterias;
+
+			generador.save((err) => {
+				if (err){
+					next(err);
+				}
+				res.locals.user = req.user || null;
+				req.flash('info', 'Los nuevos cambios han sido registrados');
+				return res.redirect('/admin');
+			});
+
+			//return res.render('modify_panel_fotovoltaico', {generador: generador});
+		}
+
+	});
+};

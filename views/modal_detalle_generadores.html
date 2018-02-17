@@ -14,13 +14,13 @@
 				<td class="text-center">{{generador.tipo}}</td>
 				<td class="text-center">{{generador.caracteristicas[0]['potencia']}} Watt</td>
 				<td class="text-center">
-					<button type="button" class="btn btn-success btn-xs" onclick="">
+					<button type="button" class="btn btn-success btn-xs"  disabled onclick="">
 						<span class="glyphicon glyphicon-eye-open"></span>
 					</button>
-					<button type="button" class="btn btn-info btn-xs" onclick="">
+					<button type="button" class="btn btn-info btn-xs" onclick="modifyGenerador(&quot;{{generador.id}}&quot;)">
 						<span class="glyphicon glyphicon-pencil"></span>
 					</button>
-					<button type="button" class="btn btn-danger btn-xs" onclick="">
+					<button type="button" class="btn btn-danger btn-xs" disabled onclick="deleteGenerador(&quot;{{generador.id}}&quot;)">
 						<span class="glyphicon glyphicon-trash"></span>
 					</button>
 				</td>
@@ -28,3 +28,22 @@
 		{% endfor %}
 	</tbody>
 </table>
+
+<script> 
+
+	function modifyGenerador(id) {
+		location.href = "/admin/" + id +"/modificarGenerador";
+	};
+
+	function deleteGenerador(id) {
+		$.ajax({
+	  		url: "/admin/delGenerador",
+	  		type: "POST",
+	  		data: {id: id},
+	  		success: function(data) {
+	  			location.reload();
+	  		}
+  		});
+	};
+
+</script>
