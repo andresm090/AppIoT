@@ -4,6 +4,7 @@ var controllerUser = require('../controllers/usercontroller');
 var topicontroller = require('../controllers/topicontroller');
 var comunacontroller = require('../controllers/comunacontroller');
 var datocontroller = require('../controllers/datocontroller');
+var generadorcontroller = require('../controllers/generadorcontroller');
 var passportConfig = require('../config/passport');
 
 var Comuna = require('../model/Comuna');
@@ -91,14 +92,17 @@ router.post('/admin/:id(*)/modificar', passportConfig.isAuthenticate, comunacont
 router.post('/admin/getDetalle', passportConfig.isAuthenticate, comunacontroller.getModalDetalle);
 router.post('/admin/getDetalleGeneradores', passportConfig.isAuthenticate, comunacontroller.getModalDetalleGeneradores);
 
-router.get('/admin/:id(*)/nuevoaerogenerador', passportConfig.isAuthenticate , comunacontroller.getformNuevoAerogenerador);
-router.post('/admin/:id(*)/nuevoaerogenerador', passportConfig.isAuthenticate, comunacontroller.saveAerogenerador);
+router.get('/admin/:id(*)/nuevoaerogenerador', passportConfig.isAuthenticate , generadorcontroller.getformNuevoAerogenerador);
+router.post('/admin/:id(*)/nuevoaerogenerador', passportConfig.isAuthenticate, generadorcontroller.saveAerogenerador);
 
-router.get('/admin/:id(*)/nuevopanelfotovoltaico', passportConfig.isAuthenticate, comunacontroller.getformNuevoPanelFotovoltaico);
-router.post('/admin/:id(*)/nuevopanelfotovoltaico', passportConfig.isAuthenticate, comunacontroller.savePanelFotovoltaico);
+router.get('/admin/:id(*)/nuevopanelfotovoltaico', passportConfig.isAuthenticate, generadorcontroller.getformNuevoPanelFotovoltaico);
+router.post('/admin/:id(*)/nuevopanelfotovoltaico', passportConfig.isAuthenticate, generadorcontroller.savePanelFotovoltaico);
 
-router.get('/admin/:id(*)/modificarGenerador', passportConfig.isAuthenticate , comunacontroller.getformModifyGenerador);
-router.post('/admin/:id(*)/modificarGenerador', passportConfig.isAuthenticate , comunacontroller.ModifyGenerador);
+router.get('/admin/:id(*)/modificarGenerador', passportConfig.isAuthenticate , generadorcontroller.getformModifyGenerador);
+router.post('/admin/:id(*)/modificarGenerador', passportConfig.isAuthenticate , generadorcontroller.ModifyGenerador);
+
+router.post('/admin/delGenerador', passportConfig.isAuthenticate, generadorcontroller.deleteGenerador);
+router.post('/admin/activarGenerador', passportConfig.isAuthenticate, generadorcontroller.activateGenerador);
 
 
 //rutas para gestion de mapa web

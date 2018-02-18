@@ -9,20 +9,26 @@
 	</thead>
 	<tbody>
 		{% for generador in generadores %}
-			<tr>
-				<th scope="row">{{loop.index}}</th>
+			<tr {% if !generador.activo %} class="danger" {% endif %}>
+				<th scope="row">{% if generador.activo %} {{loop.index}} {% else %} <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> {% endif %}</th>
 				<td class="text-center">{{generador.tipo}}</td>
 				<td class="text-center">{{generador.caracteristicas[0]['potencia']}} Watt</td>
 				<td class="text-center">
 					<button type="button" class="btn btn-success btn-xs"  disabled onclick="">
 						<span class="glyphicon glyphicon-eye-open"></span>
 					</button>
-					<button type="button" class="btn btn-info btn-xs" onclick="modifyGenerador(&quot;{{generador.id}}&quot;)">
+					<button type="button" class="btn btn-info btn-xs" {% if !generador.activo %} disabled {% endif %} onclick="modifyGenerador(&quot;{{generador.id}}&quot;)">
 						<span class="glyphicon glyphicon-pencil"></span>
 					</button>
-					<button type="button" class="btn btn-danger btn-xs" disabled onclick="deleteGenerador(&quot;{{generador.id}}&quot;)">
-						<span class="glyphicon glyphicon-trash"></span>
-					</button>
+					{% if generador.activo %}
+						<button type="button" class="btn btn-danger btn-xs" onclick="deleteGenerador(&quot;{{generador.id}}&quot;)">
+							<span class="glyphicon glyphicon-trash"></span>
+						</button>
+					{% else %}
+						<button type="button" class="btn btn-success btn-xs" onclick="activarGenerador(&quot;{{generador.id}}&quot;)">
+							<span class="glyphicon glyphicon-upload"></span>
+						</button>
+					{% endif %}
 				</td>
 			</tr>
 		{% endfor %}
@@ -35,15 +41,30 @@
 		location.href = "/admin/" + id +"/modificarGenerador";
 	};
 
+
 	function deleteGenerador(id) {
 		$.ajax({
 	  		url: "/admin/delGenerador",
 	  		type: "POST",
 	  		data: {id: id},
 	  		success: function(data) {
-	  			location.reload();
+	  			$('#modalDetalle').modal('hide');
+	  		}
+  		});  		
+	};
+
+	function activarGenerador (id) {
+
+		$.ajax({
+	  		url: "/admin/activarGenerador",
+	  		type: "POST",
+	  		data: {id: id},
+	  		success: function(data) {
+	  			$('#modalDetalle').modal('hide');
 	  		}
   		});
+
 	};
+
 
 </script>

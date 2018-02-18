@@ -6,6 +6,7 @@ var GeneradorSchema = new Schema({
 	caracteristicas: {type: Array, default:[]},
 	bbaterias: {type: Array, default:[]},
 	comuna: {type: mongoose.Schema.Types.ObjectId, ref: 'comuna'},
+	activo: {type: Boolean, default: true},
 })
 
 GeneradorSchema.methods.isAerogenerador = function (){

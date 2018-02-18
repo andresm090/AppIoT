@@ -13,9 +13,6 @@
   </style>
 <script>
 
-	var socket = io.connect('http://localhost:3300', { 'forceNew': true });
-	socket.on('aero/e', eventFreno);
-
 	var map;
 	var makers = [];
 
@@ -73,23 +70,30 @@
 		alert(e.id);*/
 	}
 
-	function eventFreno(state, id){
+	{% if user.suscripciones.indexOf('aerogenerador/clima') !== -1 || user.suscripciones.indexOf('aerogenerador/energia') !== -1 %}
 
-		for (i = 0; i < makers.length; i++){
-			if (id == makers[i].id){
-				var e = makers[i];
-				if (state == 1) {
-					e.icon = '/public/images/boton_rojo.png';
-				}
-				if (state == 0) {
-					e.icon = '/public/images/boton_verde.png';
-				}
-				map.removeMarker(makers[i]);
-				map.addMarker(e);
+		var socket = io.connect('http://localhost:3300', { 'forceNew': true });
+		socket.on('aero/e', eventFreno);
 
-			}
-		}		
-	}
+		function eventFreno(state, id){
+
+			for (i = 0; i < makers.length; i++){
+				if (id == makers[i].id){
+					var e = makers[i];
+					if (state == 1) {
+						e.icon = '/public/images/boton_rojo.png';
+					}
+					if (state == 0) {
+						e.icon = '/public/images/boton_verde.png';
+					}
+					map.removeMarker(makers[i]);
+					map.addMarker(e);
+
+				}
+			}		
+		}
+
+	{% endif %}
 
 </script>
 
