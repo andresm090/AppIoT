@@ -158,10 +158,17 @@ io.on('connection', function(socket){
 });
 
 // catch 404 and forward to error handler
+//app.use(function(req, res, next) {
+//  var err = new Error('Not Found');
+//  err.status = 404;
+  //next(err);
+//});
+
+//Captura el status 404 y renderiza a la vista correspondiente
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+  //res.status(404).send('Sorry cant find that!');
+  res.locals.user = req.user;
+  res.status(404).render('404');
 });
 
 // error handler

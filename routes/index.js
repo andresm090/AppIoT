@@ -141,7 +141,6 @@ router.get('/ultimo', function(req, res, next) {
 	});
 });
 
-
 /*router.get('/secuencia', function(req, res, next) {
 	var event = new Evento({
 			valor: 15,
