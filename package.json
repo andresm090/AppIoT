@@ -20,6 +20,7 @@
     "jquery": "^3.2.1",
     "mongodb": "^2.2.33",
     "mongoose": "^4.12.4",
+    "mongoose-auto-number": "^2.0.0",
     "morgan": "~1.9.0",
     "mqtt": "^2.13.1",
     "npm": "^5.5.1",

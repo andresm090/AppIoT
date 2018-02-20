@@ -232,11 +232,11 @@ exports.deleteGenerador = (req, res, next) => {
 			return res.send('Ha surgido un error.');
 		} else {
 			generador.activo = false;
-			generador.save()
+			generador.save();
 		}
 	});
 	
-	return res.send('200 OK')
+	return res.send('200 OK');
 };
 
 exports.activateGenerador = (req, res, next) => {
@@ -245,9 +245,51 @@ exports.activateGenerador = (req, res, next) => {
 			return res.send('Ha surgido un error.');
 		} else {
 			generador.activo = true;
-			generador.save()
+			generador.save();
 		}
 
 	});
-	return res.send('200 OK')
+	return res.send('200 OK');
+};
+
+exports.getDetalleGenerador = (req, res, next) => {
+	Generador.findById(req.params.id, (err, generador) => {
+		if (err) {
+			return res.send('Ha surgido un error.');
+		} else {
+			res.locals.user = req.user || null;
+			Comuna.populate(generador, {path: "comuna"}, (err, generador) => {
+				if (err){
+					return res.send('Ha surgido un error.');
+				}
+				var sensoresC;
+				var sensoresP;
+
+				if (generador.isAerogenerador()) {
+					sensoresC = {
+						Anemometro: "C"+generador.comuna.id_topic+"/Ag"+generador.id_topic+"/C/Vm",
+						veleta: "C"+generador.comuna.id_topic+"/Ag"+generador.id_topic+"/C/Dv",
+						Termometro: "C"+generador.comuna.id_topic+"/Ag"+generador.id_topic+"/C/T",
+					};
+					sensoresP = {
+						"Voltimetro (Banco de baterias)": "C"+generador.comuna.id_topic+"/Ag"+generador.id_topic+"/P/Vbb",
+						"Watimetro (Potencia Generada)": "C"+generador.comuna.id_topic+"/Ag"+generador.id_topic+"/P/Pg",
+						"Amperimetro (Amperaje consumido)": "C"+generador.comuna.id_topic+"/Ag"+generador.id_topic+"/P/Ac",
+					};
+				} else {
+					sensoresC = {
+						Piranometro: "C"+generador.comuna.id_topic+"/Ps"+generador.id_topic+"/C/Rs",
+						Termometro: "C"+generador.comuna.id_topic+"/Ps"+generador.id_topic+"/C/T",
+					};
+					sensoresP = {
+						"Voltimetro (Banco de baterias)": "C"+generador.comuna.id_topic+"/Ps"+generador.id_topic+"/P/Vbb",
+						"Watimetro (Potencia Generada)": "C"+generador.comuna.id_topic+"/Ps"+generador.id_topic+"/P/Pg",
+						"Amperimetro (Amperaje consumido)": "C"+generador.comuna.id_topic+"/Ps"+generador.id_topic+"/P/Ac",
+					};
+				}
+				return res.render('panel_detalle_generadores', {generador: generador, sensoresC: sensoresC, sensoresP:sensoresP});	
+			});
+		}
+
+	});
 };

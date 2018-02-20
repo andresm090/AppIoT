@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var autoNumber = require('mongoose-auto-number');
 var Schema = mongoose.Schema;
 
 var GeneradorSchema = new Schema({
@@ -7,6 +8,7 @@ var GeneradorSchema = new Schema({
 	bbaterias: {type: Array, default:[]},
 	comuna: {type: mongoose.Schema.Types.ObjectId, ref: 'comuna'},
 	activo: {type: Boolean, default: true},
+	id_topic: {type: Number, autoIncrement: true}
 })
 
 GeneradorSchema.methods.isAerogenerador = function (){
@@ -16,5 +18,5 @@ GeneradorSchema.methods.isAerogenerador = function (){
 	return false;
 };
 
-
+GeneradorSchema.plugin(autoNumber.plugin, 'generador');
 module.exports = mongoose.model('generador', GeneradorSchema);

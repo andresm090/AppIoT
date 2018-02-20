@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Generador = require('../model/Generador');
+var autoNumber = require('mongoose-auto-number');
 var Schema = mongoose.Schema;
 
 var ComunaSchema = new Schema({
@@ -10,6 +11,7 @@ var ComunaSchema = new Schema({
 	poblacion: {type: Number, min: 1},
 	point_geom: [{latitud: Number, longitud: Number}],
 	activo: {type: Boolean, default: true},
+	id_topic: {type: Number, autoIncrement: true}
 })
 
 ComunaSchema.methods.getAerogeneradores = function (){
@@ -36,4 +38,5 @@ ComunaSchema.virtual('fullName').get(function () {
   return p;
 });
 
+ComunaSchema.plugin(autoNumber.plugin, 'comuna');
 module.exports = mongoose.model('comuna', ComunaSchema);

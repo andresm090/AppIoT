@@ -14,7 +14,7 @@
 				<td class="text-center">{{generador.tipo}}</td>
 				<td class="text-center">{{generador.caracteristicas[0]['potencia']}} Watt</td>
 				<td class="text-center">
-					<button type="button" class="btn btn-success btn-xs"  disabled onclick="">
+					<button type="button" class="btn btn-success btn-xs" onclick="detalleGenerador(&quot;{{generador.id}}&quot;)">
 						<span class="glyphicon glyphicon-eye-open"></span>
 					</button>
 					<button type="button" class="btn btn-info btn-xs" {% if !generador.activo %} disabled {% endif %} onclick="modifyGenerador(&quot;{{generador.id}}&quot;)">
@@ -38,9 +38,12 @@
 <script> 
 
 	function modifyGenerador(id) {
-		location.href = "/admin/" + id +"/modificarGenerador";
+		location.href = "/admin/" + id + "/modificarGenerador";
 	};
 
+	function detalleGenerador(id) {
+		location.href = "/admin/" + id + "/detalleGenerador"
+	};
 
 	function deleteGenerador(id) {
 		$.ajax({

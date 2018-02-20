@@ -18,6 +18,7 @@ var mqtt = require('./src/serverMQTT');
 var repo = require('./src/repository');
 var controllerUser = require('./controllers/usercontroller');
 var gaugeIncSeries = require('./src/gaugeIncSeries');
+var autoNumber = require('mongoose-auto-number');
 
 var MONGO_URL = 'mongodb://'+global.config.db.host+':'+global.config.db.port+'/'+global.config.db.database;
 
@@ -38,6 +39,8 @@ mongoose.connection.on('error', (err) => {
 	throw err;
 	process.exit(1);
 });
+
+autoNumber.init(mongoose.connection);
 
 //Configuracion para manejo de sesiones
 app.use(session ({

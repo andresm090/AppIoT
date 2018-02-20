@@ -10,6 +10,7 @@ var passportConfig = require('../config/passport');
 var Comuna = require('../model/Comuna');
 var Generador = require('../model/Generador');
 var User = require('../model/User');
+var Evento = require('../model/Evento');
 var mongoose = require('mongoose');
 
 
@@ -104,6 +105,7 @@ router.post('/admin/:id(*)/modificarGenerador', passportConfig.isAuthenticate , 
 router.post('/admin/delGenerador', passportConfig.isAuthenticate, generadorcontroller.deleteGenerador);
 router.post('/admin/activarGenerador', passportConfig.isAuthenticate, generadorcontroller.activateGenerador);
 
+router.get('/admin/:id(*)/detalleGenerador', passportConfig.isAuthenticate , generadorcontroller.getDetalleGenerador);
 
 //rutas para gestion de mapa web
 
@@ -138,5 +140,22 @@ router.get('/ultimo', function(req, res, next) {
   	res.json(user);
 	});
 });
+
+
+/*router.get('/secuencia', function(req, res, next) {
+	var event = new Evento({
+			valor: 15,
+			topico: 'topic',
+			producedAt: new Date(),
+			generador: '5a445d2a2c45b60ae8089cca', 
+	});
+  	
+  	event.save((err) => {
+			if (err){
+				errores = true;
+			}
+		});
+  	res.send('OK.');
+});*/
 
 module.exports = router;
