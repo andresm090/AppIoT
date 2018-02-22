@@ -1,6 +1,10 @@
 var passport = require('passport');
 var Comuna = require('../model/Comuna');
 var Generador = require('../model/Generador');
+var sensoresCA = require('../src/sensoresCA');
+var sensoresCP = require('../src/sensoresCP');
+var sensoresE = require('../src/sensoresE');
+
 
 exports.getformNuevoAerogenerador = (req, res, next) => {
 	res.locals.user = req.user;
@@ -51,6 +55,9 @@ exports.saveAerogenerador = (req, res, next) => {
 		caracteristicas: caracteristicas,
 		bbaterias: bbaterias,
 		comuna: req.params.id,
+		sufijo: 'Ag',
+		sensoresC: sensoresCA,
+		sensoresP: sensoresE,
 	});
 
 	generador.save((err) => {
@@ -114,6 +121,9 @@ exports.savePanelFotovoltaico = (req, res, next) => {
 		caracteristicas: caracteristicas,
 		bbaterias: bbaterias,
 		comuna: req.params.id,
+		sufijo: 'Ps',
+		sensoresC: sensoresCP,
+		sensoresP: sensoresE,
 
 	});
 
@@ -262,33 +272,97 @@ exports.getDetalleGenerador = (req, res, next) => {
 				if (err){
 					return res.send('Ha surgido un error.');
 				}
-				var sensoresC;
-				var sensoresP;
-
-				if (generador.isAerogenerador()) {
-					sensoresC = {
-						Anemometro: "C"+generador.comuna.id_topic+"/Ag"+generador.id_topic+"/C/Vm",
-						veleta: "C"+generador.comuna.id_topic+"/Ag"+generador.id_topic+"/C/Dv",
-						Termometro: "C"+generador.comuna.id_topic+"/Ag"+generador.id_topic+"/C/T",
-					};
-					sensoresP = {
-						"Voltimetro (Banco de baterias)": "C"+generador.comuna.id_topic+"/Ag"+generador.id_topic+"/P/Vbb",
-						"Watimetro (Potencia Generada)": "C"+generador.comuna.id_topic+"/Ag"+generador.id_topic+"/P/Pg",
-						"Amperimetro (Amperaje consumido)": "C"+generador.comuna.id_topic+"/Ag"+generador.id_topic+"/P/Ac",
-					};
-				} else {
-					sensoresC = {
-						Piranometro: "C"+generador.comuna.id_topic+"/Ps"+generador.id_topic+"/C/Rs",
-						Termometro: "C"+generador.comuna.id_topic+"/Ps"+generador.id_topic+"/C/T",
-					};
-					sensoresP = {
-						"Voltimetro (Banco de baterias)": "C"+generador.comuna.id_topic+"/Ps"+generador.id_topic+"/P/Vbb",
-						"Watimetro (Potencia Generada)": "C"+generador.comuna.id_topic+"/Ps"+generador.id_topic+"/P/Pg",
-						"Amperimetro (Amperaje consumido)": "C"+generador.comuna.id_topic+"/Ps"+generador.id_topic+"/P/Ac",
-					};
-				}
-				return res.render('panel_detalle_generadores', {generador: generador, sensoresC: sensoresC, sensoresP:sensoresP});	
+				
+				return res.render('panel_detalle_generadores', {generador: generador});	
 			});
+		}
+
+	});
+};
+
+// metodo que almacena aquellos sensores que publicaran los datos procesados a otros dashboard
+// Estado incompleto (No funciona)
+exports.savePreferenciasPublish = (req, res, next) => {
+	Generador.findById(req.params.id, (err, generador) => {
+		if (err) {
+			return res.send('Ha surgido un error.');
+			//return "ha ocurrido un erro";
+		} else {
+			//console.log(req.body.sC1);
+			//console.log (generador.sensoresC[0]['re_publica']);
+			if (generador.isAerogenerador()){
+
+				var senCA = [{
+					nombre: 'Anemometro',
+					unidad: 'm/s',
+					tipo: 'C',
+					sufijo: 'Vm',
+					activo: true,
+					re_publica: req.body.sC0,
+					topico: 'velocidad'
+				}, {
+					nombre: 'Veleta',
+					unidad: '°',
+					tipo: 'C',
+					sufijo: 'Dv',
+					activo: true,
+					re_publica: req.body.sC1,
+					topico: 'direccionViento'
+				}, {
+					nombre: 'Termometro',
+					unidad: 'C°',
+					tipo: 'C',
+					sufijo: 'T',
+					activo: true,
+					re_publica: req.body.sC2,
+					topico: 'temperatura'
+				}];
+
+				generador.sensoresC = senCA;
+			} else {
+				var senCP = [{
+					nombre: 'Piranometro',
+					unidad: 'Kw/m²',
+					tipo: 'C',
+					sufijo: 'Rs',
+					activo: true,
+					re_publica: false,
+					topico: 'radiacion'
+				}, {
+					nombre: 'Termometro',
+					unidad: 'C°',
+					tipo: 'C',
+					sufijo: 'T',
+					activo: true,
+					re_publica: false,
+					topico: 'temperatura'
+				}];
+
+				generador.sensoresC = senCP;
+			}
+
+			//console.log (generador.sensoresC[0]['re_publica']);
+			
+			//console.log(generador.sensoresC[0]);
+			
+			//generador.save();
+			/*generador.sensoresC[1]['re_publica'] = req.body.sC1;
+
+			if (generador.isAerogenerador()){
+				generador.sensoresC[2]['re_publica'] = req.body.sC2;
+			}
+
+			generador.sensoresP[0]['re_publica'] = req.body.sP0;
+			generador.sensoresP[1]['re_publica'] = req.body.sP1;
+			generador.sensoresP[2]['re_publica'] = req.body.sP2;*/
+			generador.save((err) => {
+				if (err){
+					console.log("errores");
+					return res.send('Ha surgido un error.');	
+				}		
+			});
+			res.locals.user = req.user || null;
+			return res.send('Ha surgido un error.');		
 		}
 
 	});

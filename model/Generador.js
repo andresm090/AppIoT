@@ -8,7 +8,10 @@ var GeneradorSchema = new Schema({
 	bbaterias: {type: Array, default:[]},
 	comuna: {type: mongoose.Schema.Types.ObjectId, ref: 'comuna'},
 	activo: {type: Boolean, default: true},
-	id_topic: {type: Number, autoIncrement: true}
+	id_topic: {type: Number, autoIncrement: true},
+	sufijo: {type: String, required: true, enum: ['Ag', 'Ps']},
+	sensoresC: {type: Array, default:[]},
+	sensoresP: {type: Array, default:[]},
 })
 
 GeneradorSchema.methods.isAerogenerador = function (){

@@ -2,7 +2,7 @@
 <div class="row" {% if user.suscripciones.indexOf('aerogenerador/clima') === -1 %} hidden="true" {% endif %}>		
 	<div class="col-md-8 col-md-offset-0">
 		<div class="panel panel-default">
-			<div class="panel-heading">Variables Anemométricas</div>
+			<div class="panel-heading"><span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> <strong>Variables Anemométricas</strong></div>
 			<div class="panel-body">
 				<div class="col-md-6 col-md-offset-0">
 						<div id="containerAnemo" style="min-width: 270px; max-width: 360px; height: 260px; margin: 0 auto"></div>
@@ -30,7 +30,7 @@
 <div class="row" {% if user.suscripciones.indexOf('aerogenerador/energia') === -1 %} hidden="true" {% endif %}>
 	<div class="col-md-12 col-md-offset-0">
 		<div class="panel panel-default">
-			<div class="panel-heading">Energia <input class="pull-right buttonOK" id="btnState" type="radio" checked></input></div>
+			<div class="panel-heading"><span class="glyphicon glyphicon-scale" aria-hidden="true"></span> <strong>Energia </strong><input class="pull-right buttonOK" id="btnState" type="radio" checked></input></div>
 			<div class="panel-body">
 				<div class="col-md-7 col-md-offset-0">
 					<div id="containervolyAmp" style="width: 100%; height: 85%; margin: 0 auto"></div>
@@ -59,7 +59,7 @@
 
 	<div class="col-md-5 col-md-offset-0">
 		<div class="panel panel-default">
-			<div class="panel-heading">Banco de Baterias</div>
+			<div class="panel-heading"><span class="glyphicon glyphicon-flash" aria-hidden="true"></span> <strong>Banco de Baterias</strong></div>
 			<div class="panel-body">
 				<div id="containerstateVbb" style="min-width: 210px; max-width: 240px; margin: 0 auto"></div>
 			</div>
@@ -68,7 +68,7 @@
 
 	<div class="col-md-7 col-md-offset-0">
 		<div class="panel panel-default">
-			<div class="panel-heading">Especificaciones del Banco de Baterias</div>
+			<div class="panel-heading"><span class="glyphicon glyphicon-flash" aria-hidden="true"></span> <strong>Especificaciones del Banco de Baterias</strong></div>
 			<div class="panel-body panelBB">
 				<div id="tableBB"></div>
 			</div>

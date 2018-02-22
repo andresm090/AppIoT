@@ -69,42 +69,89 @@
 </div>
 
 <div class="row">
-	<div class="col-md-8">
+	<div class="col-md-12">
 		<div class="panel panel-default">
 			<div class="panel-heading"><span class="glyphicon glyphicon-scale" aria-hidden="true"></span> <strong>Sensores y Suscripciones</strong></div>
 			<div class="panel-body">
-				<table class="table table-bordered">
-					<thead class="inverse">
-					    <tr>
-							<th class="text-center info">Sensores climaticos</th>
-							<th class="text-center info">Topico</th>
-						</tr>
-					</thead>
-					<tbody class="text-center">
-						{% for c in sensoresC %}
-							<tr>
-								<td>{{loop.key}}</td>
-								<td>{{c}}</td>
-							</tr>
-						{% endfor %}
-						<tr>
-							<th class="text-center warning">Sensores electricos</th>
-							<th class="text-center warning">Topico</td>
-						</tr>
-						{% for p in sensoresP %}
-							<tr>
-								<td>{{loop.key}}</td>
-								<td>{{p}}</td>
-							</tr>
-						{% endfor %}
-					</tbody>
-				</table>
-
+				<div class="row">		
+					<div class="col-md-6 col-md-offset-0">
+						<table class="table table-bordered">
+							<thead class="inverse">
+							    <tr>
+									<th class="text-center info">Sensores climaticos</th>
+									<th class="text-center info">Suscripto a Topico</th>
+								</tr>
+							</thead>
+							<tbody class="text-center">
+								{% for c in generador.sensoresC %}
+									<tr>
+										<td>{{c['nombre']}}</td>
+										<td>{{"C"+generador.comuna.id_topic+"/"+generador.sufijo+generador.id_topic+"/C/"+c['sufijo']}}</td>
+									</tr>
+								{% endfor %}
+								<tr>
+									<th class="text-center warning">Sensores electricos</th>
+									<th class="text-center warning">Suscripto a Topico</th>
+								</tr>
+								{% for p in generador.sensoresP %}
+									<tr>
+										<td>{{p['nombre']}}</td>
+										<td>{{"C"+generador.comuna.id_topic+"/"+generador.sufijo+generador.id_topic+"/P/"+p['sufijo']}}</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+					<form id="formP" method="post">
+						<div class="col-md-6 col-md-offset-0">
+							<table class="table table-bordered">
+								<thead class="inverse">
+								    <tr>
+								    	<th class="text-center info">Seleccionar</th>
+										<th class="text-center info">Sensores climaticos</th>
+										<th class="text-center info">Publicacion en Topico</th>
+									</tr>
+								</thead>
+								<tbody class="text-center">
+									{% for c in generador.sensoresC %}
+										<tr>
+											<td><input class="form-check-input" type="checkbox" id=sC{{loop.key}} name=sC{{loop.key}} {% if c['re_publica'] %} checked {% endif %}></td>
+											<td>{{c['nombre']}}</td>
+											<td>{{"C"+generador.comuna.id_topic+"/"+generador.sufijo+generador.id_topic+"/"+c['topico']}}</td>
+										</tr>
+									{% endfor %}
+									<tr>
+										<th class="text-center warning">Seleccionar</th>
+										<th class="text-center warning">Sensores electricos</th>
+										<th class="text-center warning">Publicacion en Topico</th>
+									</tr>
+									{% for p in generador.sensoresP %}
+										<tr>
+											<td><input class="form-check-input" type="checkbox" id=sP{{loop.key}} name=sP{{loop.key}} {% if p['re_publica'] %} checked {% endif %}></td>
+											<td>{{p['nombre']}}</td>
+											<td>{{"C"+generador.comuna.id_topic+"/"+generador.sufijo+generador.id_topic+"/"+p['topico']}}</td>
+										</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
+						<div class="col-md-12">
+		  					<div class="form-group">
+	                  			<div class="col-md-12 col-md-offset-8">
+	                    			<button type="button" id="submit" class="btn btn-primary" disabled onclick="saveRepublicar()">
+	                        			<i class="fa fa-btn fa-sign-in"></i> Guardar Cambios
+	                        		</button>
+	                    		</div>
+	                		</div>
+		  				</div>
+					</form>
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
 <script> 
+
 var map = L.map('mapa').setView([-42, -71], 5);
 
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
@@ -112,9 +159,23 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 L.marker([{{generador.comuna.point_geom[0]['latitud']}}, {{generador.comuna.point_geom[0]['longitud']}}]).addTo(map)
-    .bindPopup('Latitud: {{generador.comuna.point_geom[0]['latitud']}} </br> longitud: {{generador.comuna.point_geom[0]['longitud']}}')
+    .bindPopup('Latitud: {{generador.comuna.point_geom[0]['latitud']}} </br> Longitud: {{generador.comuna.point_geom[0]['longitud']}}')
     .openPopup();
 
+
+function saveRepublicar() {
+
+	$.ajax({
+			url: "/admin/" + '{{generador.id}}' + "/savePreferencias",
+		  	type: "POST",
+		  	data: $('#formP').serialize(), 
+		  	success: function(data) {
+		  		//$("#historicos").html(data);
+		  		alert("hola");
+		  	}
+	  	});
+
+}
 
 </script>
 

@@ -107,6 +107,8 @@ router.post('/admin/activarGenerador', passportConfig.isAuthenticate, generadorc
 
 router.get('/admin/:id(*)/detalleGenerador', passportConfig.isAuthenticate , generadorcontroller.getDetalleGenerador);
 
+router.post('/admin/:id(*)/savePreferencias', passportConfig.isAuthenticate, generadorcontroller.savePreferenciasPublish);
+
 //rutas para gestion de mapa web
 
 router.get('/comunas', passportConfig.isAuthenticate, comunacontroller.getMapComunas);
