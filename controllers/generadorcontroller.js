@@ -281,7 +281,7 @@ exports.getDetalleGenerador = (req, res, next) => {
 };
 
 // metodo que almacena aquellos sensores que publicaran los datos procesados a otros dashboard
-// Estado incompleto (No funciona)
+// Funciona pero puedo mejorarse
 exports.savePreferenciasPublish = (req, res, next) => {
 	Generador.findById(req.params.id, (err, generador) => {
 		if (err) {
@@ -290,9 +290,10 @@ exports.savePreferenciasPublish = (req, res, next) => {
 		} else {
 			//console.log(req.body.sC1);
 			//console.log (generador.sensoresC[0]['re_publica']);
+			var sensC;
 			if (generador.isAerogenerador()){
 
-				var senCA = [{
+				sensC = [{
 					nombre: 'Anemometro',
 					unidad: 'm/s',
 					tipo: 'C',
@@ -318,15 +319,14 @@ exports.savePreferenciasPublish = (req, res, next) => {
 					topico: 'temperatura'
 				}];
 
-				generador.sensoresC = senCA;
 			} else {
-				var senCP = [{
+				sensC = [{
 					nombre: 'Piranometro',
 					unidad: 'Kw/m²',
 					tipo: 'C',
 					sufijo: 'Rs',
 					activo: true,
-					re_publica: false,
+					re_publica: req.body.sC0,
 					topico: 'radiacion'
 				}, {
 					nombre: 'Termometro',
@@ -334,13 +334,39 @@ exports.savePreferenciasPublish = (req, res, next) => {
 					tipo: 'C',
 					sufijo: 'T',
 					activo: true,
-					re_publica: false,
+					re_publica: req.body.sC1,
 					topico: 'temperatura'
 				}];
-
-				generador.sensoresC = senCP;
 			}
 
+			sensE = [{
+				nombre: 'Voltimetro (Banco de baterias)',
+				unidad: 'Volt',
+				tipo: 'P',
+				sufijo: 'Vbb',
+				activo: true,
+				re_publica: req.body.sP0,
+				topico: 'tensionBaterias'
+			}, {
+				nombre: 'Watimetro (Potencia Generada)',
+				unidad: 'Watt',
+				tipo: 'P',
+				sufijo: 'Pg',
+				activo: true,
+				re_publica: req.body.sP1,
+				topico: 'energiagenerada'
+			}, {
+				nombre: 'Amperimetro (Amperaje consumido)',
+				unidad: 'Amp',
+				tipo: 'P',
+				sufijo: 'Ac',
+				activo: true,
+				re_publica: req.body.sP2,
+				topico: 'consumo'
+			}];
+
+			generador.sensoresC = sensC;
+			generador.sensoresP = sensE;
 			//console.log (generador.sensoresC[0]['re_publica']);
 			
 			//console.log(generador.sensoresC[0]);
@@ -358,11 +384,12 @@ exports.savePreferenciasPublish = (req, res, next) => {
 			generador.save((err) => {
 				if (err){
 					console.log("errores");
-					return res.send('Ha surgido un error.');	
+					return res.send("<div id=\"alertMsj\" class=\"alert alert-success alert-dismissible\" role=\"alert\"> <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button> <strong> Ha surgido un error.</strong>");	
 				}		
 			});
 			res.locals.user = req.user || null;
-			return res.send('Ha surgido un error.');		
+			return res.send("<div id=\"alertMsj\" class=\"alert alert-success alert-dismissible\" role=\"alert\"> <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button> <strong> Datos guardados exitosamente!!</strong>");	
+
 		}
 
 	});

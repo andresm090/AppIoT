@@ -68,6 +68,9 @@
 	</div>
 </div>
 
+<div id="alertMsj">
+</div> 
+
 <div class="row">
 	<div class="col-md-12">
 		<div class="panel panel-default">
@@ -115,7 +118,7 @@
 								<tbody class="text-center">
 									{% for c in generador.sensoresC %}
 										<tr>
-											<td><input class="form-check-input" type="checkbox" id=sC{{loop.key}} name=sC{{loop.key}} {% if c['re_publica'] %} checked {% endif %}></td>
+											<td><input class="form-check-input" type="checkbox" id=sC{{loop.key}} name=sC{{loop.key}} {% if c['re_publica'] %} checked value="true" {% else %} value="false" {% endif %}></td>
 											<td>{{c['nombre']}}</td>
 											<td>{{"C"+generador.comuna.id_topic+"/"+generador.sufijo+generador.id_topic+"/"+c['topico']}}</td>
 										</tr>
@@ -127,7 +130,7 @@
 									</tr>
 									{% for p in generador.sensoresP %}
 										<tr>
-											<td><input class="form-check-input" type="checkbox" id=sP{{loop.key}} name=sP{{loop.key}} {% if p['re_publica'] %} checked {% endif %}></td>
+											<td><input class="form-check-input" type="checkbox" id=sP{{loop.key}} name=sP{{loop.key}} {% if p['re_publica'] %} checked value="true" {% else %} value="false" {% endif %}></td>
 											<td>{{p['nombre']}}</td>
 											<td>{{"C"+generador.comuna.id_topic+"/"+generador.sufijo+generador.id_topic+"/"+p['topico']}}</td>
 										</tr>
@@ -138,7 +141,7 @@
 						<div class="col-md-12">
 		  					<div class="form-group">
 	                  			<div class="col-md-12 col-md-offset-8">
-	                    			<button type="button" id="submit" class="btn btn-primary" disabled onclick="saveRepublicar()">
+	                    			<button type="button" id="submit" class="btn btn-primary" onclick="saveRepublicar()">
 	                        			<i class="fa fa-btn fa-sign-in"></i> Guardar Cambios
 	                        		</button>
 	                    		</div>
@@ -151,31 +154,39 @@
 	</div>
 </div>
 <script> 
+	$(document).ready(function(){
+		$('input[type=checkbox]').on('change', function() {
+			if ($(this).is(':checked')) {
+				$(this).val(true);
+			} else {
+				$(this).val(false);
+			}
+		});
+	});
 
-var map = L.map('mapa').setView([-42, -71], 5);
+	var map = L.map('mapa').setView([-42, -71], 5);
 
-L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
+	L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+	    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+	}).addTo(map);
 
-L.marker([{{generador.comuna.point_geom[0]['latitud']}}, {{generador.comuna.point_geom[0]['longitud']}}]).addTo(map)
-    .bindPopup('Latitud: {{generador.comuna.point_geom[0]['latitud']}} </br> Longitud: {{generador.comuna.point_geom[0]['longitud']}}')
-    .openPopup();
+	L.marker([{{generador.comuna.point_geom[0]['latitud']}}, {{generador.comuna.point_geom[0]['longitud']}}]).addTo(map)
+	    .bindPopup('Latitud: {{generador.comuna.point_geom[0]['latitud']}} </br> Longitud: {{generador.comuna.point_geom[0]['longitud']}}')
+	    .openPopup();
 
 
-function saveRepublicar() {
+	function saveRepublicar() {
 
-	$.ajax({
-			url: "/admin/" + '{{generador.id}}' + "/savePreferencias",
-		  	type: "POST",
-		  	data: $('#formP').serialize(), 
-		  	success: function(data) {
-		  		//$("#historicos").html(data);
-		  		alert("hola");
-		  	}
-	  	});
+		$.ajax({
+				url: "/admin/" + '{{generador.id}}' + "/savePreferencias",
+			  	type: "POST",
+			  	data: $('#formP').serialize(), 
+			  	success: function(data) {
+			  		$("#alertMsj").html(data);
+			  	}
+		  	});
 
-}
+	}
 
 </script>
 
