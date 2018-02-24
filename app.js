@@ -84,9 +84,23 @@ app.get('/userinfo', passportConfig.isAuthenticate, (req, res) => {
 app.use('/', index);
 app.use('/users', users);
 
+//var first = repository.procesarTopico("C5/Ag2/C/Vm");
+//console.log(first);
+
+/*repository.procesarTopico("C5/Ag2/C/Vm", function(id){
+	console.log(id);
+});*/
+
 //coneccion al broker
 serverMQTT.connect(function(clientMQTT) {
 
+	//Topicos reales de la app
+	clientMQTT.subscribe('+/+/C');
+	clientMQTT.subscribe('+/+/P');
+	clientMQTT.subscribe('+/+/Ei');
+	clientMQTT.subscribe('+/+/Ef');
+
+	//Topicos de prueba
 	clientMQTT.subscribe('aerogenerador/clima');
 	clientMQTT.subscribe('aerogenerador/energia');
 	clientMQTT.subscribe('aerogenerador/evenFreno');
