@@ -4,6 +4,7 @@ var Generador = require('../model/Generador');
 
 var repository = function () {
 
+	//Metodo de prueba, sin uso por el momento 
 	this.saveData = function (topic, values, callback) {
 
 		var errores;
@@ -16,7 +17,7 @@ var repository = function () {
 
 		//Extraer de topic: comuna y equipo generador para procesamiento 
 
-		this.procesarTopico(topic, function(id){
+		this.procesarTopico(topic, function(id, tipo_variables){
 
 			var temperatura = Number(data[0]);
 			var velocidad = Number(data[1]);
@@ -59,18 +60,143 @@ var repository = function () {
 	this.procesarTopico = function (topic, cb) {
 
 		var topic_level = topic.split("/");
-		var regex = /(\d+)/g;
-		id_topicG = topic_level[1].match(regex);
-		var pepe = "Estoy afuera";
 
-		Generador.findOne({'id_topic': id_topicG[0], 'activo': true}, (err, generador) => {
+		var regex = /(\d+)/g;
+		var regex2 = /([A-Za-z]+)/g;
+
+		var id_topicG = topic_level[1].match(regex);
+		var tipo_variables = topic_level[2];
+		var tipo_equipo;
+
+		if (topic_level[1].match(regex2)[0] == 'Ag') {
+			tipo_equipo = "aerogenerador";
+		} else {
+			tipo_equipo = "panel fotovoltaico";
+		}
+		
+		Generador.findOne({'id_topic': id_topicG[0], 'tipo': tipo_equipo, 'activo': true}, (err, generador) => {
 			if (err) {
 				return null;
 			} else {
-				cb(generador.id);
+				cb(generador, tipo_variables);
 				
 			}
 		});
+	};
+
+	this.saveEvento = function (value, id, topic){
+
+		var event = new Evento({
+				valor: Number(value),
+				topico: topic,
+				producedAt: new Date(),
+				generador: id, 
+			});
+
+		event.save((err) => {
+			if (err){
+				errores = true;
+			}
+		});
+	};
+
+	this.saveDataPotencias = function (value, generador, topic, cb){
+
+		//V-A-W
+		var data = value.split("-");
+		var listdata = [];
+		var errores = false;
+
+		listdata.push({valor: Number(data[0]), unidad: generador.sensoresP[0]['unidad'], tipo: generador.sensoresP[0]['sufijo']});
+		listdata.push({valor: Number(data[1]), unidad: generador.sensoresP[2]['unidad'], tipo: generador.sensoresP[2]['sufijo']});
+		listdata.push({valor: Number(data[2]), unidad: generador.sensoresP[1]['unidad'], tipo: generador.sensoresP[1]['sufijo']});
+
+		for (v in listdata){
+
+			var dato = new Dato({
+				valor: v['valor'],
+				unidad: v['unidad'],
+				topico: topic,
+				producedAt: new Date(),
+				generador: generador.id,
+				tipo: v['tipo'],
+				TAG: generador.getTagPotencia(),
+			});
+
+			dato.save((err) => {
+				if (err){
+					errores = true;
+				}
+			});
+		}
+
+		cb(Number(data[0]), Number(data[1]), Number(data[2]), errores);
+
+	};
+
+	this.saveDataCLimaAero = function (value, generador, topic, cb){
+
+		var data = value.split("-");
+		var listdata = [];
+		var errores = false;
+
+		//T-v-D
+		listdata.push({valor:Number(data[0]), unidad: generador.sensoresC[2]['unidad'], tipo: generador.sensoresC[2]['sufijo']});
+		listdata.push({valor:Number(data[1]), unidad: generador.sensoresC[0]['unidad'], tipo: generador.sensoresC[0]['sufijo']});
+		listdata.push({valor:Number(data[2]), unidad: generador.sensoresC[1]['unidad'], tipo: generador.sensoresC[1]['sufijo']});
+
+		for (v in listdata){
+
+			var dato = new Dato({
+				valor: v['valor'],
+				unidad: v['unidad'],
+				topico: topic,
+				producedAt: new Date(),
+				generador: generador.id,
+				tipo: v['tipo'],
+				TAG: generador.getTagClima(),
+			});
+
+			dato.save((err) => {
+				if (err){
+					errores = true;
+				}
+			});
+		}
+
+		cb(Number(data[0]), Number(data[1]), Number(data[2]), errores);
+	};
+
+	this.saveDataCLimaPanelF = function (value, generador, topic, cb){
+
+		var data = value.split("-");
+		var listdata = [];
+		var errores = false;
+
+		//T-R
+		listdata.push({valor:Number(data[0]), unidad: generador.sensoresC[1]['unidad'], tipo: generador.sensoresC[1]['sufijo']});
+		listdata.push({valor:Number(data[1]), unidad: generador.sensoresC[0]['unidad'], tipo: generador.sensoresC[0]['sufijo']});
+		
+		for (v in listdata){
+
+			var dato = new Dato({
+				valor: v['valor'],
+				unidad: v['unidad'],
+				topico: topic,
+				producedAt: new Date(),
+				generador: generador.id,
+				tipo: v['tipo'],
+				TAG: generador.getTagClima(),
+			});
+
+			dato.save((err) => {
+				if (err){
+					errores = true;
+				}
+			});
+		}
+		
+		cb(Number(data[0]), Number(data[1]), errores);
 	};
 
 }

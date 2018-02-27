@@ -87,12 +87,86 @@ app.use('/users', users);
 //var first = repository.procesarTopico("C5/Ag2/C/Vm");
 //console.log(first);
 
-/*repository.procesarTopico("C5/Ag2/C/Vm", function(id){
-	console.log(id);
+/*repository.procesarTopico("C5/Ps2/C/Vm", function(id, tipo){
+	switch(tipo) {
+		case "Ef":
+			console.log(id);
+			console.log(tipo);
+			console.log("evento de freno");
+			break;
+		case "Ei":
+			console.log(id);
+			console.log(tipo);
+			console.log("inclinacion");
+			break;
+		case "P":
+			console.log(id);
+			console.log(tipo);
+			console.log("potencias");
+			break;
+		default:
+			console.log(id);
+			console.log(tipo);
+			console.log("clima");
+			break;
+	}
 });*/
 
-//coneccion al broker
+//Conexion al Broker, implementacion con guardado de datos.
+// En desarrollo, no probado.
+//El codigo que se encuentra abajo comentado, corresponde con la primera version funcional.
 serverMQTT.connect(function(clientMQTT) {
+
+	//Topicos reales de la app
+	clientMQTT.subscribe('+/+/C');
+	clientMQTT.subscribe('+/+/P');
+	clientMQTT.subscribe('+/+/Ei');
+	clientMQTT.subscribe('+/+/Ef');
+
+	serverMQTT.observer(function(topic, value) {
+		console.log(value.toString());
+		//Notifico a los clientes
+		connectionsArray.forEach(function(tmpSocket) {
+			repository.procesarTopico(topic, function(generador, tipo){
+				switch(tipo) {
+					case "P":
+						//procesar evento de freno del aerogenerador
+						//emitir cvalores
+						break;
+					case "C":
+						//procesar evento de inclinacion del panel
+						//emitir cvalores
+						break;
+					default:
+						repository.saveEvento(value, generador.id, topic);
+						if (tipo == "Ef"){
+							tmpSocket.emit('aero/e', Number(value), id);
+						} else {
+							var inc = Number(value)
+							switch(inc) {
+								case 60:
+									tmpSocket.emit('panelf/event', gaugeIncSeries.invierno, inc);
+									break;
+								case 20:
+									tmpSocket.emit('panelf/event', gaugeIncSeries.primavera, inc);
+									break;
+								case 12: 
+									tmpSocket.emit('panelf/event', gaugeIncSeries.verano, inc);
+									break;
+								default:
+									tmpSocket.emit('panelf/event', gaugeIncSeries.otonio, inc);
+							}
+						}
+						//procesar evento de freno del aerogenerador
+						//emitir cvalores
+						break;
+				}
+			});
+		});
+	});
+});
+//coneccion al broker
+/*serverMQTT.connect(function(clientMQTT) {
 
 	//Topicos reales de la app
 	clientMQTT.subscribe('+/+/C');
@@ -153,7 +227,7 @@ serverMQTT.connect(function(clientMQTT) {
 			}
 		});
 	});
-});
+});*/
 
 //coneccion de los websocket
 io.on('connection', function(socket){

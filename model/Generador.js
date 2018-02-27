@@ -21,5 +21,20 @@ GeneradorSchema.methods.isAerogenerador = function (){
 	return false;
 };
 
+GeneradorSchema.methods.getTagPotencia = function (){
+	if (this.tipo == 'aerogenerador') {
+		return "aerogenerador/energia";
+	}
+	return "fotovoltaica/energia";
+};
+
+GeneradorSchema.methods.getTagClima = function (){
+	if (this.tipo == 'aerogenerador') {
+		return "aerogenerador/clima";
+	}
+	return "fotovoltaica/clima";
+};
+
+
 GeneradorSchema.plugin(autoNumber.plugin, 'generador');
 module.exports = mongoose.model('generador', GeneradorSchema);
