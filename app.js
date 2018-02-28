@@ -113,7 +113,7 @@ app.use('/users', users);
 });*/
 
 //Conexion al Broker, implementacion con guardado de datos.
-// En desarrollo, no probado.
+// En desarrollo, probado funcionando.
 //El codigo que se encuentra abajo comentado, corresponde con la primera version funcional.
 serverMQTT.connect(function(clientMQTT) {
 
@@ -130,18 +130,49 @@ serverMQTT.connect(function(clientMQTT) {
 			repository.procesarTopico(topic, function(generador, tipo){
 				switch(tipo) {
 					case "P":
-						//procesar evento de freno del aerogenerador
-						//emitir cvalores
+						repository.saveDataPotencias(value.toString(), generador, topic, function(v, a, w, err){
+							if (err) {
+								console.log("Ocurrio un problema en el resguardo ");
+							}
+							if (generador.isAerogenerador()){
+								tmpSocket.emit('energia', v, a, w);
+							} else {
+								tmpSocket.emit('panelf/e', v, a, w);
+							}
+						});
 						break;
 					case "C":
-						//procesar evento de inclinacion del panel
-						//emitir cvalores
+						if (generador.isAerogenerador()){
+							repository.saveDataCLimaAero(value.toString(), generador, topic, function (t, v, d, err){
+								if (err){
+									console.log("Ocurrio un problema en el resguardo ");
+								}
+								tmpSocket.emit('notification', t, v, d);
+								if (generador.sensoresC[0]['re_publica']){
+									clientMQTT.publish("C1/"+generador.sufijo+generador.id_topic+"/"+generador.sensoresC[0]['topico'], v.toString());
+								}
+								if (generador.sensoresC[1]['re_publica']){
+									clientMQTT.publish("C1/"+generador.sufijo+generador.id_topic+"/"+generador.sensoresC[1]['topico'], d.toString());
+								}
+								if (generador.sensoresC[2]['re_publica']){
+									clientMQTT.publish("C1/"+generador.sufijo+generador.id_topic+"/"+generador.sensoresC[2]['topico'], t.toString());
+								}
+							});
+						} else {
+							repository.saveDataCLimaPanelF(value.toString(), generador, topic, function (t, r, err){
+								if (err){
+									console.log("Ocurrio un problema en el resguardo ");
+								}
+								tmpSocket.emit('panelf/c', t, r);
+							});
+						}
 						break;
 					default:
 						repository.saveEvento(value, generador.id, topic);
 						if (tipo == "Ef"){
-							tmpSocket.emit('aero/e', Number(value), id);
-						} else {
+							tmpSocket.emit('aero/e', Number(value), generador.comuna);
+						}
+						if (tipo == "Ei") {
 							var inc = Number(value)
 							switch(inc) {
 								case 60:
@@ -157,8 +188,6 @@ serverMQTT.connect(function(clientMQTT) {
 									tmpSocket.emit('panelf/event', gaugeIncSeries.otonio, inc);
 							}
 						}
-						//procesar evento de freno del aerogenerador
-						//emitir cvalores
 						break;
 				}
 			});

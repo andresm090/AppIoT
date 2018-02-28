@@ -181,7 +181,7 @@
 	}
 
 
-	function setDataC(msj){
+	function setDataC(temperatura, radiacion){
 
 		var dataAtmos = new google.visualization.DataTable();
 		var datatemp = new google.visualization.DataTable();
@@ -193,10 +193,10 @@
 		datatemp.addColumn('string', 'Unidad');
 
 		//T-R
-		var data = msj.split("-");
+		//var data = msj.split("-");
 
-		var temperatura = Number(data[0]);
-		var radiacion = Number(data[1]);
+		//var temperatura = Number(data[0]);
+		//var radiacion = Number(data[1]);
 
 		dataAtmos.addRows([
 			[radiacion, "Kw/m²"]
@@ -216,7 +216,7 @@
 		pointAtmo.update(radiacion);
 	}
 
-	function setDataE(msj) {
+	function setDataE(tension, corriente, potenciaG) {
 
 		var dataEner = new google.visualization.DataTable();
 
@@ -225,10 +225,10 @@
 		dataEner.addColumn('string', 'Unidad');
 
 		//V-A-W
-		var data = msj.split("-");
-		var tension = Number(data[0]);
-		var corriente = Number(data[1]);
-		var potenciaG = Number(data[2]);
+		//var data = msj.split("-");
+		//var tension = Number(data[0]);
+		//var corriente = Number(data[1]);
+		//var potenciaG = Number(data[2]);
 
 		dataEner.addRows([
 			["Tensión", tension, "V"],

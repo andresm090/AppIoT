@@ -59,29 +59,34 @@ var repository = function () {
 
 	this.procesarTopico = function (topic, cb) {
 
-		var topic_level = topic.split("/");
+		try {
+			var topic_level = topic.split("/");
 
-		var regex = /(\d+)/g;
-		var regex2 = /([A-Za-z]+)/g;
+			var regex = /(\d+)/g;
+			var regex2 = /([A-Za-z]+)/g;
 
-		var id_topicG = topic_level[1].match(regex);
-		var tipo_variables = topic_level[2];
-		var tipo_equipo;
+			var id_topicG = topic_level[1].match(regex);
+			var tipo_variables = topic_level[2];
+			var tipo_equipo;
 
-		if (topic_level[1].match(regex2)[0] == 'Ag') {
-			tipo_equipo = "aerogenerador";
-		} else {
-			tipo_equipo = "panel fotovoltaico";
-		}
-		
-		Generador.findOne({'id_topic': id_topicG[0], 'tipo': tipo_equipo, 'activo': true}, (err, generador) => {
-			if (err) {
-				return null;
+			if (topic_level[1].match(regex2)[0] == 'Ag') {
+				tipo_equipo = "aerogenerador";
 			} else {
-				cb(generador, tipo_variables);
-				
+				tipo_equipo = "panel fotovoltaico";
 			}
-		});
+			
+			Generador.findOne({'id_topic': id_topicG[0], 'tipo': tipo_equipo, 'activo': true}, (err, generador) => {
+				if (err) {
+					return null;
+				} else {
+					cb(generador, tipo_variables);
+					
+				}
+			});
+		} catch (err) {
+			console.log ("Topico no valido");
+
+		}
 	};
 
 	this.saveEvento = function (value, id, topic){
@@ -111,15 +116,15 @@ var repository = function () {
 		listdata.push({valor: Number(data[1]), unidad: generador.sensoresP[2]['unidad'], tipo: generador.sensoresP[2]['sufijo']});
 		listdata.push({valor: Number(data[2]), unidad: generador.sensoresP[1]['unidad'], tipo: generador.sensoresP[1]['sufijo']});
 
-		for (v in listdata){
+		for (i = 0; i < listdata.length; i++){
 
 			var dato = new Dato({
-				valor: v['valor'],
-				unidad: v['unidad'],
+				valor: listdata[i]['valor'],
+				unidad: listdata[i]['unidad'],
 				topico: topic,
 				producedAt: new Date(),
 				generador: generador.id,
-				tipo: v['tipo'],
+				tipo: listdata[i]['tipo'],
 				TAG: generador.getTagPotencia(),
 			});
 
@@ -145,15 +150,15 @@ var repository = function () {
 		listdata.push({valor:Number(data[1]), unidad: generador.sensoresC[0]['unidad'], tipo: generador.sensoresC[0]['sufijo']});
 		listdata.push({valor:Number(data[2]), unidad: generador.sensoresC[1]['unidad'], tipo: generador.sensoresC[1]['sufijo']});
 
-		for (v in listdata){
+		for (i = 0; i < listdata.length; i++){
 
 			var dato = new Dato({
-				valor: v['valor'],
-				unidad: v['unidad'],
+				valor: listdata[i]['valor'],
+				unidad: listdata[i]['unidad'],
 				topico: topic,
 				producedAt: new Date(),
 				generador: generador.id,
-				tipo: v['tipo'],
+				tipo: listdata[i]['tipo'],
 				TAG: generador.getTagClima(),
 			});
 
@@ -177,15 +182,15 @@ var repository = function () {
 		listdata.push({valor:Number(data[0]), unidad: generador.sensoresC[1]['unidad'], tipo: generador.sensoresC[1]['sufijo']});
 		listdata.push({valor:Number(data[1]), unidad: generador.sensoresC[0]['unidad'], tipo: generador.sensoresC[0]['sufijo']});
 		
-		for (v in listdata){
+		for (i = 0; i < listdata.length; i++){
 
 			var dato = new Dato({
-				valor: v['valor'],
-				unidad: v['unidad'],
+				valor: listdata[i]['valor'],
+				unidad: listdata[i]['unidad'],
 				topico: topic,
 				producedAt: new Date(),
 				generador: generador.id,
-				tipo: v['tipo'],
+				tipo: listdata[i]['tipo'],
 				TAG: generador.getTagClima(),
 			});
 

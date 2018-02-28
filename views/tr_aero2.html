@@ -232,7 +232,7 @@
 		return arrayDirInv[i];
 	}
 
-	function setData(msj){
+	function setData(temperatura, velocidad, dir){
 
 		var datatab = new google.visualization.DataTable();
 		var datatemp = new google.visualization.DataTable();
@@ -246,14 +246,15 @@
 		datatemp.addColumn('string', 'Unidad');
 
 		//T-V-D
-		var data = msj.split("-");
+		//var data = msj.split("-");
 
-		var temperatura = Number(data[0]);
-		var velocidad = Number(data[1]);
-		var direccion = sacarCuadrante(Number(data[2]));
+		//var temperatura = Number(data[0]);
+		//var velocidad = Number(data[1]);
+		//var direccion = sacarCuadrante(Number(data[2]));
+		var direccion = sacarCuadrante(dir);
 
 		datatab.addRows([
-			[velocidad, "m/s", data[2], "grados"],
+			[velocidad, "m/s", dir.toString(), "grados"],
 			[Math.round(velocidad * 3.6), "km/h", direccion, "sector"]
 		]);
 
@@ -285,7 +286,7 @@
 		dirAux = arrayDir.indexOf(direccion);
 	}
 
-	function setDataE(msj) {
+	function setDataE(tension, corriente, potenciaG) {
 
 		var dataEner = new google.visualization.DataTable();
 
@@ -294,10 +295,10 @@
 		dataEner.addColumn('string', 'Unidad');
 
 		//V-A-W
-		var data = msj.split("-");
-		var tension = Number(data[0]);
-		var corriente = Number(data[1]);
-		var potenciaG = Number(data[2]);
+		//var data = msj.split("-");
+		//var tension = Number(data[0]);
+		//var corriente = Number(data[1]);
+		//var potenciaG = Number(data[2]);
 
 		dataEner.addRows([
 			["Tensión", tension, "V"],
