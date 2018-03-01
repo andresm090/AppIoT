@@ -1,11 +1,14 @@
 var Evento = require('../model/Evento');
 var Dato = require('../model/Dato');
 var Generador = require('../model/Generador');
+var Comuna = require('../model/Comuna');
+
+var arrayDirInv = ["N", "NNW", "NW", "WNW", "W", "WSW", "SW", "SSW", "S", "SSE", "SE", "ESE", "E", "ENE", "NE", "NNE"];
 
 var repository = function () {
 
 	//Metodo de prueba, sin uso por el momento 
-	this.saveData = function (topic, values, callback) {
+	/*this.saveData = function (topic, values, callback) {
 
 		var errores;
 		//var data = values.split("-");
@@ -24,7 +27,7 @@ var repository = function () {
 			var direccion = Number(data[2]);
 
 			// Guardar valores en el modelo correspondiente (Modelo de prueba, con datos de prueba)
-			/*var event = new Evento({
+			var event = new Evento({
 				valor: temperatura,
 				topico: topic,
 				producedAt: new Date(),
@@ -35,7 +38,7 @@ var repository = function () {
 				if (err){
 					errores = true;
 				}
-			});*/
+			});
 
 			var dato = new Dato({
 				valor: temperatura,
@@ -55,7 +58,7 @@ var repository = function () {
 
 			callback(temperatura, velocidad, direccion, errores); // evaluar de incorporar base a topico para su publicacion
 		});
-	};
+	};*/
 
 	this.procesarTopico = function (topic, cb) {
 
@@ -79,13 +82,16 @@ var repository = function () {
 				if (err) {
 					return null;
 				} else {
-					cb(generador, tipo_variables);
-					
+					Comuna.populate(generador, {path: "comuna"}, (err, generador) => {
+						if (err){
+							return null;
+						}
+						cb(generador, tipo_variables);
+					});
 				}
 			});
 		} catch (err) {
 			console.log ("Topico no valido");
-
 		}
 	};
 
@@ -139,6 +145,15 @@ var repository = function () {
 
 	};
 
+	this.sacarCuadrante = function (ang){
+
+		var i = Math.round((360 - ang)/22.5);
+		if (i >= 16){
+			i = 0;
+		} 
+		return arrayDirInv[i];
+	};
+
 	this.saveDataCLimaAero = function (value, generador, topic, cb){
 
 		var data = value.split("-");
@@ -169,7 +184,7 @@ var repository = function () {
 			});
 		}
 
-		cb(Number(data[0]), Number(data[1]), Number(data[2]), errores);
+		cb(Number(data[0]), Number(data[1]), Number(data[2]), this.sacarCuadrante(Number(data[2])), errores);
 	};
 
 	this.saveDataCLimaPanelF = function (value, generador, topic, cb){

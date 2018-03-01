@@ -86,7 +86,7 @@
 	var windrose = Highcharts.chart('containerWindRose', {{JSON.stringify(gaugeWR)}},);
 	var statebarPN = Highcharts.chart('containerstatebarPN', {{JSON.stringify(statebarPN)}},);
 	var stateVbb = Highcharts.chart('containerstateVbb', {{JSON.stringify(stateVbb)}},);
-	var arrayDirInv = ["N", "NNW", "NW", "WNW", "W", "WSW", "SW", "SSW", "S", "SSE", "SE", "ESE", "E", "ENE", "NE", "NNE"];
+	//var arrayDirInv = ["N", "NNW", "NW", "WNW", "W", "WSW", "SW", "SSW", "S", "SSE", "SE", "ESE", "E", "ENE", "NE", "NNE"];
 	var arrayDir = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
 	var dirAux = 0;
 
@@ -224,15 +224,15 @@
 
 	}
 
-	function sacarCuadrante(ang){
+	/*function sacarCuadrante(ang){
 		var i = Math.round((360 - ang)/22.5);
 		if (i >= 16){
 			i = 0;
 		} 
 		return arrayDirInv[i];
-	}
+	}*/
 
-	function setData(temperatura, velocidad, dir){
+	function setData(temperatura, velocidad, grad, direccion){
 
 		var datatab = new google.visualization.DataTable();
 		var datatemp = new google.visualization.DataTable();
@@ -251,10 +251,10 @@
 		//var temperatura = Number(data[0]);
 		//var velocidad = Number(data[1]);
 		//var direccion = sacarCuadrante(Number(data[2]));
-		var direccion = sacarCuadrante(dir);
+		//var direccion = sacarCuadrante(dir);
 
 		datatab.addRows([
-			[velocidad, "m/s", dir.toString(), "grados"],
+			[velocidad, "m/s", grad.toString(), "grados"],
 			[Math.round(velocidad * 3.6), "km/h", direccion, "sector"]
 		]);
 
