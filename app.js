@@ -187,9 +187,10 @@ serverMQTT.connect(function(clientMQTT) {
 						}
 						break;
 					default:
-						repository.saveEvento(value, generador.id, topic);
+						repository.saveEvento(value, generador, topic);
 						if (tipo == "Ef"){
-							tmpSocket.emit('aero/e', Number(value), generador.comuna);
+							tmpSocket.emit('mapComuna/e', Number(value), generador.comuna.id);
+							tmpSocket.emit('aero/e', Number(value));
 						}
 						if (tipo == "Ei") {
 							var inc = Number(value)

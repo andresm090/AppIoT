@@ -138,6 +138,24 @@ exports.getGeneradores = (req, res, next) => {
 	});
 };
 
+exports.verificarEstadoGenerador = (req, res, next) => {
+
+	Generador.find({'comuna': req.params.id, 'activo': true}, (err, generadores) => {
+		if (err) {
+			return res.send('Ha surgido un error.');
+		} else {
+			var estado = false;
+			for (i = 0; i < generadores.length; i++){
+				if(generadores[i].actuadores[0]['activado']){
+					estado = true;
+				}
+			}
+			return res.send(estado);
+		}
+
+	});
+};
+
 exports.getModalDetalle = (req, res, next) => {
 
 	Comuna.findById(req.body.idcomuna, (err, comuna) => {

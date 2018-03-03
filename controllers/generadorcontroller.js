@@ -4,6 +4,7 @@ var Generador = require('../model/Generador');
 var sensoresCA = require('../src/sensoresCA');
 var sensoresCP = require('../src/sensoresCP');
 var sensoresE = require('../src/sensoresE');
+var actuadores = require('../src/actuadores');
 
 
 exports.getformNuevoAerogenerador = (req, res, next) => {
@@ -58,6 +59,7 @@ exports.saveAerogenerador = (req, res, next) => {
 		sufijo: 'Ag',
 		sensoresC: sensoresCA,
 		sensoresP: sensoresE,
+		actuadores: actuadores[0],
 	});
 
 	generador.save((err) => {
@@ -124,7 +126,7 @@ exports.savePanelFotovoltaico = (req, res, next) => {
 		sufijo: 'Ps',
 		sensoresC: sensoresCP,
 		sensoresP: sensoresE,
-
+		actuadores: actuadores[1],
 	});
 
 	generador.save((err) => {
@@ -291,6 +293,7 @@ exports.savePreferenciasPublish = (req, res, next) => {
 			//console.log(req.body.sC1);
 			//console.log (generador.sensoresC[0]['re_publica']);
 			var sensC;
+			var actuadres;
 			if (generador.isAerogenerador()){
 
 				sensC = [{
@@ -319,6 +322,15 @@ exports.savePreferenciasPublish = (req, res, next) => {
 					topico: 'temperatura'
 				}];
 
+				actuadores = [{
+					nombre: 'Freno por corrientes parásitas',
+					tipo: 'Ef',
+					activo: true,
+					re_publica: req.body.a0,
+					topico: 'frenoaerogenerador',
+					activado: false
+				}];
+
 			} else {
 				sensC = [{
 					nombre: 'Piranometro',
@@ -336,6 +348,15 @@ exports.savePreferenciasPublish = (req, res, next) => {
 					activo: true,
 					re_publica: req.body.sC1,
 					topico: 'temperatura'
+				}];
+
+				actuadores = [{
+					nombre: 'Inclinometro',
+					tipo: 'Ei',
+					activo: true,
+					re_publica: req.body.a0,
+					topico: 'inclinometro',
+					activado: false
 				}];
 			}
 
@@ -367,6 +388,7 @@ exports.savePreferenciasPublish = (req, res, next) => {
 
 			generador.sensoresC = sensC;
 			generador.sensoresP = sensE;
+			generador.actuadores = actuadores;
 			//console.log (generador.sensoresC[0]['re_publica']);
 			
 			//console.log(generador.sensoresC[0]);

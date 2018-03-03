@@ -12,6 +12,7 @@ var GeneradorSchema = new Schema({
 	sufijo: {type: String, required: true, enum: ['Ag', 'Ps']},
 	sensoresC: {type: Array, default:[]},
 	sensoresP: {type: Array, default:[]},
+	actuadores: {type: Array, default:[]},
 })
 
 GeneradorSchema.methods.isAerogenerador = function (){

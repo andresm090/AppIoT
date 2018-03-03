@@ -26,11 +26,12 @@
 		});
 
 		{% for comuna in comunas %}
+
 			var m = map.addMarker({
 				lat: {{comuna.point_geom[0]['latitud']}},
 				lng: {{comuna.point_geom[0]['longitud']}},
 				title: '{{comuna.nombre}}',
-				icon:'/public/images/boton_verde.png',
+				icon: '/public/images/boton_verde.png',
 				id: '{{comuna.id}}',
 				click: function (e){
 					//$('#encabezado').empty();
@@ -56,6 +57,27 @@
 			});
 			makers.push(m);
 		{% endfor %}
+
+		{% for comuna in comunas %}
+
+			$.ajax({
+				url: "/comunas/{{comuna.id}}/getEstadoGenerador",
+				type: "GET",
+				data: {},
+				success: function(activado) {
+					for (i = 0; i < makers.length; i++){
+						if ('{{comuna.id}}' == makers[i].id){
+							var e = makers[i];
+							if (activado) {
+								e.icon = '/public/images/boton_rojo.png';
+								map.removeMarker(makers[i]);
+								map.addMarker(e);
+							}
+						}
+					}		
+				}
+			});
+		{% endfor %}
 	});
 
 	function verDatos(id){
@@ -73,10 +95,10 @@
 	{% if user.suscripciones.indexOf('aerogenerador/clima') !== -1 || user.suscripciones.indexOf('aerogenerador/energia') !== -1 %}
 
 		var socket = io.connect('http://localhost:3300', { 'forceNew': true });
-		socket.on('aero/e', eventFreno);
+		socket.on('mapComuna/e', eventFreno);
 
 		function eventFreno(state, id){
-
+			
 			for (i = 0; i < makers.length; i++){
 				if (id == makers[i].id){
 					var e = makers[i];

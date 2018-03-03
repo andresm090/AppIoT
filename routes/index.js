@@ -113,6 +113,7 @@ router.post('/admin/:id(*)/savePreferencias', passportConfig.isAuthenticate, gen
 
 router.get('/comunas', passportConfig.isAuthenticate, comunacontroller.getMapComunas);
 router.get('/comunas/:id(*)/getGeneradores', passportConfig.isAuthenticate, comunacontroller.getGeneradores);
+router.get('/comunas/:id(*)/getEstadoGenerador', passportConfig.isAuthenticate, comunacontroller.verificarEstadoGenerador);
 
 // rutas de prueba
 

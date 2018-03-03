@@ -89,7 +89,7 @@
 								{% for c in generador.sensoresC %}
 									<tr>
 										<td>{{c['nombre']}}</td>
-										<td>{{"C"+generador.comuna.id_topic+"/"+generador.sufijo+generador.id_topic+"/C/"+c['sufijo']}}</td>
+										<td>{{"C"+generador.comuna.id_topic+"/"+generador.sufijo+generador.id_topic+"/"+c['tipo']+"/"+c['sufijo']}}</td>
 									</tr>
 								{% endfor %}
 								<tr>
@@ -99,7 +99,17 @@
 								{% for p in generador.sensoresP %}
 									<tr>
 										<td>{{p['nombre']}}</td>
-										<td>{{"C"+generador.comuna.id_topic+"/"+generador.sufijo+generador.id_topic+"/P/"+p['sufijo']}}</td>
+										<td>{{"C"+generador.comuna.id_topic+"/"+generador.sufijo+generador.id_topic+"/"+p['tipo']+"/"+p['sufijo']}}</td>
+									</tr>
+								{% endfor %}
+								<tr>
+									<th class="text-center success">Actuadores Instalados</th>
+									<th class="text-center success">Suscripto a Topico</th>
+								</tr>
+								{% for a in generador.actuadores %}
+									<tr>
+										<td>{{a['nombre']}}</td>
+										<td>{{"C"+generador.comuna.id_topic+"/"+generador.sufijo+generador.id_topic+"/"+a['tipo']}}</td>
 									</tr>
 								{% endfor %}
 							</tbody>
@@ -133,6 +143,18 @@
 											<td><input class="form-check-input" type="checkbox" id=sP{{loop.key}} name=sP{{loop.key}} {% if p['re_publica'] %} checked value="true" {% else %} value="false" {% endif %}></td>
 											<td>{{p['nombre']}}</td>
 											<td>{{"C"+generador.comuna.id_topic+"/"+generador.sufijo+generador.id_topic+"/"+p['topico']}}</td>
+										</tr>
+									{% endfor %}
+									<tr>
+										<th class="text-center success">Seleccionar</th>
+										<th class="text-center success">Actuadores Instalados</th>
+										<th class="text-center success">Publicacion en Topico</th>
+									</tr>
+									{% for a in generador.actuadores %}
+										<tr>
+											<td><input class="form-check-input" type="checkbox" id=a{{loop.key}} name=a{{loop.key}} {% if a['re_publica'] %} checked value="true" {% else %} value="false" {% endif %}></td>
+											<td>{{a['nombre']}}</td>
+											<td>{{"C"+generador.comuna.id_topic+"/"+generador.sufijo+generador.id_topic+"/"+a['topico']}}</td>
 										</tr>
 									{% endfor %}
 								</tbody>

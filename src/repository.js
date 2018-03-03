@@ -95,13 +95,13 @@ var repository = function () {
 		}
 	};
 
-	this.saveEvento = function (value, id, topic){
+	this.saveEvento = function (value, generador, topic){
 
 		var event = new Evento({
 				valor: Number(value),
 				topico: topic,
 				producedAt: new Date(),
-				generador: id, 
+				generador: generador.id, 
 			});
 
 		event.save((err) => {
@@ -109,6 +109,26 @@ var repository = function () {
 				errores = true;
 			}
 		});
+
+		if(generador.isAerogenerador()){
+			var estado = false;
+			if (Number(value) == 1){
+				estado = true;
+			}
+
+			var actuador = [{
+				nombre: generador.actuadores[0]['nombre'],
+				tipo: generador.actuadores[0]['tipo'],
+				activo: generador.actuadores[0]['activo'],
+				re_publica: generador.actuadores[0]['re_publica'],
+				topico: generador.actuadores[0]['topico'],
+				activado: estado,
+			}];
+
+			generador.actuadores = actuador;
+
+			generador.save();
+		}
 	};
 
 	this.saveDataPotencias = function (value, generador, topic, cb){
