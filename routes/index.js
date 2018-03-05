@@ -5,6 +5,8 @@ var topicontroller = require('../controllers/topicontroller');
 var comunacontroller = require('../controllers/comunacontroller');
 var datocontroller = require('../controllers/datocontroller');
 var generadorcontroller = require('../controllers/generadorcontroller');
+var mailcontroller = require('../controllers/mailcontroller');
+
 var passportConfig = require('../config/passport');
 
 var Comuna = require('../model/Comuna');
@@ -67,13 +69,15 @@ router.get('/getDataTR2', passportConfig.isAuthenticate, function(req, res, next
 
 });*/
 
-router.get('/aerogenerador/:id(*)', passportConfig.isAuthenticate, datocontroller.getfPanelControl);
+router.get('/generador/:id(*)', passportConfig.isAuthenticate, datocontroller.getfPanelControl);
 
 router.get('/getDataC/:id(*)', passportConfig.isAuthenticate, datocontroller.getTrCaracteristicas);
 router.get('/getDataTR2/:id(*)', passportConfig.isAuthenticate, datocontroller.getTrDatosTR);
 router.get('/getDataH/:id(*)', passportConfig.isAuthenticate, datocontroller.getTrDatosH);
+router.get('/getDataP/:id(*)', passportConfig.isAuthenticate, datocontroller.getTrPublicacionDatos);
 
 router.post('/getHistoricos/:id(*)', passportConfig.isAuthenticate, datocontroller.getHistoricos);
+router.post('/sendMail', passportConfig.isAuthenticate, mailcontroller.sendMailPublicacion);
 
 //rutas para administracion 
 

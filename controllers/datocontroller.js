@@ -61,7 +61,7 @@ exports.getTrCaracteristicas = (req, res, next) => {
 		if (err) {
 			return res.send('Ha surgido un error.');
 		} else {
-			return res.render('tr_carac', {caracteristicas: generador.caracteristicas[0], bbaterias: generador.bbaterias[0]});
+			return res.render('tr_carac', {caracteristicas: generador.caracteristicas[0], bbaterias: generador.bbaterias[0], sensoresC: generador.sensoresC, sensoresP: generador.sensoresP});
 		}
 
 	});
@@ -83,6 +83,32 @@ exports.getTrDatosTR = (req, res, next) => {
 		}
 
 	});
+};
+
+exports.getTrPublicacionDatos = (req, res, next) => {	
+
+	Generador.findById(req.params.id, (err, generador) => {
+		if (err) {
+			return res.send('Ha surgido un error.');
+		} else {
+			res.locals.user = req.user;
+			Comuna.populate(generador, {path: "comuna"}, (err, generador) => {
+				if (err){
+					return res.send('No es lo que parece.');
+				}
+				return res.render('tr_publicacion', {generador: generador});
+			});
+		}
+
+	});
+};
+
+exports.sendMailPublicacion = (req, res, next) => {
+
+	var email = req.body.email;
+	var asunto = req.body.asunto;	
+	return res.send('No es lo que parece.');
+	
 };
 
 exports.getTrDatosH = (req, res, next) => {	
