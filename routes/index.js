@@ -20,29 +20,13 @@ var mongoose = require('mongoose');
 router.get('/', function(req, res, next) {
   //req.session.cuenta = req.session.cuenta ? req.session.cuenta + 1 : 1;
   res.locals.user = req.user || null;
-  /*Comuna.find({}, (err, comunas) => {
-		if (err) {
-			res.send('Ha surgido un error.');
-		} else {
-			//var e = comunas[0].getAerogeneradores();
-			//console.log(e);
-			res.locals.comunas = req.comunas || null;
-			res.render('home', { message: req.flash('info'), comunas:comunas});
-		}
-
-	});*/
   res.render('home', { message: req.flash('info')});
 });
-
-/**router.get('/topicos', passportConfig.isAuthenticate, function(req, res, next) {
-	res.locals.user = req.user;
-	res.render('suscripciones');
-});**/
 
 router.get('/topicos', passportConfig.isAuthenticate, topicontroller.getTopicos);
 router.post('/topicos', passportConfig.isAuthenticate, topicontroller.saveTopicos);
 
-/* Route de autenticacion*/
+/* Rutas de autenticacion*/
 
 router.get('/signup', function(req, res, next) {
   res.render('signup');
@@ -56,18 +40,7 @@ router.post('/login', controllerUser.postLogin);
 
 router.get('/logout', passportConfig.isAuthenticate, controllerUser.logout);
 
-//rutas de visualizacion de datos
-/*
-router.get('/aerogenerador/:id([0-9]+)', passportConfig.isAuthenticate, function(req, res, next){
-	res.locals.user = req.user;
-	res.render('aerogenerador');
-});
-
-router.get('/getDataTR2', passportConfig.isAuthenticate, function(req, res, next){
-	res.locals.user = req.user;
-	res.render('tr_aero2', {gaugeTemp: gaugeTemp, gaugeVel: gaugeVel, gaugeVA: gaugeVA, gaugeWR: gaugeWR, statebarPN: statebarPN});
-
-});*/
+//rutas del dashboard
 
 router.get('/generador/:id(*)', passportConfig.isAuthenticate, datocontroller.getfPanelControl);
 

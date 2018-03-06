@@ -127,7 +127,12 @@ var repository = function () {
 
 			generador.actuadores = actuador;
 
-			generador.save();
+			generador.save((err) => {
+				if (err){
+					errores = true;
+					console.log(err);
+				}
+			});
 		}
 	};
 

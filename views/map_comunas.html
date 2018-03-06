@@ -15,6 +15,8 @@
 
 	var map;
 	var makers = [];
+	var generadores = [];
+	var socket = io.connect('http://localhost:3300', { 'forceNew': true });
 
 	$(document).ready(function(){
 
@@ -49,6 +51,12 @@
 	  					data: {},
 	  					success: function(data) {
 	  						$('#tableG').html(data);
+	  						for (i = 0; i < generadores.length; i++){
+		  						$(generadores[i]).removeClass("btn-success");
+		  						$(generadores[i]).addClass("btn-warning");
+		  						$(generadores[i]).attr('title', 'Ver Dashboard (El panel se ha ajustado recientemente)');
+		  						$(generadores[i]+'row').html("<span class=\"glyphicon glyphicon-info-sign\" aria-hidden=\"true\"></span>");
+		  					}
 	  					}
   					});
 					$('#modal').modal('show');
@@ -94,7 +102,6 @@
 
 	{% if user.suscripciones.indexOf('aerogenerador/clima') !== -1 || user.suscripciones.indexOf('aerogenerador/energia') !== -1 %}
 
-		var socket = io.connect('http://localhost:3300', { 'forceNew': true });
 		socket.on('mapComuna/e', eventFreno);
 
 		function eventFreno(state, id){
@@ -111,6 +118,26 @@
 					map.removeMarker(makers[i]);
 					map.addMarker(e);
 
+				}
+			}		
+		}
+
+	{% endif %}
+
+	{% if user.suscripciones.indexOf('fotovoltaica/clima') !== -1 || user.suscripciones.indexOf('fotovoltaica/energia') !== -1 %}
+
+		//var socket = io.connect('http://localhost:3300', { 'forceNew': true });
+		socket.on('mapComuna/i', eventInclinacion);
+
+		function eventInclinacion(idcomuna, idgenerador){
+			
+			for (i = 0; i < makers.length; i++){
+				if (idcomuna == makers[i].id){
+					var e = makers[i];
+					e.icon = '/public/images/boton_amarillo.png';
+					map.removeMarker(makers[i]);
+					map.addMarker(e);
+					generadores.push('#'+idgenerador);
 				}
 			}		
 		}

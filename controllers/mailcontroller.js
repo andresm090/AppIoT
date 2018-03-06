@@ -1,6 +1,4 @@
-var passport = require('passport');
-var Comuna = require('../model/Comuna');
-var Generador = require('../model/Generador');
+global.config = require('../config/config');
 var nodemailer = require('nodemailer');
 
 
@@ -8,7 +6,8 @@ exports.sendMailPublicacion = (req, res, next) => {
 
 	var email = req.body.email;
 	var asunto = req.body.asunto;
-	console.log(email);
+	res.locals.user = req.user;
+
 	var transporter = nodemailer.createTransport({
         service: 'Gmail',
         auth: {
@@ -24,7 +23,10 @@ exports.sendMailPublicacion = (req, res, next) => {
 	    from: 'AppIot <dashboardappIot@gmail.com>',
 	    to: email,
 	    subject: asunto,
-	    text: 'Contenido del email' // cargar data de republiacion
+	    text: 'Hola ' + req.user.firtsname +" "+req.user.lastname 
+	    	+ ', a continuación le brindamos sus credenciales de accesso: \n\nDirección del Broker: mqtt://' + global.config.broker.host + 
+	    	"\nPuerto de escucha: " + global.config.broker.port 
+	    	+ "\nUsuario: No aplica \nPassword: No aplica \n\n\n Saludos del equipo de IoT Aplication.",  
 	};
 
 	transporter.sendMail(mailOptions, function(error, info){
@@ -32,7 +34,7 @@ exports.sendMailPublicacion = (req, res, next) => {
 	        console.log(error); 
 	    } else {
 	        console.log("Email sent");
-	        console.log('Message sent: ' + info.response);
+	        //console.log('Message sent: ' + info.response);
 	    }
 	});
 	transporter.close();

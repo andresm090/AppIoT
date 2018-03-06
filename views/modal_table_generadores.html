@@ -12,19 +12,19 @@
 			<tr
 				{% if generador.tipo == 'aerogenerador' %}
 					{% if user.suscripciones.indexOf('aerogenerador/clima') === -1 && user.suscripciones.indexOf('aerogenerador/energia') === -1 %}
-						class="danger"> <th scope="row"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span></th>
+						class="danger"> <th class="text-center" scope="row"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span></th>
 					{% else %}
 						{% if generador.actuadores[0]['activado'] %}
-							class="warning"> <th scope="row"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span></th>
+							class="warning"> <th class="text-center" scope="row"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span></th>
 						{% else %}
-							><th scope="row">{{loop.index}}</th>
+							><th class="text-center" scope="row">{{loop.index}}</th>
 						{% endif %}
 					{% endif %}
 				{% else %}
 					{% if user.suscripciones.indexOf('fotovoltaica/clima') === -1 && user.suscripciones.indexOf('fotovoltaica/energia') === -1 %}
-						class="warning"> <th scope="row"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span></th>
+						class="warning"> <th class="text-center" scope="row"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span></th>
 					{% else %}
-						><th scope="row">{{loop.index}}</th>
+						><th class="text-center" scope="row" id="{{generador.id}}row">{{loop.index}}</th>
 					{% endif %}
 				{% endif %}
 
@@ -53,7 +53,7 @@
 								<span class="glyphicon glyphicon-eye-close"></span>
 							</button>
 						{% else %}
-							<button type="button" class="btn btn-success btn-xs" onclick="verDatos(&quot;{{generador.id}}&quot;)" title= "Ver Dashboard">
+							<button type="button" id="{{generador.id}}" class="btn btn-success btn-xs" onclick="verDatos(&quot;{{generador.id}}&quot;)" title= "Ver Dashboard">
 								<span class="glyphicon glyphicon-eye-open"></span>
 							</button>
 						{% endif %}

@@ -1,6 +1,7 @@
 var passport = require('passport');
 var Comuna = require('../model/Comuna');
 var Generador = require('../model/Generador');
+var Evento = require('../model/Evento');
 //gauges 
 var gaugeTemp = require('../src/gaugeTemp');
 var gaugeVel = require('../src/gaugeVel');
@@ -78,7 +79,23 @@ exports.getTrDatosTR = (req, res, next) => {
 			if (generador.isAerogenerador()){
 				return res.render('tr_aero2', {gaugeTemp: gaugeTemp, gaugeVel: gaugeVel, gaugeVA: gaugeVA, gaugeWR: gaugeWR, statebarPN: statebarPN, potenciaN: generador.caracteristicas[0]['potencia'], bbaterias: generador.bbaterias[0], stateVbb: stateVbb, actuador: generador.actuadores[0]['activado']});
 			} else {
-				return res.render('tr_panelf', {gaugeTemp: gaugeTemp, gaugePira: gaugePira, gaugeVA: gaugeVA, statebarPN: statebarPN, gaugeInc: gaugeInc, potenciaN: generador.caracteristicas[0]['potencia'], bbaterias: generador.bbaterias[0], stateVbb: stateVbb, data: gaugeIncSeries.primavera}); //Completar
+				Evento.findOne({generador: generador.id}, {}, { sort: { 'createdAt' : -1 } }, function(err, evento) {
+					var inc;
+					switch(evento.valor) {
+						case 60:
+							inc = gaugeIncSeries.invierno;
+							break;
+						case 20:
+							inc = gaugeIncSeries.primavera;
+							break;
+						case 12: 
+							inc = gaugeIncSeries.verano;
+							break;
+						default:
+							inc = gaugeIncSeries.otonio;
+					}
+					return res.render('tr_panelf', {gaugeTemp: gaugeTemp, gaugePira: gaugePira, gaugeVA: gaugeVA, statebarPN: statebarPN, gaugeInc: gaugeInc, potenciaN: generador.caracteristicas[0]['potencia'], bbaterias: generador.bbaterias[0], stateVbb: stateVbb, data: inc, value: evento.valor}); //Completar
+				});
 			}
 		}
 
@@ -103,13 +120,6 @@ exports.getTrPublicacionDatos = (req, res, next) => {
 	});
 };
 
-exports.sendMailPublicacion = (req, res, next) => {
-
-	var email = req.body.email;
-	var asunto = req.body.asunto;	
-	return res.send('No es lo que parece.');
-	
-};
 
 exports.getTrDatosH = (req, res, next) => {	
 

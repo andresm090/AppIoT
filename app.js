@@ -181,7 +181,7 @@ serverMQTT.connect(function(clientMQTT) {
 									clientMQTT.publish("C"+generador.comuna.id_topic+"/"+generador.sufijo+generador.id_topic+"/"+generador.sensoresC[0]['topico'], r.toString());
 								}
 								if (generador.sensoresC[1]['re_publica']){
-									clientMQTT.publish("C"+generador.comuna.id_topic+"/"+generador.sufijo+generador.id_topic+"/"+generador.sensoresC[1]['topico'], d.toString());
+									clientMQTT.publish("C"+generador.comuna.id_topic+"/"+generador.sufijo+generador.id_topic+"/"+generador.sensoresC[1]['topico'], t.toString());
 								}
 							});
 						}
@@ -193,6 +193,7 @@ serverMQTT.connect(function(clientMQTT) {
 							tmpSocket.emit('aero/e', Number(value));
 						}
 						if (tipo == "Ei") {
+							tmpSocket.emit('mapComuna/i', generador.comuna.id, generador.id);
 							var inc = Number(value)
 							switch(inc) {
 								case 60:

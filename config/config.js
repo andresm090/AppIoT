@@ -11,6 +11,7 @@ var config = {
   	},
   	broker: {
   		host: '192.168.1.72',
+      port: 1883,
   	},
   	session:{
   		password: 'Secret',
