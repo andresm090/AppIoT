@@ -1,6 +1,7 @@
 var passport = require('passport');
 var Comuna = require('../model/Comuna');
 var Generador = require('../model/Generador');
+var Evento = require('../model/Evento');
 
 exports.getPanelAdministrador = (req, res, next) => {
 	res.locals.user = req.user;
@@ -173,6 +174,42 @@ exports.getModalDetalleGeneradores = (req, res, next) => {
 			return res.send('Ha surgido un error.');
 		} else {
 			return res.render('modal_detalle_generadores', {generadores: generadores});
+		}
+
+	});
+};
+
+exports.getEventos = (req, res, next) => {
+
+	Generador.find({'comuna': req.params.id, 'activo': true}, (err, generadores) => {
+		if (err) {
+			return res.send('Ha surgido un error.');
+		} else {
+			res.locals.user = req.user || null;
+			if (generadores.length == 0){
+				return res.render('modal_table_eventos', {eventos: [], options: {}});
+			}
+			var q = [];
+			for (i = 0; i < generadores.length; i++){
+				q.push({generador: generadores[i].id});
+			}
+			Evento.find({
+				$and: [
+					{ $or: q }
+				]}, 
+				{}, 
+				{ sort: { 'createdAt' : -1 }, limit: 5 }, function(err, eventos) {
+					var options = {  
+					    weekday: 'short',
+					    year: 'numeric',
+					    month: 'numeric',
+					    day: 'numeric',
+					    hour: '2-digit',
+					    minute: '2-digit'
+					};
+
+					return res.render('modal_table_eventos', {eventos: eventos, options: options});
+			});
 		}
 
 	});
