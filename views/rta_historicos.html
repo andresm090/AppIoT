@@ -21,7 +21,46 @@
 	var grafico1 = Highcharts.chart('{{grafico['id']}}', {{JSON.stringify(grafico['grafico'])}},);
 	point = grafico1.title;
 	point.update({text: '{{grafico['titulo']}}'});
+	//point = grafico1.plotOptions;
+	//point.update({ series: { pointStart: {{fecha}}, pointInterval: 36e5}});
+	point = grafico1.series[0];
+	point.update({data: [
+		{% for v in valores %}
+			{% if v.tipo == "T" %}
+				[{{v.valor}}],
+			{% endif %}
+		{% endfor %}
+		],
+		pointStart: Date.UTC({{fecha.getFullYear()}}, {{fecha.getUTCMonth()}}, {{fecha.getUTCDate()}}),
+		pointInterval: {{media}},
+		name: '{{grafico['titulo']}}',
+		tooltip: {
+            valueSuffix: ' {{grafico['unidad']}}'
+        },
+	});
+
 
 </script>
 
 {% endfor %}
+
+<table class="table table-bordered table-striped">
+			<thead class="inverse">
+			    <tr>
+					<th class="text-center">#</th>
+					<th class="text-center">Datos</th>
+					<th class="text-center">Tipo</th>
+					<th class="text-center">Fecha</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for v in valores %}
+					<tr>
+						<th class="text-center" scope="row">{{loop.index}}</th>
+						<td class="text-center">{{v.valor}}</td>
+						<td class="text-center">{{v.tipo}}</td>
+						<td class="text-center">{{v.producedAt.toLocaleString()}}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>	

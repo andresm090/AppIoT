@@ -20,7 +20,8 @@ var graphicArea = {
     plotOptions: {
         series: {
             pointStart: Date.UTC(2017, 0, 29),
-            pointInterval: 36e5
+            pointInterval: 36e5 // por hora
+            //pointInterval: 600000 // 10 minutales
         }
     },
 

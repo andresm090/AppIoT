@@ -1,7 +1,9 @@
 var passport = require('passport');
+//modelos
 var Comuna = require('../model/Comuna');
 var Generador = require('../model/Generador');
 var Evento = require('../model/Evento');
+var Dato = require('../model/Dato');
 //gauges 
 var gaugeTemp = require('../src/gaugeTemp');
 var gaugeVel = require('../src/gaugeVel');
@@ -137,6 +139,7 @@ exports.getTrDatosH = (req, res, next) => {
 	});
 };
 
+// Prueba de generacion de historicos. Solo funciona el de temperatura.
 exports.getHistoricos = (req, res, next) => {	
 
 	var graficos = [];
@@ -146,107 +149,110 @@ exports.getHistoricos = (req, res, next) => {
 	var f = req.body.fechaF;
 	var m = req.body.media;
 
-	if (req.body.temp){
-		//var grapic = graphicArea;
-		//grapic['title'] = {text:'Temperatura'}; 
-		elemento = {
-			grafico: graphicArea,
-			titulo: "Temperatura",
-			collapse: 'collapseTem',
-			panel: 'panel-danger',
-			id: 'containerTemp' 
-		};
-		graficos.push(elemento);
-	}
-	if (req.body.vel && req.body.dir ){
-		elemento = {
-			grafico: graphicWindBars,
-			titulo: "Velocidad y direccion de viento",
-			collapse: 'collapseVelDir',
-			panel: 'panel-primary',
-			id: 'containerveldir' 
-		};
-		graficos.push(elemento);
-	} else {
-		if (req.body.vel){
+	Dato.find({"producedAt": {"$gte": i, "$lt": f}, "generador": req.params.id}, (err, data) => {
+
+		if (req.body.temp){
+			//var grapic = graphicArea;
+			//grapic['title'] = {text:'Temperatura'}; 
+			elemento = {
+				grafico: graphicArea,
+				titulo: "Temperatura",
+				unidad: "C°",
+				collapse: 'collapseTem',
+				panel: 'panel-danger',
+				id: 'containerTemp' 
+			};
+			graficos.push(elemento);
+		}
+		if (req.body.vel && req.body.dir ){
 			elemento = {
 				grafico: graphicWindBars,
-				titulo: "Velocidad",
-				collapse: 'collapseVel',
+				titulo: "Velocidad y direccion de viento",
+				collapse: 'collapseVelDir',
 				panel: 'panel-primary',
-				id: 'containervel' 
+				id: 'containerveldir' 
 			};
 			graficos.push(elemento);
 		} else {
-			if (req.body.dir){
+			if (req.body.vel){
 				elemento = {
 					grafico: graphicWindBars,
-					titulo: "Direccion",
-					collapse: 'collapseDir',
-					panel: 'panel-info',
-					id: 'containerdir' 
+					titulo: "Velocidad",
+					collapse: 'collapseVel',
+					panel: 'panel-primary',
+					id: 'containervel' 
 				};
 				graficos.push(elemento);
+			} else {
+				if (req.body.dir){
+					elemento = {
+						grafico: graphicWindBars,
+						titulo: "Direccion",
+						collapse: 'collapseDir',
+						panel: 'panel-info',
+						id: 'containerdir' 
+					};
+					graficos.push(elemento);
+				}
 			}
 		}
-	}
 
-	if (req.body.rad){
-		//graphicArea['title'] = {text:'Radiación Solar'};
-		elemento = {
-			grafico: graphicArea,
-			titulo: "Radiacion solar",
-			collapse: 'collapseRad',
-			panel: 'panel-danger',
-			id: 'containerRad' 
-		};
-		graficos.push(elemento);
-	}
+		if (req.body.rad){
+			//graphicArea['title'] = {text:'Radiación Solar'};
+			elemento = {
+				grafico: graphicArea,
+				titulo: "Radiacion solar",
+				collapse: 'collapseRad',
+				panel: 'panel-danger',
+				id: 'containerRad' 
+			};
+			graficos.push(elemento);
+		}
 
-	if (req.body.pg){
-		elemento = {
-			grafico: graphicLine,
-			titulo: "Potencia Generadar",
-			collapse: 'collapsePg',
-			panel: 'panel-warning',
-			id: 'containerPg' 
-		};
-		graficos.push(elemento);
-	}
+		if (req.body.pg){
+			elemento = {
+				grafico: graphicLine,
+				titulo: "Potencia Generadar",
+				collapse: 'collapsePg',
+				panel: 'panel-warning',
+				id: 'containerPg' 
+			};
+			graficos.push(elemento);
+		}
 
-	if (req.body.pc){
-		elemento = {
-			grafico: graphicLine,
-			titulo: "Potencia Consumida",
-			collapse: 'collapsePc',
-			panel: 'panel-warning',
-			id: 'containerPc' 
-		};
-		graficos.push(elemento);
-	}
-
+		if (req.body.pc){
+			elemento = {
+				grafico: graphicLine,
+				titulo: "Potencia Consumida",
+				collapse: 'collapsePc',
+				panel: 'panel-warning',
+				id: 'containerPc' 
+			};
+			graficos.push(elemento);
+		}
 
 
-	/*var t = req.body.temp;
-	var v = req.body.vel;
-	var d = req.body.dir;
-	var r = req.body.rad;
 
-	var pg = req.body.pg;
-	var pc = req.body.pc;
-	if (t) {
-		console.log("temep: " + t);
-	}
-	if (r) {
-		console.log("rad: " + r);
-	}
-	console.log("vel: " + v);
-	console.log("dir: " + d);
-	console.log("Pg: " + pg);
-	console.log("Pc: " + pc);*/
+		/*var t = req.body.temp;
+		var v = req.body.vel;
+		var d = req.body.dir;
+		var r = req.body.rad;
 
-	//devolver vista con los graficos - rta_historicos - 
-	//return res.render('rta_historicos', {graphicWindBars: graphicWindBars, gaugeWR: gaugeWR, graphicArea: graphicArea, graphicLine: graphicLine});
-	return res.render('rta_historicos', {graficos: graficos});
-	
+		var pg = req.body.pg;
+		var pc = req.body.pc;
+		if (t) {
+			console.log("temep: " + t);
+		}
+		if (r) {
+			console.log("rad: " + r);
+		}
+		console.log("vel: " + v);
+		console.log("dir: " + d);
+		console.log("Pg: " + pg);
+		console.log("Pc: " + pc);*/
+
+		//devolver vista con los graficos - rta_historicos - 
+		//return res.render('rta_historicos', {graphicWindBars: graphicWindBars, gaugeWR: gaugeWR, graphicArea: graphicArea, graphicLine: graphicLine});
+		return res.render('rta_historicos', {graficos: graficos, valores: data, fecha: new Date(i), media: Number(m)});
+	});
 };
