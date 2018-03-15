@@ -206,10 +206,17 @@ exports.getGrapWIndBar = (req, res, next) => {
 
 			for (i = 0; i < velocidad.length; i++){
 				var d = {vel: velocidad[i].valor, 
-						dir: direccion[i].valor
+						dir: direccion[i].valor,
+						anio: velocidad[i].producedAt.getFullYear(),
+						mes: velocidad[i].producedAt.getMonth(),
+						dia: velocidad[i].producedAt.getDate(),
+						hora: velocidad[i].producedAt.getHours(),
+						min: velocidad[i].producedAt.getMinutes(),
+						seg: velocidad[i].producedAt.getSeconds(),
 					};
 				datos.push(d);
 			}
+			//console.log(datos);
 			return res.render('graphic_windBar', {conf: elemento, datos: datos, fecha: new Date(i)});
 		});
 	});

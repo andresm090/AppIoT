@@ -21,12 +21,12 @@ var graphicWindBars = {
         offset: 40
     },
 
-    plotOptions: {
+    /*plotOptions: {
         series: {
             pointStart: Date.UTC(2017, 0, 29),
             pointInterval: 36e5
         }
-    },
+    },*/
 
     series: [{
         type: 'windbarb',
@@ -40,7 +40,7 @@ var graphicWindBars = {
         }
     }, {
         type: 'area',
-        keys: ['y', 'rotation'], // rotation is not used here
+        keys: ['x','y', 'rotation'], // rotation is not used here
         data: [
         ],
         color: 'blue',

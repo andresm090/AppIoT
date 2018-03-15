@@ -8,20 +8,20 @@
 		point = grafico1.series[0];
 		point.update({data: [
 			{% for d in datos %}
-				[{{d['vel']}}, {{d['dir']}}],
+				[Date.UTC({{d['anio']}}, {{d['mes']}}, {{d['dia']}}, {{d['hora']}}, {{d['min']}}, {{d['seg']}}), {{d['vel']}}, {{d['dir']}}],
 			{% endfor %}
 			],
-			pointStart: Date.UTC({{fecha.getFullYear()}}, {{fecha.getUTCMonth()}}, {{fecha.getUTCDate()}}),
+			//pointStart: Date.UTC({{fecha.getFullYear()}}, {{fecha.getUTCMonth()}}, {{fecha.getUTCDate()}}),
 		});
 
 		point = grafico1.series[1];
 
 		point.update({data: [
 			{% for d in datos %}
-				[{{d['vel']}}, {{d['dir']}}],
+				[Date.UTC({{d['anio']}}, {{d['mes']}}, {{d['dia']}}, {{d['hora']}}, {{d['min']}}, {{d['seg']}}), {{d['vel']}}, {{d['dir']}}],
 			{% endfor %}
 			],
-			pointStart: Date.UTC({{fecha.getFullYear()}}, {{fecha.getUTCMonth()}}, {{fecha.getUTCDate()}}),
+			//pointStart: Date.UTC({{fecha.getFullYear()}}, {{fecha.getUTCMonth()}}, {{fecha.getUTCDate()}}),
 		});
 
 
