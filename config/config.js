@@ -10,7 +10,7 @@ var config = {
   		port: 3300,
   	},
   	broker: {
-  		host: '192.168.1.72',
+  		host: '192.168.1.74',
       port: 1883,
   	},
   	session:{

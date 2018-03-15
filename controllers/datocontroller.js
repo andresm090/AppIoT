@@ -139,6 +139,83 @@ exports.getTrDatosH = (req, res, next) => {
 	});
 };
 
+exports.getGrapArea = (req, res, next) => {
+	var i = req.body.fechaI;
+	var f = req.body.fechaF;
+	var elemento;
+
+	Dato.find({"producedAt": {"$gte": i, "$lt": f}, "generador": req.params.id, "tipo": req.body.tipo}, {},{ sort: { 'producedAt' : 1 } }, (err, data) => {
+		if (req.body.tipo == "T"){
+			elemento = {
+				grafico: graphicArea,
+				titulo: "Temperatura",
+				unidad: "C°",
+				collapse: 'collapseTem',
+				panel: 'panel-danger',
+				id: 'containerTemp',
+				tipo: 'T' 
+			};
+		}
+		if (req.body.tipo == "Rs"){
+			elemento = {
+				grafico: graphicArea,
+				titulo: "Radiacion solar",
+				unidad: "Kw/m²",
+				collapse: 'collapseRad',
+				panel: 'panel-danger',
+				id: 'containerRad',
+				tipo: 'Rs'  
+			};
+		}
+
+		if (req.body.tipo == "Vm"){
+			elemento = {
+				grafico: graphicArea,
+				titulo: "Velocidad",
+				unidad: "m/s",
+				collapse: 'collapseVel',
+				panel: 'panel-primary',
+				id: 'containervel',
+				tipo: 'Vm'    
+			};
+		}  
+
+		return res.render('graphic_area', {conf: elemento, valores: data});
+	
+	});
+};
+
+exports.getGrapWIndBar = (req, res, next) => {
+
+	var i = req.body.fechaI;
+	var f = req.body.fechaF;
+	var elemento;
+	var datos = [];
+
+	Dato.find({"producedAt": {"$gte": i, "$lt": f}, "generador": req.params.id, "tipo": 'Vm'}, (err, velocidad) => {
+
+		Dato.find({"producedAt": {"$gte": i, "$lt": f}, "generador": req.params.id, "tipo": 'Dv'}, (err, direccion) => {
+			
+			elemento = {
+				grafico: graphicWindBars,
+				titulo: "Velocidad y direccion de viento",
+				collapse: 'collapseVelDir',
+				panel: 'panel-primary',
+				id: 'containerveldir' 
+			};
+
+			for (i = 0; i < velocidad.length; i++){
+				var d = {vel: velocidad[i].valor, 
+						dir: direccion[i].valor
+					};
+				datos.push(d);
+			}
+			return res.render('graphic_windBar', {conf: elemento, datos: datos, fecha: new Date(i)});
+		});
+	});
+};
+
+
 // Prueba de generacion de historicos. Solo funciona el de temperatura.
 exports.getHistoricos = (req, res, next) => {	
 
@@ -160,7 +237,8 @@ exports.getHistoricos = (req, res, next) => {
 				unidad: "C°",
 				collapse: 'collapseTem',
 				panel: 'panel-danger',
-				id: 'containerTemp' 
+				id: 'containerTemp',
+				tipo: 'T' 
 			};
 			graficos.push(elemento);
 		}
@@ -178,9 +256,11 @@ exports.getHistoricos = (req, res, next) => {
 				elemento = {
 					grafico: graphicWindBars,
 					titulo: "Velocidad",
+					unidad: "m/s",
 					collapse: 'collapseVel',
 					panel: 'panel-primary',
-					id: 'containervel' 
+					id: 'containervel',
+					tipo: 'Vm'  
 				};
 				graficos.push(elemento);
 			} else {
@@ -213,9 +293,11 @@ exports.getHistoricos = (req, res, next) => {
 			elemento = {
 				grafico: graphicLine,
 				titulo: "Potencia Generadar",
+				unidad: "Kwh",
 				collapse: 'collapsePg',
 				panel: 'panel-warning',
-				id: 'containerPg' 
+				id: 'containerPg' ,
+				tipo: 'Pg'
 			};
 			graficos.push(elemento);
 		}
@@ -224,35 +306,15 @@ exports.getHistoricos = (req, res, next) => {
 			elemento = {
 				grafico: graphicLine,
 				titulo: "Potencia Consumida",
+				unidad: "Kwh",
 				collapse: 'collapsePc',
 				panel: 'panel-warning',
-				id: 'containerPc' 
+				id: 'containerPc',
+				tipo: 'Ac' 
 			};
 			graficos.push(elemento);
 		}
 
-
-
-		/*var t = req.body.temp;
-		var v = req.body.vel;
-		var d = req.body.dir;
-		var r = req.body.rad;
-
-		var pg = req.body.pg;
-		var pc = req.body.pc;
-		if (t) {
-			console.log("temep: " + t);
-		}
-		if (r) {
-			console.log("rad: " + r);
-		}
-		console.log("vel: " + v);
-		console.log("dir: " + d);
-		console.log("Pg: " + pg);
-		console.log("Pc: " + pc);*/
-
-		//devolver vista con los graficos - rta_historicos - 
-		//return res.render('rta_historicos', {graphicWindBars: graphicWindBars, gaugeWR: gaugeWR, graphicArea: graphicArea, graphicLine: graphicLine});
-		return res.render('rta_historicos', {graficos: graficos, valores: data, fecha: new Date(i), media: Number(m)});
+		return res.render('rta_historicos', {graficos: graficos, valores: data});
 	});
 };

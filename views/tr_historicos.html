@@ -13,6 +13,7 @@
 						<div class="panel-heading clearfix"><strong>Periodo de muestreo</strong><hr></div>
 						<form class="form-inline" id="formH" method="post">
 							<div class="col-md-4">
+								<input type="text" id="tipo" name="tipo" hidden="true">
 								<div {% if user.suscripciones.indexOf(clima) === -1 %} hidden="true" {% endif %}>
 									<h5><strong>Variables climaticas</strong></h5> 
 									<label class="checkbox-inline">
@@ -78,19 +79,90 @@
 		</div>
 	</div>
 </div>
-<div id="historicos">
+<!--<div id="historicos"> -->
+<div id="gratemp"></div>
+<div id="gravel"></div>
+<div id="gradir"></div>
+<div id="graveldir"></div>
+<div id="grarad"></div>
+<div id="grapg"></div>
+<div id="grapc"></div>
 <script>
 	
 function sendForm() {
 
-	$.ajax({
+	if ($('#temp').is(':checked')) {
+		$('#tipo').val("T");
+		$.ajax({
+			url: "/getGrapArea/" + '{{id}}',
+		  	type: "POST",
+		  	data: $('#formH').serialize(), 
+		  	success: function(data) {
+		  		$("#gratemp").html(data);
+		  	}
+	  	});
+	}
+
+	if ($('#vel').is(':checked') && $('#dir').is(':checked')) {
+		$.ajax({
+			url: "/getGrapWIndBar/" + '{{id}}',
+		  	type: "POST",
+		  	data: $('#formH').serialize(), 
+		  	success: function(data) {
+		  		$("#graveldir").html(data);
+		  	}
+	  	});
+	} else {
+
+		if ($('#vel').is(':checked')) {
+			$('#tipo').val("Vm");
+			$.ajax({
+				url: "/getGrapArea/" + '{{id}}',
+			  	type: "POST",
+			  	data: $('#formH').serialize(), 
+			  	success: function(data) {
+			  		$("#gravel").html(data);
+			  	}
+		  	});
+
+		} else {
+
+			if ($('#dir').is(':checked')) {
+				$.ajax({
+					url: "/getGrapRw/" + '{{id}}',
+				  	type: "POST",
+				  	data: $('#formH').serialize(), 
+				  	success: function(data) {
+				  		$("#gradir").html(data);
+				  	}
+			  	});
+			} 
+		}
+	}
+
+	if ($('#rad').is(':checked')) {
+		$('#tipo').val("Rs");
+		$.ajax({
+			url: "/getGrapArea/" + '{{id}}',
+		  	type: "POST",
+		  	data: $('#formH').serialize(), 
+		  	success: function(data) {
+		  		$("#grarad").html(data);
+		  	}
+	  	});
+	}
+
+
+
+
+	/*$.ajax({
 			url: "/getHistoricos/" + '{{id}}',
 		  	type: "POST",
 		  	data: $('#formH').serialize(), 
 		  	success: function(data) {
 		  		$("#historicos").html(data);
 		  	}
-	  	});
+	  	});*/
 
 }
 
