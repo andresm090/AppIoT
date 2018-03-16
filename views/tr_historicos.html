@@ -152,8 +152,29 @@ function sendForm() {
 	  	});
 	}
 
+	if ($('#pg').is(':checked')) {
+		$('#tipo').val("Pg");
+		$.ajax({
+			url: "/getGrapLine/" + '{{id}}',
+		  	type: "POST",
+		  	data: $('#formH').serialize(), 
+		  	success: function(data) {
+		  		$("#grapg").html(data);
+		  	}
+	  	});
+	}
 
-
+	if ($('#pc').is(':checked')) {
+		$('#tipo').val("Ac");
+		$.ajax({
+			url: "/getGrapLine/" + '{{id}}',
+		  	type: "POST",
+		  	data: $('#formH').serialize(), 
+		  	success: function(data) {
+		  		$("#grapc").html(data);
+		  	}
+	  	});
+	}
 
 	/*$.ajax({
 			url: "/getHistoricos/" + '{{id}}',

@@ -140,6 +140,7 @@ exports.getTrDatosH = (req, res, next) => {
 };
 
 exports.getGrapArea = (req, res, next) => {
+
 	var i = req.body.fechaI;
 	var f = req.body.fechaF;
 	var elemento;
@@ -185,6 +186,55 @@ exports.getGrapArea = (req, res, next) => {
 	});
 };
 
+exports.getGrapLine = (req, res, next) => {
+
+	var i = req.body.fechaI;
+	var f = req.body.fechaF;
+	var elemento;
+
+	if (req.body.tipo == "Pg"){
+
+		Dato.find({"producedAt": {"$gte": i, "$lt": f}, "generador": req.params.id, "tipo": req.body.tipo}, {},{ sort: { 'producedAt' : 1 } }, (err, data) => {
+
+			elemento = {
+				grafico: graphicLine,
+				titulo: "Potencia Generada",
+				unidad: "Kwh",
+				collapse: 'collapsePg',
+				panel: 'panel-warning',
+				id: 'containerPg' ,
+				tipo: 'Pg'
+			};
+
+			return res.render('graphic_line', {conf: elemento, valores: data});
+		});
+
+	} else {
+
+		Dato.find({"producedAt": {"$gte": i, "$lt": f}, "generador": req.params.id, "tipo": 'Ac'}, {},{ sort: { 'producedAt' : 1 } }, (err, data) => {
+			Dato.find({"producedAt": {"$gte": i, "$lt": f}, "generador": req.params.id, "tipo": 'Vbb'}, {},{ sort: { 'producedAt' : 1 } }, (err, voltaje) => {
+				
+				elemento = {
+					grafico: graphicLine,
+					titulo: "Potencia Consumida",
+					unidad: "Kwh",
+					collapse: 'collapsePc',
+					panel: 'panel-warning',
+					id: 'containerPc',
+					tipo: 'Ac' 
+				};
+
+				for (i = 0; i < data.length; i++){
+					data[i].valor = data[i].valor*voltaje[i].valor
+				}
+				
+				return res.render('graphic_line', {conf: elemento, valores: data});
+			});
+		});
+
+	}	
+}; 
+
 exports.getGrapWIndBar = (req, res, next) => {
 
 	var i = req.body.fechaI;
@@ -221,7 +271,6 @@ exports.getGrapWIndBar = (req, res, next) => {
 		});
 	});
 };
-
 
 // Prueba de generacion de historicos. Solo funciona el de temperatura.
 exports.getHistoricos = (req, res, next) => {	
