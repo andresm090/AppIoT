@@ -129,7 +129,7 @@ function sendForm() {
 
 			if ($('#dir').is(':checked')) {
 				$.ajax({
-					url: "/getGrapRw/" + '{{id}}',
+					url: "/getWindRose/" + '{{id}}',
 				  	type: "POST",
 				  	data: $('#formH').serialize(), 
 				  	success: function(data) {

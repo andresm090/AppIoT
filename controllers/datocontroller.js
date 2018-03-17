@@ -17,6 +17,10 @@ var stateVbb = require('../src/stateVbb');
 var graphicWindBars = require('../src/graphicWindBars');
 var graphicArea = require('../src/graphicArea');
 var graphicLine = require('../src/graphicLine');
+var graphicWindRose = require('../src/graphicWindRose');
+var repo = require('../src/repository');
+
+var repository = new repo();
 
 /*exports.getfPanelControl = (req, res, next) => {
 
@@ -242,9 +246,9 @@ exports.getGrapWIndBar = (req, res, next) => {
 	var elemento;
 	var datos = [];
 
-	Dato.find({"producedAt": {"$gte": i, "$lt": f}, "generador": req.params.id, "tipo": 'Vm'}, (err, velocidad) => {
+	Dato.find({"producedAt": {"$gte": i, "$lt": f}, "generador": req.params.id, "tipo": 'Vm'}, {}, { sort: { 'producedAt' : 1 } }, (err, velocidad) => {
 
-		Dato.find({"producedAt": {"$gte": i, "$lt": f}, "generador": req.params.id, "tipo": 'Dv'}, (err, direccion) => {
+		Dato.find({"producedAt": {"$gte": i, "$lt": f}, "generador": req.params.id, "tipo": 'Dv'}, {}, { sort: { 'producedAt' : 1 } }, (err, direccion) => {
 			
 			elemento = {
 				grafico: graphicWindBars,
@@ -266,10 +270,232 @@ exports.getGrapWIndBar = (req, res, next) => {
 					};
 				datos.push(d);
 			}
-			//console.log(datos);
+
 			return res.render('graphic_windBar', {conf: elemento, datos: datos, fecha: new Date(i)});
 		});
 	});
+};
+//No funciona (problemas de renderizado)
+exports.getWindRose = (req, res, next) => {
+
+	var i = req.body.fechaI;
+	var f = req.body.fechaF;
+	var data = {
+		'N': [],
+		'NNE': [],
+		'NE': [],
+		'ENE': [],
+		'E': [],
+		'ESE': [],
+		'SE': [],
+		'SSE': [],
+		'S': [],
+		'SSW': [],
+		'SW': [],
+		'WSW': [],
+		'W': [],
+		'WNW': [],
+		'NW': [],
+		'NNW': [],
+	};
+
+	Dato.find({"producedAt": {"$gte": i, "$lt": f}, "generador": req.params.id, "tipo": 'Vm'}, {}, { sort: { 'producedAt' : 1 } }, (err, velocidad) => {
+
+		Dato.find({"producedAt": {"$gte": i, "$lt": f}, "generador": req.params.id, "tipo": 'Dv'}, {}, { sort: { 'producedAt' : 1 } }, (err, direccion) => {
+
+			var total = velocidad.length;
+
+			for (i = 0; i < velocidad.length; i++){
+				j = repository.sacarCuadrante(Number(direccion[i].valor));
+				data[j].push(velocidad[i].valor);
+			}
+
+			var cont = {
+
+				'0': 0,
+				'1': 0,
+				'2': 0,
+				'3': 0,
+				'4': 0,
+				'5': 0,
+				'6': 0,
+			};
+
+			for (d in data) {
+				for (i = 0; i < data[d].length; i++){
+					if (data[d][i] < 0.5){
+						cont['0'] = cont['0'] + 1;
+					}
+					if (data[d][i] >= 0.5 && data[d][i] < 2){
+						cont['1'] = cont['1'] + 1;
+					}
+					if (data[d][i] >= 2 && data[d][i] < 4){
+						cont['2'] = cont['2'] + 1;
+					}
+					if (data[d][i] >= 4 && data[d][i] < 6){
+						cont['3'] = cont['3'] + 1;
+					}
+					if (data[d][i] >= 6 && data[d][i] < 8){
+						cont['4'] = cont['4'] + 1;
+					}
+					if (data[d][i] >= 8 && data[d][i] < 10){
+						cont['5'] = cont['5'] + 1;
+					}
+					if (data[d][i] > 10){
+						cont['6'] = cont['6'] + 1;
+					}
+				}
+				data[d] = [];
+				for (c in cont){
+					data[d].push(cont[c]*100/total); 
+					cont[c] = 0;
+				}
+
+			}
+			console.log(data);
+			/*var grap = graphicWindRose;
+			grap['series'] = [{
+            "name": "0.5-2 m/s",
+            "data": [
+                ["N", 0.0],
+                ["NNE", 0],
+                ["NE", 0.0],
+                ["ENE", 0.0],
+                ["E", 0.0],
+                ["ESE", 0.0],
+                ["SE", 0.0],
+                ["SSE", 0.0],
+                ["S", 0.0],
+                ["SSW", 0.0],
+                ["SW", 0.0],
+                ["WSW", 0.0],
+                ["W", 0.0],
+                ["WNW", 0.0],
+                ["NW", 0.0],
+                ["NNW", 0.0]
+            ],
+            "_colorIndex": 1
+        }, {
+            "name": "2-4 m/s",
+            "data": [
+                ["N", 0.0],
+                ["NNE", 0],
+                ["NE", 0.0],
+                ["ENE", 0.0],
+                ["E", 0.0],
+                ["ESE", 0.0],
+                ["SE", 0.0],
+                ["SSE", 0.0],
+                ["S", 0.0],
+                ["SSW", 0.0],
+                ["SW", 0.0],
+                ["WSW", 0.0],
+                ["W", 0.0],
+                ["WNW", 0.0],
+                ["NW", 0.0],
+                ["NNW", 0.0]
+            ],
+            "_colorIndex": 2
+        }, {
+            "name": "4-6 m/s",
+            "data": [
+               ["N", 0.0],
+                ["NNE", 0],
+                ["NE", 0.0],
+                ["ENE", 0.0],
+                ["E", 0.0],
+                ["ESE", 0.0],
+                ["SE", 0.0],
+                ["SSE", 0.0],
+                ["S", 0.0],
+                ["SSW", 0.0],
+                ["SW", 0.0],
+                ["WSW", 0.0],
+                ["W", 0.0],
+                ["WNW", 0.0],
+                ["NW", 0.0],
+                ["NNW", 0.0]
+            ],
+            "_colorIndex": 3
+        }, {
+            "name": "6-8 m/s",
+            "data": [
+                ["N", 0.0],
+                ["NNE", 0],
+                ["NE", 0.0],
+                ["ENE", 0.0],
+                ["E", 0.0],
+                ["ESE", 0.0],
+                ["SE", 0.0],
+                ["SSE", 0.0],
+                ["S", 0.0],
+                ["SSW", 0.0],
+                ["SW", 0.0],
+                ["WSW", 0.0],
+                ["W", 0.0],
+                ["WNW", 0.0],
+                ["NW", 0.0],
+                ["NNW", 0.0]
+            ],
+            "_colorIndex": 4
+        }, {
+            "name": "8-10 m/s",
+            "data": [
+                ["N", 0.0],
+                ["NNE", 0],
+                ["NE", 0.0],
+                ["ENE", 0.0],
+                ["E", 0.0],
+                ["ESE", 0.0],
+                ["SE", 0.0],
+                ["SSE", 0.0],
+                ["S", 0.0],
+                ["SSW", 0.0],
+                ["SW", 0.0],
+                ["WSW", 0.0],
+                ["W", 0.0],
+                ["WNW", 0.0],
+                ["NW", 0.0],
+                ["NNW", 0.0]
+            ],
+            "_colorIndex": 5
+        }, {
+            "name": "&gt; 10 m/s",
+            "data": [
+                ["N", 0.0],
+                ["NNE", 0],
+                ["NE", 0.0],
+                ["ENE", 0.0],
+                ["E", 0.0],
+                ["ESE", 0.0],
+                ["SE", 0.0],
+                ["SSE", 0.0],
+                ["S", 0.0],
+                ["SSW", 0.0],
+                ["SW", 0.0],
+                ["WSW", 0.0],
+                ["W", 0.0],
+                ["WNW", 0.0],
+                ["NW", 0.0],
+                ["NNW", 0.0]
+            ],
+            "_colorIndex": 6
+        }];*/
+			elemento = {
+				grafico: graphicWindRose,
+				titulo: "Rosa de vientos",
+				collapse: 'collapseDir',
+				panel: 'panel-info',
+				id: 'containerdir' 
+			};
+
+			return res.render('graphic_windRose', {conf: elemento, datos: data});
+
+		});
+
+	});
+
+
 };
 
 // Prueba de generacion de historicos. Solo funciona el de temperatura.

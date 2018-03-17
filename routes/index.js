@@ -53,6 +53,8 @@ router.post('/getHistoricos/:id(*)', passportConfig.isAuthenticate, datocontroll
 router.post('/getGrapArea/:id(*)', passportConfig.isAuthenticate, datocontroller.getGrapArea);
 router.post('/getGrapWIndBar/:id(*)', passportConfig.isAuthenticate, datocontroller.getGrapWIndBar);
 router.post('/getGrapLine/:id(*)', passportConfig.isAuthenticate, datocontroller.getGrapLine);
+router.post('/getWindRose/:id(*)', passportConfig.isAuthenticate, datocontroller.getWindRose);
+
 router.post('/sendMail', passportConfig.isAuthenticate, mailcontroller.sendMailPublicacion);
 
 //rutas para administracion 
