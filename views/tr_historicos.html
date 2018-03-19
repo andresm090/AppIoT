@@ -1,5 +1,6 @@
 </br>
 <script src="https://code.highcharts.com/modules/windbarb.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
 <div class="row">		
 	<div class="col-md-12 col-md-offset-0">
 		<div class="panel panel-default">
@@ -41,6 +42,7 @@
 			  						<label class="checkbox-inline">
 		  								<input type="checkbox" id="pc" name="pc"> Potencia Consumida
 									</label>
+									<hr>
 								</div>
 							</div>
 							<div class="col-md-8">
@@ -101,6 +103,8 @@ function sendForm() {
 		  		$("#gratemp").html(data);
 		  	}
 	  	});
+	} else {
+		$("#gratemp").empty();
 	}
 
 	if ($('#vel').is(':checked') && $('#dir').is(':checked')) {
@@ -112,8 +116,10 @@ function sendForm() {
 		  		$("#graveldir").html(data);
 		  	}
 	  	});
+	  	$("#gravel").empty();
+	  	$("#gradir").empty();
 	} else {
-
+		$("#graveldir").empty();
 		if ($('#vel').is(':checked')) {
 			$('#tipo').val("Vm");
 			$.ajax({
@@ -126,7 +132,7 @@ function sendForm() {
 		  	});
 
 		} else {
-
+			$("#gravel").empty();
 			if ($('#dir').is(':checked')) {
 				$.ajax({
 					url: "/getWindRose/" + '{{id}}',
@@ -136,6 +142,8 @@ function sendForm() {
 				  		$("#gradir").html(data);
 				  	}
 			  	});
+			} else {
+				$("#gradir").empty();
 			} 
 		}
 	}
@@ -150,6 +158,8 @@ function sendForm() {
 		  		$("#grarad").html(data);
 		  	}
 	  	});
+	} else {
+		$("#grarad").empty();
 	}
 
 	if ($('#pg').is(':checked')) {
@@ -162,6 +172,8 @@ function sendForm() {
 		  		$("#grapg").html(data);
 		  	}
 	  	});
+	} else {
+		$("#grapg").empty();
 	}
 
 	if ($('#pc').is(':checked')) {
@@ -174,6 +186,8 @@ function sendForm() {
 		  		$("#grapc").html(data);
 		  	}
 	  	});
+	} else {
+		$("#grapc").empty();
 	}
 
 	/*$.ajax({

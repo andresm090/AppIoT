@@ -259,8 +259,12 @@ exports.getGrapWIndBar = (req, res, next) => {
 			};
 
 			for (i = 0; i < velocidad.length; i++){
+				var dir = Number(direccion[i].valor) + 180;
+				if (dir > 360){
+					dir = dir - 360;
+				}
 				var d = {vel: velocidad[i].valor, 
-						dir: direccion[i].valor,
+						dir: dir,
 						anio: velocidad[i].producedAt.getFullYear(),
 						mes: velocidad[i].producedAt.getMonth(),
 						dia: velocidad[i].producedAt.getDate(),
@@ -275,7 +279,7 @@ exports.getGrapWIndBar = (req, res, next) => {
 		});
 	});
 };
-//No funciona (problemas de renderizado)
+
 exports.getWindRose = (req, res, next) => {
 
 	var i = req.body.fechaI;
@@ -352,135 +356,7 @@ exports.getWindRose = (req, res, next) => {
 				}
 
 			}
-			console.log(data);
-			/*var grap = graphicWindRose;
-			grap['series'] = [{
-            "name": "0.5-2 m/s",
-            "data": [
-                ["N", 0.0],
-                ["NNE", 0],
-                ["NE", 0.0],
-                ["ENE", 0.0],
-                ["E", 0.0],
-                ["ESE", 0.0],
-                ["SE", 0.0],
-                ["SSE", 0.0],
-                ["S", 0.0],
-                ["SSW", 0.0],
-                ["SW", 0.0],
-                ["WSW", 0.0],
-                ["W", 0.0],
-                ["WNW", 0.0],
-                ["NW", 0.0],
-                ["NNW", 0.0]
-            ],
-            "_colorIndex": 1
-        }, {
-            "name": "2-4 m/s",
-            "data": [
-                ["N", 0.0],
-                ["NNE", 0],
-                ["NE", 0.0],
-                ["ENE", 0.0],
-                ["E", 0.0],
-                ["ESE", 0.0],
-                ["SE", 0.0],
-                ["SSE", 0.0],
-                ["S", 0.0],
-                ["SSW", 0.0],
-                ["SW", 0.0],
-                ["WSW", 0.0],
-                ["W", 0.0],
-                ["WNW", 0.0],
-                ["NW", 0.0],
-                ["NNW", 0.0]
-            ],
-            "_colorIndex": 2
-        }, {
-            "name": "4-6 m/s",
-            "data": [
-               ["N", 0.0],
-                ["NNE", 0],
-                ["NE", 0.0],
-                ["ENE", 0.0],
-                ["E", 0.0],
-                ["ESE", 0.0],
-                ["SE", 0.0],
-                ["SSE", 0.0],
-                ["S", 0.0],
-                ["SSW", 0.0],
-                ["SW", 0.0],
-                ["WSW", 0.0],
-                ["W", 0.0],
-                ["WNW", 0.0],
-                ["NW", 0.0],
-                ["NNW", 0.0]
-            ],
-            "_colorIndex": 3
-        }, {
-            "name": "6-8 m/s",
-            "data": [
-                ["N", 0.0],
-                ["NNE", 0],
-                ["NE", 0.0],
-                ["ENE", 0.0],
-                ["E", 0.0],
-                ["ESE", 0.0],
-                ["SE", 0.0],
-                ["SSE", 0.0],
-                ["S", 0.0],
-                ["SSW", 0.0],
-                ["SW", 0.0],
-                ["WSW", 0.0],
-                ["W", 0.0],
-                ["WNW", 0.0],
-                ["NW", 0.0],
-                ["NNW", 0.0]
-            ],
-            "_colorIndex": 4
-        }, {
-            "name": "8-10 m/s",
-            "data": [
-                ["N", 0.0],
-                ["NNE", 0],
-                ["NE", 0.0],
-                ["ENE", 0.0],
-                ["E", 0.0],
-                ["ESE", 0.0],
-                ["SE", 0.0],
-                ["SSE", 0.0],
-                ["S", 0.0],
-                ["SSW", 0.0],
-                ["SW", 0.0],
-                ["WSW", 0.0],
-                ["W", 0.0],
-                ["WNW", 0.0],
-                ["NW", 0.0],
-                ["NNW", 0.0]
-            ],
-            "_colorIndex": 5
-        }, {
-            "name": "&gt; 10 m/s",
-            "data": [
-                ["N", 0.0],
-                ["NNE", 0],
-                ["NE", 0.0],
-                ["ENE", 0.0],
-                ["E", 0.0],
-                ["ESE", 0.0],
-                ["SE", 0.0],
-                ["SSE", 0.0],
-                ["S", 0.0],
-                ["SSW", 0.0],
-                ["SW", 0.0],
-                ["WSW", 0.0],
-                ["W", 0.0],
-                ["WNW", 0.0],
-                ["NW", 0.0],
-                ["NNW", 0.0]
-            ],
-            "_colorIndex": 6
-        }];*/
+		
 			elemento = {
 				grafico: graphicWindRose,
 				titulo: "Rosa de vientos",

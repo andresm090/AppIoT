@@ -3,7 +3,7 @@ var graphicWindRose = {
     data: {
         table: 'freq',
         startRow: 1,
-        endRow: 16,
+        endRow: 17,
         endColumn: 7
     },
 
@@ -37,7 +37,7 @@ var graphicWindRose = {
         verticalAlign: 'top',
         y: 100,
         layout: 'vertical',
-        enabled: false
+        enabled: true
     },
 
     xAxis: {
@@ -52,7 +52,7 @@ var graphicWindRose = {
         endOnTick: false,
         showLastLabel: true,
         title: {
-            text: 'Frequency (%)'
+            text: 'Frecuencia (%)'
         },
         labels: {
             //formatter: function () {

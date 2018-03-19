@@ -14,18 +14,18 @@
 				<td class="text-center">{{generador.tipo}}</td>
 				<td class="text-center">{{generador.caracteristicas[0]['potencia']}} Watt</td>
 				<td class="text-center">
-					<button type="button" class="btn btn-success btn-xs" onclick="detalleGenerador(&quot;{{generador.id}}&quot;)">
+					<button type="button" class="btn btn-success btn-xs" onclick="detalleGenerador(&quot;{{generador.id}}&quot;)" title="Ver panel de detalle del equipo">
 						<span class="glyphicon glyphicon-eye-open"></span>
 					</button>
-					<button type="button" class="btn btn-info btn-xs" {% if !generador.activo %} disabled {% endif %} onclick="modifyGenerador(&quot;{{generador.id}}&quot;)">
+					<button type="button" class="btn btn-info btn-xs" {% if !generador.activo %} disabled {% endif %} onclick="modifyGenerador(&quot;{{generador.id}}&quot;)" title="Modificar datos del {{generador.tipo}}">
 						<span class="glyphicon glyphicon-pencil"></span>
 					</button>
 					{% if generador.activo %}
-						<button type="button" class="btn btn-danger btn-xs" onclick="deleteGenerador(&quot;{{generador.id}}&quot;)">
+						<button type="button" class="btn btn-danger btn-xs" onclick="deleteGenerador(&quot;{{generador.id}}&quot;)" title="Desactivar {{generador.tipo}}">
 							<span class="glyphicon glyphicon-trash"></span>
 						</button>
 					{% else %}
-						<button type="button" class="btn btn-success btn-xs" onclick="activarGenerador(&quot;{{generador.id}}&quot;)">
+						<button type="button" class="btn btn-success btn-xs" onclick="activarGenerador(&quot;{{generador.id}}&quot;)" title="Activar {{generador.tipo}}">
 							<span class="glyphicon glyphicon-upload"></span>
 						</button>
 					{% endif %}
