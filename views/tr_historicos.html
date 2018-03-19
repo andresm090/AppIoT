@@ -44,6 +44,12 @@
 									</label>
 									<hr>
 								</div>
+								<div>
+									<h5><strong>Registro de eventos</strong></h5> 
+									<label class="checkbox-inline">
+		  								<input type="checkbox" id="event" name="event"> Eventos ocurridos durante
+									</label>
+								</div>
 							</div>
 							<div class="col-md-8">
 								<div class="col-md-12">
@@ -89,6 +95,7 @@
 <div id="grarad"></div>
 <div id="grapg"></div>
 <div id="grapc"></div>
+<div id="tableEvent"></div>
 <script>
 	
 function sendForm() {
@@ -188,6 +195,20 @@ function sendForm() {
 	  	});
 	} else {
 		$("#grapc").empty();
+	}
+
+	if ($('#event').is(':checked')) {
+
+		$.ajax({
+			url: "/getRegEvent/" + '{{id}}',
+		  	type: "POST",
+		  	data: $('#formH').serialize(), 
+		  	success: function(data) {
+		  		$("#tableEvent").html(data);
+		  	}
+	  	});
+	} else {
+		$("#tableEvent").empty();
 	}
 
 	/*$.ajax({

@@ -368,6 +368,38 @@ exports.getWindRose = (req, res, next) => {
 			return res.render('graphic_windRose', {conf: elemento, datos: data});
 
 		});
+	});
+};
+
+exports.getTableEventoGenerador = (req, res, next) => {
+
+	var i = req.body.fechaI;
+	var f = req.body.fechaF;
+	var elemento;
+
+	Evento.find({"producedAt": {"$gte": i, "$lt": f}, "generador": req.params.id}, {}, { sort: { 'producedAt' : -1 } }, (err, events) => {
+
+		elemento = {
+			titulo: "Registro de eventos",
+			collapse: 'collapseEvent',
+			panel: 'panel-success',
+			id: 'containerevent' 
+		};
+
+		var options = {  
+			weekday: 'long',
+			year: 'numeric',
+			month: 'long',
+			day: 'numeric',
+			hour: '2-digit',
+			minute: '2-digit'
+		};
+		
+		if (err){
+			return res.render('tb_eventos', {conf: elemento, datos: [], options: options});
+		}
+
+		return res.render('tb_eventos', {conf: elemento, datos: events, options: options});
 
 	});
 

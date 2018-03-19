@@ -54,6 +54,7 @@ router.post('/getGrapArea/:id(*)', passportConfig.isAuthenticate, datocontroller
 router.post('/getGrapWIndBar/:id(*)', passportConfig.isAuthenticate, datocontroller.getGrapWIndBar);
 router.post('/getGrapLine/:id(*)', passportConfig.isAuthenticate, datocontroller.getGrapLine);
 router.post('/getWindRose/:id(*)', passportConfig.isAuthenticate, datocontroller.getWindRose);
+router.post('/getRegEvent/:id(*)', passportConfig.isAuthenticate, datocontroller.getTableEventoGenerador);
 
 router.post('/sendMail', passportConfig.isAuthenticate, mailcontroller.sendMailPublicacion);
 
