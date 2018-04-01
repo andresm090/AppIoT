@@ -122,9 +122,9 @@
 	google.charts.load('current', {'packages':['table']});
 	google.charts.setOnLoadCallback(drawTable);
 	   
-	socket.on('notification', setData);
-	socket.on('energia', setDataE);
-	socket.on('aero/e', eventFreno);
+	socket.on('{{socketId}}/c', setData);
+	socket.on('{{socketId}}/p', setDataE);
+	socket.on('{{socketId}}/e', eventFreno);
 
 	function eventFreno(state){
 		pointEvent = statebarPN;

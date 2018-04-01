@@ -110,9 +110,9 @@
 	google.charts.load('current', {'packages':['table']});
 	google.charts.setOnLoadCallback(drawTable);
 	   
-	socket.on('panelf/c', setDataC);
-	socket.on('panelf/e', setDataE);
-	socket.on('panelf/event', setDataEvent);
+	socket.on('{{socketId}}/c', setDataC);
+	socket.on('{{socketId}}/p', setDataE);
+	socket.on('{{socketId}}/e', setDataEvent);
 	   
 	function setDataEvent(data, inc){
 

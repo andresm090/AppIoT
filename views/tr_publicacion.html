@@ -51,6 +51,20 @@
 								</tr>
 							{% endif %}
 						{% endfor %}
+						<tr>
+							<th class="text-center success">Actuadores</th>
+							<th class="text-center success">Tipo</th>
+							<th class="text-center success">Publicacion en Topico</th>
+						</tr>
+						{% for a in generador.actuadores %}
+							{% if a['re_publica'] %}
+								<tr>
+									<th class="text-center">{{a['nombre']}}</th>
+									<td class="text-center">{% if a['tipo'] == 'Ef' %} 0/1 {% else %} Numero {% endif %}</td>
+									<td class="text-center">{{"C"+generador.comuna.id_topic+"/"+generador.sufijo+generador.id_topic+"/"+a['topico']}}</td>
+								</tr>
+							{% endif %}
+						{% endfor %}
 					</tbody>
 				</table>	
 			</div>

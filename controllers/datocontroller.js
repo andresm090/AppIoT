@@ -83,7 +83,7 @@ exports.getTrDatosTR = (req, res, next) => {
 		} else {
 			res.locals.user = req.user;
 			if (generador.isAerogenerador()){
-				return res.render('tr_aero2', {gaugeTemp: gaugeTemp, gaugeVel: gaugeVel, gaugeVA: gaugeVA, gaugeWR: gaugeWR, statebarPN: statebarPN, potenciaN: generador.caracteristicas[0]['potencia'], bbaterias: generador.bbaterias[0], stateVbb: stateVbb, actuador: generador.actuadores[0]['activado']});
+				return res.render('tr_aero2', {gaugeTemp: gaugeTemp, gaugeVel: gaugeVel, gaugeVA: gaugeVA, gaugeWR: gaugeWR, statebarPN: statebarPN, potenciaN: generador.caracteristicas[0]['potencia'], bbaterias: generador.bbaterias[0], stateVbb: stateVbb, actuador: generador.actuadores[0]['activado'], socketId: generador.id});
 			} else {
 				Evento.findOne({generador: generador.id}, {}, { sort: { 'createdAt' : -1 } }, function(err, evento) {
 					var inc;
@@ -100,7 +100,7 @@ exports.getTrDatosTR = (req, res, next) => {
 						default:
 							inc = gaugeIncSeries.otonio;
 					}
-					return res.render('tr_panelf', {gaugeTemp: gaugeTemp, gaugePira: gaugePira, gaugeVA: gaugeVA, statebarPN: statebarPN, gaugeInc: gaugeInc, potenciaN: generador.caracteristicas[0]['potencia'], bbaterias: generador.bbaterias[0], stateVbb: stateVbb, data: inc, value: evento.valor}); //Completar
+					return res.render('tr_panelf', {gaugeTemp: gaugeTemp, gaugePira: gaugePira, gaugeVA: gaugeVA, statebarPN: statebarPN, gaugeInc: gaugeInc, potenciaN: generador.caracteristicas[0]['potencia'], bbaterias: generador.bbaterias[0], stateVbb: stateVbb, data: inc, value: evento.valor, socketId: generador.id});
 				});
 			}
 		}
