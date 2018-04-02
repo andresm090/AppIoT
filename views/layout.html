@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>IoT Aplication</title>
+    <title>IoThesis</title>
 
     <!-- Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
@@ -16,8 +16,12 @@
 
 	<!-- Optional theme -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+	<link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 
 	<link href="/public/stylesheets/submenu.css" rel="stylesheet">
+	<link href="/public/stylesheets/main.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Raleway">
+	<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans">
 </head>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js" integrity="sha384-I6F5OKECLVtK/BL+8iSLDEHowSAfUo76ZL9+kGAgTRdiByINKJaqTPH/QVNS1VDb" crossorigin="anonymous"></script>
 <body id="app-layout">
@@ -34,16 +38,17 @@
                 </button>
 
                 <!-- Branding Image -->
-                <a class="navbar-brand fuente" href="/">
-                    IoT Aplication
+                <a class="nav navbar-brand" href="/">
+                	<i class="fa-lg ion-ios-home"></i>
+                    
                 </a>
 
             </div>
 
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
             	{% if user %}
-	            	<ul class="nav navbar-nav fuente dropdown">
-	            		<li><a href="/comunas"><i class="fa fa-cog fa-map-marker fa-lg"></i> Mapa de Comunas</a>
+	            	<ul class="nav navbar-nav dropdown">
+	            		<li><a href="/comunas"><i class="fa-lg ion-ios-location"></i> Mapa de Comunas</a>
 	                    <!--<li class="dropdown">
 	                    	<a href="#" class="dropdown-toggle" data-toggle="dropdown">Comunas Rurales <b class="caret"></b></a>
 	                         <ul class="dropdown-menu">
@@ -70,20 +75,20 @@
 
 
                 <!-- Right Side Of Navbar -->
-                <ul class="nav navbar-nav navbar-right fuente">
+                <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
                     {% if user %}
 	                    <li class="dropdown">
-	                    	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> {{user.username}} <span class="caret"></span>
+	                    	<a href="#" class="dropdown-toggle mayuscula" data-toggle="dropdown" role="button" aria-expanded="false"> {{user.username}} <span class="caret"></span>
 	                    	</a>
-	                    	<ul class="dropdown-menu fuente" role="menu">
-	                        	<li><a href="/topicos"><i class="fa fa-btn fa-check-circle-o fa-lg"></i> Mis suscripciones</a></li>
+	                    	<ul class="dropdown-menu gris" role="menu">
+	                        	<li><a href="/topicos"><i class="fa-lg ion ion-ios-checkmark ion-ios-list"></i> Mis suscripciones</a></li>
 	                        	<!--<li><a href="/prueba"><i class="fa fa-cog fa-spin fa-lg"></i> Ver Datos</a></li>
 	                        	<li><a href="/comunas"><i class="fa fa-cog fa-map-marker fa-lg"></i> Ver Mapa</a></li>-->
 	                        	{% if user.isAdministrador() %}
-	                        		<li><a href="/admin"><i class="fa fa-cog fa-spin fa-lg"></i> Administrador</a></li>
+	                        		<li><a href="/admin"><i class="fa-lg ion-settings"></i> Administrador</a></li>
 	                        	{% endif %}
-	                        	<li><a href="/logout"><i class="fa fa-btn fa-sign-out fa-lg"></i> Logout</a></li>
+	                        	<li><a href="/logout"><i class="fa-lg ion ion-log-out"></i> Cerrar Sesi&oacute;n</a></li>
 	                        </ul>
 	                    </li>
                     {% else %}
