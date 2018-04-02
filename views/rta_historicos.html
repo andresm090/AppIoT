@@ -21,18 +21,20 @@
 	var grafico1 = Highcharts.chart('{{grafico['id']}}', {{JSON.stringify(grafico['grafico'])}},);
 	point = grafico1.title;
 	point.update({text: '{{grafico['titulo']}}'});
+	point = grafico1.yAxis[0];
+	point.update({title: { text: '{{grafico['unidad']}}'}});
 	//point = grafico1.plotOptions;
 	//point.update({ series: { pointStart: {{fecha}}, pointInterval: 36e5}});
 	point = grafico1.series[0];
 	point.update({data: [
 		{% for v in valores %}
-			{% if v.tipo == "T" %}
-				[{{v.valor}}],
+			{% if v.tipo == grafico['tipo'] %}
+				[{{v.valor}}, Date.UTC({{v.producedAt.getFullYear()}}, {{v.producedAt.getMonth()}}, {{v.producedAt.getDate()}}, {{v.producedAt.getHours()}}, {{v.producedAt.getMinutes()}}, {{v.producedAt.getSeconds()}})],
 			{% endif %}
 		{% endfor %}
 		],
-		pointStart: Date.UTC({{fecha.getFullYear()}}, {{fecha.getUTCMonth()}}, {{fecha.getUTCDate()}}),
-		pointInterval: {{media}},
+		//pointStart: Date.UTC({{fecha.getFullYear()}}, {{fecha.getUTCMonth()}}, {{fecha.getUTCDate()}}),
+		//pointInterval: {{media}},
 		name: '{{grafico['titulo']}}',
 		tooltip: {
             valueSuffix: ' {{grafico['unidad']}}'

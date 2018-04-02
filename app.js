@@ -125,93 +125,107 @@ serverMQTT.connect(function(clientMQTT) {
 
 	serverMQTT.observer(function(topic, value) {
 		console.log(value.toString());
-		//Notifico a los clientes
-		connectionsArray.forEach(function(tmpSocket) {
-			repository.procesarTopico(topic, function(generador, tipo){
-				switch(tipo) {
-					case "P":
-						repository.saveDataPotencias(value.toString(), generador, topic, function(v, a, w, err){
-							if (err) {
+		repository.procesarTopico(topic, function(generador, tipo){
+			switch(tipo) {
+				case "P":
+					repository.saveDataPotencias(value.toString(), generador, topic, function(v, a, w, err){
+						if (err) {
+							console.log("Ocurrio un problema en el resguardo ");
+						}
+						//Notifico a los clientes
+						connectionsArray.forEach(function(tmpSocket) {
+							tmpSocket.emit(generador.id+'/p', v, a, w);
+						});
+
+						if (generador.sensoresP[0]['re_publica']){
+							clientMQTT.publish("C"+generador.comuna.id_topic+"/"+generador.sufijo+generador.id_topic+"/"+generador.sensoresP[0]['topico'], v.toString());
+						}
+						if (generador.sensoresP[1]['re_publica']){
+							clientMQTT.publish("C"+generador.comuna.id_topic+"/"+generador.sufijo+generador.id_topic+"/"+generador.sensoresP[1]['topico'], w.toString());
+						}
+						if (generador.sensoresP[2]['re_publica']){
+							var consumo = v*a;
+							clientMQTT.publish("C"+generador.comuna.id_topic+"/"+generador.sufijo+generador.id_topic+"/"+generador.sensoresP[2]['topico'], consumo.toString());
+						}
+
+					});
+					break;
+				case "C":
+					if (generador.isAerogenerador()){
+						repository.saveDataCLimaAero(value.toString(), generador, topic, function (t, v, d, s, err){
+							if (err){
 								console.log("Ocurrio un problema en el resguardo ");
 							}
-
-							if (generador.isAerogenerador()){
-								tmpSocket.emit('energia', v, a, w);
-							} else {
-								tmpSocket.emit('panelf/e', v, a, w);
+							//Notifico a los clientes
+							connectionsArray.forEach(function(tmpSocket) {
+								tmpSocket.emit(generador.id+'/c', t, v, d, s);
+							});
+							if (generador.sensoresC[0]['re_publica']){
+								clientMQTT.publish("C"+generador.comuna.id_topic+"/"+generador.sufijo+generador.id_topic+"/"+generador.sensoresC[0]['topico'], v.toString());
 							}
-
-							if (generador.sensoresP[0]['re_publica']){
-								clientMQTT.publish("C"+generador.comuna.id_topic+"/"+generador.sufijo+generador.id_topic+"/"+generador.sensoresP[0]['topico'], v.toString());
+							if (generador.sensoresC[1]['re_publica']){
+								clientMQTT.publish("C"+generador.comuna.id_topic+"/"+generador.sufijo+generador.id_topic+"/"+generador.sensoresC[1]['topico'], d.toString()+"° - "+s);
 							}
-							if (generador.sensoresP[1]['re_publica']){
-								clientMQTT.publish("C"+generador.comuna.id_topic+"/"+generador.sufijo+generador.id_topic+"/"+generador.sensoresP[1]['topico'], w.toString());
+							if (generador.sensoresC[2]['re_publica']){
+								clientMQTT.publish("C"+generador.comuna.id_topic+"/"+generador.sufijo+generador.id_topic+"/"+generador.sensoresC[2]['topico'], t.toString());
 							}
-							if (generador.sensoresP[2]['re_publica']){
-								var consumo = v*a;
-								clientMQTT.publish("C"+generador.comuna.id_topic+"/"+generador.sufijo+generador.id_topic+"/"+generador.sensoresP[2]['topico'], consumo.toString());
-							}
-
 						});
-						break;
-					case "C":
-						if (generador.isAerogenerador()){
-							repository.saveDataCLimaAero(value.toString(), generador, topic, function (t, v, d, s, err){
-								if (err){
-									console.log("Ocurrio un problema en el resguardo ");
-								}
-								tmpSocket.emit('notification', t, v, d, s);
-								if (generador.sensoresC[0]['re_publica']){
-									clientMQTT.publish("C"+generador.comuna.id_topic+"/"+generador.sufijo+generador.id_topic+"/"+generador.sensoresC[0]['topico'], v.toString());
-								}
-								if (generador.sensoresC[1]['re_publica']){
-									clientMQTT.publish("C"+generador.comuna.id_topic+"/"+generador.sufijo+generador.id_topic+"/"+generador.sensoresC[1]['topico'], d.toString()+"° - "+s);
-								}
-								if (generador.sensoresC[2]['re_publica']){
-									clientMQTT.publish("C"+generador.comuna.id_topic+"/"+generador.sufijo+generador.id_topic+"/"+generador.sensoresC[2]['topico'], t.toString());
-								}
+					} else {
+						repository.saveDataCLimaPanelF(value.toString(), generador, topic, function (t, r, err){
+							if (err){
+								console.log("Ocurrio un problema en el resguardo ");
+							}
+							//Notifico a los clientes
+							connectionsArray.forEach(function(tmpSocket) {
+								tmpSocket.emit(generador.id+'/c', t, r);
 							});
-						} else {
-							repository.saveDataCLimaPanelF(value.toString(), generador, topic, function (t, r, err){
-								if (err){
-									console.log("Ocurrio un problema en el resguardo ");
-								}
-								tmpSocket.emit('panelf/c', t, r);
-								if (generador.sensoresC[0]['re_publica']){
-									clientMQTT.publish("C"+generador.comuna.id_topic+"/"+generador.sufijo+generador.id_topic+"/"+generador.sensoresC[0]['topico'], r.toString());
-								}
-								if (generador.sensoresC[1]['re_publica']){
-									clientMQTT.publish("C"+generador.comuna.id_topic+"/"+generador.sufijo+generador.id_topic+"/"+generador.sensoresC[1]['topico'], t.toString());
-								}
-							});
-						}
-						break;
-					default:
-						repository.saveEvento(value, generador, topic);
-						if (tipo == "Ef"){
+							if (generador.sensoresC[0]['re_publica']){
+								clientMQTT.publish("C"+generador.comuna.id_topic+"/"+generador.sufijo+generador.id_topic+"/"+generador.sensoresC[0]['topico'], r.toString());
+							}
+							if (generador.sensoresC[1]['re_publica']){
+								clientMQTT.publish("C"+generador.comuna.id_topic+"/"+generador.sufijo+generador.id_topic+"/"+generador.sensoresC[1]['topico'], t.toString());
+							}
+						});
+					}
+					break;
+				default:
+					repository.saveEvento(value, generador, topic);
+					if (tipo == "Ef"){
+						//Notifico a los clientes
+						connectionsArray.forEach(function(tmpSocket) {
 							tmpSocket.emit('mapComuna/e', Number(value), generador.comuna.id);
-							tmpSocket.emit('aero/e', Number(value));
+							tmpSocket.emit(generador.id+'/e', Number(value));
+						});
+						if (generador.actuadores[0]['re_publica']){
+							clientMQTT.publish("C"+generador.comuna.id_topic+"/"+generador.sufijo+generador.id_topic+"/"+generador.actuadores[0]['topico'], value);
 						}
-						if (tipo == "Ei") {
+					}
+					if (tipo == "Ei") {
+						//Notifico a los clientes
+						connectionsArray.forEach(function(tmpSocket) {
 							tmpSocket.emit('mapComuna/i', generador.comuna.id, generador.id);
 							var inc = Number(value)
 							switch(inc) {
 								case 60:
-									tmpSocket.emit('panelf/event', gaugeIncSeries.invierno, inc);
+									tmpSocket.emit(generador.id+'/e', gaugeIncSeries.invierno, inc);
 									break;
 								case 20:
-									tmpSocket.emit('panelf/event', gaugeIncSeries.primavera, inc);
+									tmpSocket.emit(generador.id+'/e', gaugeIncSeries.primavera, inc);
 									break;
 								case 12: 
-									tmpSocket.emit('panelf/event', gaugeIncSeries.verano, inc);
+									tmpSocket.emit(generador.id+'/e', gaugeIncSeries.verano, inc);
 									break;
 								default:
-									tmpSocket.emit('panelf/event', gaugeIncSeries.otonio, inc);
+									tmpSocket.emit(generador.id+'/e', gaugeIncSeries.otonio, inc);
 							}
+						});
+						
+						if (generador.actuadores[0]['re_publica']){
+							clientMQTT.publish("C"+generador.comuna.id_topic+"/"+generador.sufijo+generador.id_topic+"/"+generador.actuadores[0]['topico'], value + "°");
 						}
-						break;
-				}
-			});
+					}
+					break;
+			}
 		});
 	});
 });

@@ -14,11 +14,11 @@
 					<tr>
 						<th class="text-center" scope="row">{{loop.index}}</th>
 						{% if evento.topico.indexOf("Ei") > -1 %}
-							<td class="text-center">Ajuste de inclinación del panel - {{evento.valor}}</td>
-						{% else%}
+							<td class="text-center">Ajuste de inclinación del panel - {{evento.valor}}°</td>
+						{% else %}
 							{% if evento.valor == 1 %}
 								<td class="text-center">Freno de corriente parasitas activado</td>
-							{% else%}
+							{% else %}
 								<td class="text-center">Freno de corriente parasitas desacoplado</td>
 							{% endif %}	
 						{% endif %}

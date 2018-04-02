@@ -297,93 +297,93 @@ exports.savePreferenciasPublish = (req, res, next) => {
 			if (generador.isAerogenerador()){
 
 				sensC = [{
-					nombre: 'Anemometro',
-					unidad: 'm/s',
-					tipo: 'C',
-					sufijo: 'Vm',
-					activo: true,
+					nombre: generador.sensoresC[0]['nombre'],
+					unidad: generador.sensoresC[0]['unidad'],
+					tipo: generador.sensoresC[0]['tipo'],
+					sufijo: generador.sensoresC[0]['sufijo'],
+					activo: generador.sensoresC[0]['activo'],
 					re_publica: req.body.sC0,
-					topico: 'velocidad'
+					topico: generador.sensoresC[0]['topico'],
 				}, {
-					nombre: 'Veleta',
-					unidad: '°',
-					tipo: 'C',
-					sufijo: 'Dv',
-					activo: true,
+					nombre: generador.sensoresC[1]['nombre'],
+					unidad: generador.sensoresC[1]['unidad'],
+					tipo: generador.sensoresC[1]['tipo'],
+					sufijo: generador.sensoresC[1]['sufijo'],
+					activo: generador.sensoresC[1]['activo'],
 					re_publica: req.body.sC1,
-					topico: 'direccionViento'
+					topico: generador.sensoresC[1]['topico'],
 				}, {
-					nombre: 'Termometro',
-					unidad: 'C°',
-					tipo: 'C',
-					sufijo: 'T',
-					activo: true,
+					nombre: generador.sensoresC[2]['nombre'],
+					unidad: generador.sensoresC[2]['unidad'],
+					tipo: generador.sensoresC[2]['tipo'],
+					sufijo: generador.sensoresC[2]['sufijo'],
+					activo: generador.sensoresC[2]['activo'],
 					re_publica: req.body.sC2,
-					topico: 'temperatura'
+					topico: generador.sensoresC[2]['topico'],
 				}];
 
 				actuadores = [{
-					nombre: 'Freno por corrientes parásitas',
-					tipo: 'Ef',
-					activo: true,
+					nombre: generador.actuadores[0]['nombre'],
+					tipo: generador.actuadores[0]['tipo'],
+					activo: generador.actuadores[0]['activo'],
 					re_publica: req.body.a0,
-					topico: 'frenoaerogenerador',
-					activado: false
+					topico: generador.actuadores[0]['topico'],
+					activado: generador.actuadores[0]['activado'],
 				}];
 
 			} else {
 				sensC = [{
-					nombre: 'Piranometro',
-					unidad: 'Kw/m²',
-					tipo: 'C',
-					sufijo: 'Rs',
-					activo: true,
+					nombre: generador.sensoresC[0]['nombre'],
+					unidad: generador.sensoresC[0]['unidad'],
+					tipo: generador.sensoresC[0]['tipo'],
+					sufijo: generador.sensoresC[0]['sufijo'],
+					activo: generador.sensoresC[0]['activo'],
 					re_publica: req.body.sC0,
-					topico: 'radiacion'
+					topico: generador.sensoresC[0]['topico'],
 				}, {
-					nombre: 'Termometro',
-					unidad: 'C°',
-					tipo: 'C',
-					sufijo: 'T',
-					activo: true,
+					nombre: generador.sensoresC[1]['nombre'],
+					unidad: generador.sensoresC[1]['unidad'],
+					tipo: generador.sensoresC[1]['tipo'],
+					sufijo: generador.sensoresC[1]['sufijo'],
+					activo: generador.sensoresC[1]['activo'],
 					re_publica: req.body.sC1,
-					topico: 'temperatura'
+					topico: generador.sensoresC[1]['topico'],
 				}];
 
 				actuadores = [{
-					nombre: 'Inclinometro',
-					tipo: 'Ei',
-					activo: true,
+					nombre: generador.actuadores[0]['nombre'],
+					tipo: generador.actuadores[0]['tipo'],
+					activo: generador.actuadores[0]['activo'],
 					re_publica: req.body.a0,
-					topico: 'inclinometro',
-					activado: false
+					topico: generador.actuadores[0]['topico'],
+					activado: generador.actuadores[0]['activado'],
 				}];
 			}
 
 			sensE = [{
-				nombre: 'Voltimetro (Banco de baterias)',
-				unidad: 'Volt',
-				tipo: 'P',
-				sufijo: 'Vbb',
-				activo: true,
+				nombre: generador.sensoresP[0]['nombre'],
+				unidad: generador.sensoresP[0]['unidad'],
+				tipo: generador.sensoresP[0]['tipo'],
+				sufijo: generador.sensoresP[0]['sufijo'],
+				activo: generador.sensoresP[0]['activo'],
 				re_publica: req.body.sP0,
-				topico: 'tensionBaterias'
+				topico: generador.sensoresP[0]['topico'],
 			}, {
-				nombre: 'Watimetro (Potencia Generada)',
-				unidad: 'Watt',
-				tipo: 'P',
-				sufijo: 'Pg',
-				activo: true,
+				nombre: generador.sensoresP[1]['nombre'],
+				unidad: generador.sensoresP[1]['unidad'],
+				tipo: generador.sensoresP[1]['tipo'],
+				sufijo: generador.sensoresP[1]['sufijo'],
+				activo: generador.sensoresP[1]['activo'],
 				re_publica: req.body.sP1,
-				topico: 'energiagenerada'
+				topico: generador.sensoresP[1]['topico'],
 			}, {
-				nombre: 'Amperimetro (Amperaje consumido)',
-				unidad: 'Amp',
-				tipo: 'P',
-				sufijo: 'Ac',
-				activo: true,
+				nombre: generador.sensoresP[2]['nombre'],
+				unidad: generador.sensoresP[2]['unidad'],
+				tipo: generador.sensoresP[2]['tipo'],
+				sufijo: generador.sensoresP[2]['sufijo'],
+				activo: generador.sensoresP[2]['activo'],
 				re_publica: req.body.sP2,
-				topico: 'consumo'
+				topico: generador.sensoresP[2]['topico'],
 			}];
 
 			generador.sensoresC = sensC;

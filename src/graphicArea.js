@@ -17,17 +17,23 @@ var graphicArea = {
         offset: 0
     },
 
-    plotOptions: {
+    yAxis: {
+        title: {
+            text: 'C°'
+        }
+    },
+
+    /*plotOptions: {
         series: {
             pointStart: Date.UTC(2017, 0, 29),
             pointInterval: 36e5 // por hora
             //pointInterval: 600000 // 10 minutales
         }
-    },
+    },*/
 
     series: [{
         type: 'area',
-        keys: ['y', 'rotation'], // rotation is not used here
+        keys: ['y', 'x'], // rotation is not used here
         data: [
             [9.8],
             [10.1],

@@ -51,6 +51,20 @@
 								</tr>
 							{% endif %}
 						{% endfor %}
+						<tr>
+							<th class="text-center success">Actuadores</th>
+							<th class="text-center success">Tipo</th>
+							<th class="text-center success">Publicacion en Topico</th>
+						</tr>
+						{% for a in generador.actuadores %}
+							{% if a['re_publica'] %}
+								<tr>
+									<th class="text-center">{{a['nombre']}}</th>
+									<td class="text-center">{% if a['tipo'] == 'Ef' %} 0/1 {% else %} Numero {% endif %}</td>
+									<td class="text-center">{{"C"+generador.comuna.id_topic+"/"+generador.sufijo+generador.id_topic+"/"+a['topico']}}</td>
+								</tr>
+							{% endif %}
+						{% endfor %}
 					</tbody>
 				</table>	
 			</div>
@@ -62,7 +76,7 @@
 		<div class="panel panel-default">
 			<div class="panel-heading"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> <strong>Solicitar credenciales</strong></div>
 			<div class="panel-body">
-				<div id="msj"> </div>
+				<div id="msjSend"> </div>
 				<form class="form-horizontal" id="formMail">
 
 					<div class="form-group row">
@@ -87,7 +101,7 @@
 
 				  	<div class="form-group">
                   		<div class="col-md-6 col-md-offset-4">
-                    		<button type="submit" class="btn btn-primary" onclick="sendMail()">
+                    		<button type="button" class="btn btn-primary" onclick="sendMail()">
                         		<i class="fa fa-btn fa-sign-in"></i> Solicitar Acceso
                         	</button>
                     	</div>
@@ -107,10 +121,11 @@ function sendMail() {
 		  	type: "POST",
 		  	data: $('#formMail').serialize(), 
 		  	success: function(data) {
-		  		$("#msj").html(data);
-		  		location.reload();
+		  		$("#msjSend").html(data);
+		  		//location.reload();
 		  	}
 	  	});
+	//return false;
 
 }
 

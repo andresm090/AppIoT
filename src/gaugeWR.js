@@ -155,7 +155,7 @@ var gaugeWR = {
     },
 
     title: {
-        text: 'Rosa de vientos '
+        text: 'Veleta'
     },
 
     credits: {

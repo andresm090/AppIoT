@@ -50,6 +50,12 @@ router.get('/getDataH/:id(*)', passportConfig.isAuthenticate, datocontroller.get
 router.get('/getDataP/:id(*)', passportConfig.isAuthenticate, datocontroller.getTrPublicacionDatos);
 
 router.post('/getHistoricos/:id(*)', passportConfig.isAuthenticate, datocontroller.getHistoricos);
+router.post('/getGrapArea/:id(*)', passportConfig.isAuthenticate, datocontroller.getGrapArea);
+router.post('/getGrapWIndBar/:id(*)', passportConfig.isAuthenticate, datocontroller.getGrapWIndBar);
+router.post('/getGrapLine/:id(*)', passportConfig.isAuthenticate, datocontroller.getGrapLine);
+router.post('/getWindRose/:id(*)', passportConfig.isAuthenticate, datocontroller.getWindRose);
+router.post('/getRegEvent/:id(*)', passportConfig.isAuthenticate, datocontroller.getTableEventoGenerador);
+
 router.post('/sendMail', passportConfig.isAuthenticate, mailcontroller.sendMailPublicacion);
 
 //rutas para administracion 

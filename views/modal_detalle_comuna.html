@@ -10,32 +10,34 @@
 				<div class="panel-body">
       				<div class="col-md-12">
       					<div class="panel panel-default">
+      						<div class="panel-heading"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> <strong>Datos Generales</strong></div>
       						<div class="panel-body">
-	      						<h4><strong><u>Datos Generales</u></strong></h4>	
-					        	<ul class="list-group list-unstyled">
+					        	<ul>
 					        	 	<li>
 					        		<strong> Latitud: </strong>
-					        		<span class="label label-default"> {{comuna.point_geom[0]['latitud']}}</span><br>
+					        		<span>{{comuna.point_geom[0]['latitud']}}</span>
 					        		</li>
 					        		 <li>
 					        		<strong> Longitud: </strong>
-					        		<span class="label label-default">{{comuna.point_geom[0]['longitud']}}</span><br>
+					        		<span>{{comuna.point_geom[0]['longitud']}}</span>
 					        		</li>
 					        		 <li>
 					        		<strong> Localidad: </strong>
-					        		<span class="label label-default">{{comuna.localidad}}</span><br>
+					        		<span>{{comuna.localidad}}</span>
 					        		</li>
 					        		 <li>
 					        		<strong> Departamento: </strong>
-					        		<span class="label label-default">{{comuna.departamento}}</span><br>
+					        		<span>{{comuna.departamento}}</span>
 					        		</li>
 					        		 <li>
 					        		<strong> Cant. de Habitantes: </strong>
 					        		<span class="label label-default">{{comuna.poblacion}}</span><br>
+					        		<strong> Cant. de Habiatantes: </strong>
+					        		<span>{{comuna.poblacion}}</span>
 					        		</li>
 					        		 <li>
 					        		<strong> Encargado: </strong>
-					        		<span class="label label-default">{{comuna.encargado}}</span><br>		
+					        		<span>{{comuna.encargado}}</span>
 					        		</li>
 					        	</ul>
 					        </div>
@@ -44,6 +46,7 @@
 					<div class="col-md-12">
 						<div class="panel panel-default">
 							<div class="panel-heading">Equipos de generaci&oacute;n instalados</div>
+							<div class="panel-heading"><span class="glyphicon glyphicon-flash" aria-hidden="true"></span> <strong>Equipos de generación instalados</strong></div>
 							<div id="tableGeneradores"> </div>
 						</div>
 					</div>

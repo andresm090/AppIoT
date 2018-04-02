@@ -1,5 +1,6 @@
 </br>
 <script src="https://code.highcharts.com/modules/windbarb.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
 <div class="row">		
 	<div class="col-md-12 col-md-offset-0">
 		<div class="panel panel-default">
@@ -13,6 +14,7 @@
 						<div class="panel-heading clearfix"><strong>Periodo de muestreo</strong><hr></div>
 						<form class="form-inline" id="formH" method="post">
 							<div class="col-md-4">
+								<input type="text" id="tipo" name="tipo" hidden="true">
 								<div {% if user.suscripciones.indexOf(clima) === -1 %} hidden="true" {% endif %}>
 									<h5><strong>Variables climaticas</strong></h5> 
 									<label class="checkbox-inline">
@@ -39,6 +41,13 @@
 									</label>
 			  						<label class="checkbox-inline">
 		  								<input type="checkbox" id="pc" name="pc"> Potencia Consumida
+									</label>
+									<hr>
+								</div>
+								<div>
+									<h5><strong>Registro de eventos</strong></h5> 
+									<label class="checkbox-inline">
+		  								<input type="checkbox" id="event" name="event"> Eventos ocurridos durante
 									</label>
 								</div>
 							</div>
@@ -78,19 +87,138 @@
 		</div>
 	</div>
 </div>
-<div id="historicos">
+<!--<div id="historicos"> -->
+<div id="gratemp"></div>
+<div id="gravel"></div>
+<div id="gradir"></div>
+<div id="graveldir"></div>
+<div id="grarad"></div>
+<div id="grapg"></div>
+<div id="grapc"></div>
+<div id="tableEvent"></div>
 <script>
 	
 function sendForm() {
 
-	$.ajax({
+	if ($('#temp').is(':checked')) {
+		$('#tipo').val("T");
+		$.ajax({
+			url: "/getGrapArea/" + '{{id}}',
+		  	type: "POST",
+		  	data: $('#formH').serialize(), 
+		  	success: function(data) {
+		  		$("#gratemp").html(data);
+		  	}
+	  	});
+	} else {
+		$("#gratemp").empty();
+	}
+
+	if ($('#vel').is(':checked') && $('#dir').is(':checked')) {
+		$.ajax({
+			url: "/getGrapWIndBar/" + '{{id}}',
+		  	type: "POST",
+		  	data: $('#formH').serialize(), 
+		  	success: function(data) {
+		  		$("#graveldir").html(data);
+		  	}
+	  	});
+	  	$("#gravel").empty();
+	  	$("#gradir").empty();
+	} else {
+		$("#graveldir").empty();
+		if ($('#vel').is(':checked')) {
+			$('#tipo').val("Vm");
+			$.ajax({
+				url: "/getGrapArea/" + '{{id}}',
+			  	type: "POST",
+			  	data: $('#formH').serialize(), 
+			  	success: function(data) {
+			  		$("#gravel").html(data);
+			  	}
+		  	});
+
+		} else {
+			$("#gravel").empty();
+			if ($('#dir').is(':checked')) {
+				$.ajax({
+					url: "/getWindRose/" + '{{id}}',
+				  	type: "POST",
+				  	data: $('#formH').serialize(), 
+				  	success: function(data) {
+				  		$("#gradir").html(data);
+				  	}
+			  	});
+			} else {
+				$("#gradir").empty();
+			} 
+		}
+	}
+
+	if ($('#rad').is(':checked')) {
+		$('#tipo').val("Rs");
+		$.ajax({
+			url: "/getGrapArea/" + '{{id}}',
+		  	type: "POST",
+		  	data: $('#formH').serialize(), 
+		  	success: function(data) {
+		  		$("#grarad").html(data);
+		  	}
+	  	});
+	} else {
+		$("#grarad").empty();
+	}
+
+	if ($('#pg').is(':checked')) {
+		$('#tipo').val("Pg");
+		$.ajax({
+			url: "/getGrapLine/" + '{{id}}',
+		  	type: "POST",
+		  	data: $('#formH').serialize(), 
+		  	success: function(data) {
+		  		$("#grapg").html(data);
+		  	}
+	  	});
+	} else {
+		$("#grapg").empty();
+	}
+
+	if ($('#pc').is(':checked')) {
+		$('#tipo').val("Ac");
+		$.ajax({
+			url: "/getGrapLine/" + '{{id}}',
+		  	type: "POST",
+		  	data: $('#formH').serialize(), 
+		  	success: function(data) {
+		  		$("#grapc").html(data);
+		  	}
+	  	});
+	} else {
+		$("#grapc").empty();
+	}
+
+	if ($('#event').is(':checked')) {
+
+		$.ajax({
+			url: "/getRegEvent/" + '{{id}}',
+		  	type: "POST",
+		  	data: $('#formH').serialize(), 
+		  	success: function(data) {
+		  		$("#tableEvent").html(data);
+		  	}
+	  	});
+	} else {
+		$("#tableEvent").empty();
+	}
+
+	/*$.ajax({
 			url: "/getHistoricos/" + '{{id}}',
 		  	type: "POST",
 		  	data: $('#formH').serialize(), 
 		  	success: function(data) {
 		  		$("#historicos").html(data);
 		  	}
-	  	});
+	  	});*/
 
 }
 
