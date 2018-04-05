@@ -33,7 +33,7 @@
 				<td class="text-center">
 					{% if generador.tipo == 'aerogenerador' %}
 					 	{% if user.suscripciones.indexOf('aerogenerador/clima') === -1 && user.suscripciones.indexOf('aerogenerador/energia') === -1 %}
-							<button type="button" class="btn btn-danger btn-xs" disabled onclick="verDatos(&quot;{{generador.id}}&quot;)" title= "No se encuentra suscripto a ningun topico relacionado a los aerogeneradores">
+							<button type="button" class="btn btn-danger btn-xs" disabled onclick="verDatos(&quot;{{generador.id}}&quot;)" title= "No se encuentra suscripto a ning&uacute;n t&oacute;pico relacionado a los aerogeneradores">
 								<span class="glyphicon glyphicon-eye-close"></span>
 							</button>
 						{% else %}
@@ -49,7 +49,7 @@
 						{% endif %}
 					{% else %}
 						{% if user.suscripciones.indexOf('fotovoltaica/clima') === -1 && user.suscripciones.indexOf('fotovoltaica/energia') === -1 %}
-							<button type="button" class="btn btn-danger btn-xs" disabled onclick="verDatos(&quot;{{generador.id}}&quot;)"  title= "No se encuentra suscripto a ningun topico relacionado a los paneles">
+							<button type="button" class="btn btn-danger btn-xs" disabled onclick="verDatos(&quot;{{generador.id}}&quot;)"  title= "No se encuentra suscripto a ning&uacute;n t&acute;pico relacionado a los paneles">
 								<span class="glyphicon glyphicon-eye-close"></span>
 							</button>
 						{% else %}

@@ -20,17 +20,17 @@
 
 <div class="row">
 	<div class="col-md-12">
-		<div class="panel panel-default">
-			<div class="panel-heading">{{generador.tipo}} {{generador.caracteristicas[0]['modelo-serie']}} - Instalado en {{generador.comuna.nombre}}</div>
+		<div class="panel panel-primary">
+			<div class="panel-heading mayuscula">{{generador.tipo}} {{generador.caracteristicas[0]['modelo-serie']}} - Instalado en {{generador.comuna.nombre}}</div>
 			<div class="panel-body">
 				<div class="row">		
 					<div class="col-md-3 col-md-offset-0">
 						<div class="panel panel-default">
-							<div class="panel-heading"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span><strong> Caracteristicas T&eacute;cnicas</strong></div>
+							<div class="panel-heading"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span><strong> Caracter&iacute;sticas T&eacute;cnicas</strong></div>
 							<div class="panel-body">
 								<ul>
 									{% for c in generador.caracteristicas['0'] %}
-										<li> <strong>{{loop.key}}:</strong> {{c}}</li>
+										<li class="mayuscula"> <strong>{{loop.key}}:</strong> {{c}}</li>
 									{% endfor %}
 								</ul>
 							</div>
@@ -39,11 +39,13 @@
 
 					<div class="col-md-3 col-md-offset-0">
 						<div class="panel panel-default">
-							<div class="panel-heading"><span class="glyphicon glyphicon-flash" aria-hidden="true"></span> <strong>Banco de Baterias</strong></div>
+							<div class="panel-heading"><span class="glyphicon glyphicon-flash" aria-hidden="true"></span> <strong>Banco de Bater&iacute;as</strong></div>
 							<div class="panel-body">
 								<ul>
 									{% for b in generador.bbaterias['0'] %}
-										<li> <strong>{{loop.key}}: </strong> {{b}}</li>
+										<li class="mayuscula">
+											<strong>{{loop.key}}: </strong> {{b}}
+										</li>
 									{% endfor %}
 								</ul>
 								<br>
@@ -73,7 +75,7 @@
 
 <div class="row">
 	<div class="col-md-12">
-		<div class="panel panel-default">
+		<div class="panel panel-primary">
 			<div class="panel-heading"><span class="glyphicon glyphicon-scale" aria-hidden="true"></span> <strong>Sensores y Suscripciones</strong></div>
 			<div class="panel-body">
 				<div class="row">		
@@ -163,7 +165,7 @@
 						<div class="col-md-12">
 		  					<div class="form-group">
 	                  			<div class="col-md-12 col-md-offset-8">
-	                    			<button type="button" id="submit" class="btn btn-primary" onclick="saveRepublicar()">
+	                    			<button type="button" id="submit" class="btn btn-success" onclick="saveRepublicar()">
 	                        			<i class="fa fa-btn fa-sign-in"></i> Guardar Cambios
 	                        		</button>
 	                    		</div>

@@ -1,12 +1,21 @@
 body {
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background-color: #f1f1f1;
+  /*font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;*/
+  font-family: "Open Sans",sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  background-color: #f4f4f4;
 }
 .mayuscula{
 	text-transform: capitalize;
 }
 .gris{
 	background-color: #323232;
+}
+/*Para el nav superior*/
+ul.nav > li > a{
+	font-family: Raleway;
+}
+/*Para las opciones de ingreso y registro de usuarios / nombre de usuario logueado*/
+.navbar-inverse .navbar-nav > li > a {
+    color: #FFF;
 }
 .dropdown-menu > li > a{
 	background-image: none;
@@ -24,7 +33,7 @@ body {
 	color: #323232;
 }
 .gris-claro{
-	background-color: #f1f1f1;
+	background-color: #f4f4f4;
 }
 .table > thead > tr > th{
 	font-family: "Open Sans",sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
@@ -45,4 +54,22 @@ body {
 .panel-heading{
 	font-weight: bold;
 	font-family: "Open Sans",sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+/*Pestañas de datos de dispositivos (caract. técnicas, tiempo real, ...)*/
+.panel-mai-header{
+	background-color: #2cc185;
+	margin: 0;
+	width: 100%;
+}
+.mai-sub-header{
+    background-color: #2cc185;
+    border-style: none;
+    font-weight: bold;
+	font-family: "Open Sans",sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+	color: #2cc185;
+}
+.nav-tabs > li > a, .nav-tabs > li.active > a:focus, .nav-tabs{
+	color: #000;
 }

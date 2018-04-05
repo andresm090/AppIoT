@@ -5,18 +5,18 @@
 	<div class="col-md-12 col-md-offset-0">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h3 class="panel-title">Datos Relevados - Históricos  <a class="pull-right glyphicon glyphicon-triangle-bottom" data-toggle="collapse" href="#collapse1"></a></h3>
+				<h3 class="panel-title">Datos Relevados - Hist&oacute;ricos  <a class="pull-right glyphicon glyphicon-triangle-bottom" data-toggle="collapse" href="#collapse1"></a></h3>
 			</div>
 			<div id="collapse1" class="panel-collapse collapse in">
 				<div class="panel-body">
 
 					<div class="col-md-12 col-md-offset-0">
-						<div class="panel-heading clearfix"><strong>Periodo de muestreo</strong><hr></div>
+						<div class="panel-heading clearfix"><strong>Per&iacute;odo de muestreo</strong><hr></div>
 						<form class="form-inline" id="formH" method="post">
 							<div class="col-md-4">
 								<input type="text" id="tipo" name="tipo" hidden="true">
 								<div {% if user.suscripciones.indexOf(clima) === -1 %} hidden="true" {% endif %}>
-									<h5><strong>Variables climaticas</strong></h5> 
+									<h5><strong>Variables clim&aacute;ticas</strong></h5> 
 									<label class="checkbox-inline">
 		  								<input type="checkbox" id="temp" name="temp"> Temperatura
 									</label>
@@ -29,13 +29,13 @@
 										</label>
 									{% else %}
 										<label class="checkbox-inline">
-			  								<input type="checkbox" id="rad" name="rad"> Radiación solar
+			  								<input type="checkbox" id="rad" name="rad"> Radiaci&oacute;n solar
 										</label>
 									{% endif %}
 									<hr>
 								</div>
 								<div {% if user.suscripciones.indexOf(energia) === -1 %} hidden="true" {% endif %}>
-									<h5><strong>Variables Energia</strong></h5> 
+									<h5><strong>Variables Energ&iacute;a</strong></h5> 
 									<label class="checkbox-inline">
 		  								<input type="checkbox" id="pg" name="pg"> Potencia Generada
 									</label>

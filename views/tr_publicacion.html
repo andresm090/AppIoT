@@ -3,11 +3,11 @@
 
 	<div class="col-md-12 col-md-offset-0">
 		<div class="panel panel-default">
-			<div class="panel-heading"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> <strong>Informacion</strong></div>
+			<div class="panel-heading"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> <strong>Informaci&oacute;n</strong></div>
 			<div class="panel-body">
-				<h3>Leer detenidamente:</h3>
-				<p>Los datos relevados, correspondientes a los sensores listados en la tabla de la izquierda, son <mark><ins>re-publicados</ins></mark> en los topicos especificados. Los mismos se encuentran procesados y preparados para su visualización en cualquier Dashboad deseado. Tener en cuenta que los datos publicados son en tiempo real y se publican cada vez que las placas envian nuevos valores. La excursión de los datos dependeran de las caracteristicas tecnicas del equipo a trabajar, las mismas pueden ser consultadas en la pestaña de <mark><ins>"Carac. Tecnicas"</ins></mark>.
-				Para recibir los datos de conexion y credenciales correspondientes, verifique su cuenta de corre electronico en el formulario que se encuentra a la derecha y haga click en el boton de <mark><ins>"Solicitar Acceso"</ins></mark>. En breve recibira un mail con la información necesaria para conectarse y configurar su dashboard.  
+				<h4>Leer detenidamente:</h4>
+				<p>Los datos relevados, correspondientes a los sensores listados en la tabla de la inferior izquierda, son <mark><b>re publicados</b></mark> en los t&oacute;picos especificados. Los mismos se encuentran procesados y preparados para su visualizaci&oacute;n en cualquier Dashboad deseado. Tener en cuenta que los datos publicados son en tiempo real y se publican cada vez que las placas env&iacute;an nuevos valores. La excursi&oacute;n de los datos depender&aacute; de las caracter&iacute;sticas t&eacute;cnicas del equipo a trabajar, las mismas pueden ser consultadas en la pestaña <mark><b>"Carac. T&eacute;cnicas"</b></mark>.
+				Para recibir los datos de conexi&oacute;n y credenciales correspondientes, ingrese su correo electr&oacute;nico en el formulario que se encuentra la parte inferior derecha de esta pantalla y haga click en el bot&oacute;n <mark><b>"Solicitar Acceso"</b></mark>. En breve recibir&aacute; un mail con la informaci&oacute;n necesaria para conectarse y configurar su dashboard.
 				</p>
 			</div>
 			
@@ -21,9 +21,9 @@
 				<table class="table table-bordered">
 					<thead class="inverse">
 	    				<tr>
-							<th class="text-center info">Sensores Climaticos</th>
+							<th class="text-center info">Sensores Clim&aacute;ticos</th>
 							<th class="text-center info">Unidad</th>
-							<th class="text-center info">Publicacion en Topico</th>
+							<th class="text-center info">Publicaci&oacute;n en T&oacute;pico</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -38,9 +38,9 @@
 							{% endif %}
 						{% endfor %}
 						<tr>
-							<th class="text-center warning">Sensores Electricos</th>
+							<th class="text-center warning">Sensores El&eacute;ctricos</th>
 							<th class="text-center warning">Unidad</th>
-							<th class="text-center warning">Publicacion en Topico</th>
+							<th class="text-center warning">Publicaci&oacute;n en T&oacute;pico</th>
 						</tr>
 						{% for p in generador.sensoresP %}
 							{% if p['re_publica'] %}
@@ -54,7 +54,7 @@
 						<tr>
 							<th class="text-center success">Actuadores</th>
 							<th class="text-center success">Tipo</th>
-							<th class="text-center success">Publicacion en Topico</th>
+							<th class="text-center success">Publicaci&oacute;n en T&oacute;pico</th>
 						</tr>
 						{% for a in generador.actuadores %}
 							{% if a['re_publica'] %}
@@ -80,7 +80,7 @@
 				<form class="form-horizontal" id="formMail">
 
 					<div class="form-group row">
-						<label class="col-md-4 control-label">Email</label>
+						<label class="col-md-4 control-label">Correo electr&oacute;nico</label>
 						<div class="col-md-6">
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>

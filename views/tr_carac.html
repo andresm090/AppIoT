@@ -2,12 +2,12 @@
 <div class="row">		
 	<div class="col-md-4 col-md-offset-0">
 		<div class="panel panel-default">
-			<div class="panel-heading"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span><strong> Tabla de caracteristicas Tecnicas</strong></div>
+			<div class="panel-heading"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span><strong> Tabla de caracter&iacute;sticas t&eacute;cnicas</strong></div>
 			<div class="panel-body">
 				<table class="table table-bordered">
 					<thead class="inverse">
 	    				<tr>
-							<th class="text-center info">Caracteristicas</th>
+							<th class="text-center info">Caracter&iacute;sticas</th>
 							<th class="text-center info">Valor</th>
 						</tr>
 					</thead>
@@ -27,12 +27,12 @@
 
 	<div class="col-md-4 col-md-offset-0">
 		<div class="panel panel-default">
-			<div class="panel-heading"><span class="glyphicon glyphicon-flash" aria-hidden="true"></span> <strong>Especificación del banco de baterías</strong></div>
+			<div class="panel-heading"><span class="glyphicon glyphicon-flash" aria-hidden="true"></span> <strong>Especificaci&oacute;n del banco de bater&iacute;as</strong></div>
 			<div class="panel-body">
 				<table class="table table-bordered">
 					<thead class="inverse">
 	    				<tr>
-							<th class="text-center info">Caracteristicas</th>
+							<th class="text-center info">Caracter&iacute;sticas</th>
 							<th class="text-center info">Valor</th>
 						</tr>
 					</thead>
@@ -40,7 +40,7 @@
 					<tr>
 					{% for b in bbaterias %}
 						<tr>
-							<th class="text-center">{{loop.key}}</th>
+							<th class="text-center mayuscula">{{loop.key}}</th>
 							<td class="text-center">{{b}}</td>
 						</tr>
 					{% endfor %}
@@ -53,12 +53,12 @@
 
 	<div class="col-md-4 col-md-offset-0">
 		<div class="panel panel-default">
-			<div class="panel-heading"><span class="glyphicon glyphicon-scale" aria-hidden="true"></span> <strong>Sensores Instalados</strong></div>
+			<div class="panel-heading"><span class="glyphicon glyphicon-scale" aria-hidden="true"></span> <strong>Sensores instalados</strong></div>
 			<div class="panel-body">
 				<table class="table table-bordered">
 					<thead class="inverse">
 	    				<tr>
-							<th class="text-center info">Sensores Climaticos</th>
+							<th class="text-center info">Sensores Clim&aacute;ticos</th>
 							<th class="text-center info">Unidad</th>
 						</tr>
 					</thead>
@@ -71,7 +71,7 @@
 						</tr>
 					{% endfor %}
 					<tr>
-						<th class="text-center warning">Sensores Electricos</th>
+						<th class="text-center warning">Sensores El&eacute;ctricos</th>
 						<th class="text-center warning">Unidad</th>
 					</tr>
 					{% for p in sensoresP %}

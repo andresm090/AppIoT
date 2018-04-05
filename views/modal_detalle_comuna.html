@@ -1,12 +1,14 @@
 <div class="modal-dialog" role="document">
 	<div class="modal-content">
-		<div class="modal-header">
+		<div class="modal-header panel-mai-header">
 			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     		<h4 class="modal-title">{{comuna.nombre}}</h4>
   		</div>
       	<div class="modal-body">
-      		<div class="panel panel-default">	
-      			<div class="panel-heading">Informaci&oacute;n</div>	
+      		<div class="panel panel-primary">	
+      			<div class="panel-heading">
+      				Informaci&oacute;n
+      			</div>
 				<div class="panel-body">
       				<div class="col-md-12">
       					<div class="panel panel-default">
@@ -31,9 +33,7 @@
 					        		</li>
 					        		 <li>
 					        		<strong> Cant. de Habitantes: </strong>
-					        		<span class="label label-default">{{comuna.poblacion}}</span><br>
-					        		<strong> Cant. de Habiatantes: </strong>
-					        		<span>{{comuna.poblacion}}</span>
+					        		<span>{{comuna.poblacion}}</span><br>
 					        		</li>
 					        		 <li>
 					        		<strong> Encargado: </strong>
@@ -45,8 +45,7 @@
 					</div>
 					<div class="col-md-12">
 						<div class="panel panel-default">
-							<div class="panel-heading">Equipos de generaci&oacute;n instalados</div>
-							<div class="panel-heading"><span class="glyphicon glyphicon-flash" aria-hidden="true"></span> <strong>Equipos de generación instalados</strong></div>
+							<div class="panel-heading"><span class="glyphicon glyphicon-flash" aria-hidden="true"></span> <strong>Equipos de generaci&oacute;n instalados</strong></div>
 							<div id="tableGeneradores"> </div>
 						</div>
 					</div>

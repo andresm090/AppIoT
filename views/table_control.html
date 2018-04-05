@@ -52,8 +52,14 @@
 											</ul>
 										{% else %}
 											<ul class="dropdown-menu gris-claro">
-												<li><a href="#" onclick="activarComuna(&quot;{{comuna.id}}&quot;)">Activar</a></li>
-												<li><a href="#">Ver detalle</a></li>
+												<li><a href="#" onclick="activarComuna(&quot;{{comuna.id}}&quot;)">
+													<i class="fa-lg fa fa-plus-square"></i>
+													Activar</a>
+												</li>
+												<li><a href="#" onclick="getDetalle(&quot;{{comuna.id}}&quot;)">
+													<i class="fa-lg fa fa-eye"></i>
+													Ver detalle</a>
+												</li>
 											</ul>
 										{% endif %}
 										</div>
